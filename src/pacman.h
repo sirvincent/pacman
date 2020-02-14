@@ -5,13 +5,20 @@
 
 class Pacman {
  public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
+  enum class Direction
+  {
+    up,
+    down,
+    left,
+    right,
+    none
+  };
 
   Pacman(std::size_t grid_width, std::size_t grid_height);
   void update();
   bool alive();
 
-  Direction direction = Direction::kUp;
+  Direction direction = Direction::none;
 
   float x;
   float y;

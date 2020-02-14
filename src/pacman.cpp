@@ -11,17 +11,19 @@ void Pacman::update()
 {
   switch (direction)
   {
-    case Direction::kUp:
+    case Direction::up:
       y -= speed_;
       break;
-    case Direction::kDown:
+    case Direction::down:
       y += speed_;
       break;
-    case Direction::kLeft:
+    case Direction::left:
       x -= speed_;
       break;
-    case Direction::kRight:
+    case Direction::right:
       x += speed_;
+      break;
+    case Direction::none:
       break;
   }
   // TODO: check if new x,y in side screen
