@@ -18,7 +18,7 @@ class Pacman {
   std::size_t const width;
   std::size_t const height;
 
-  static float constexpr velocity{2.5f};
+  static float constexpr velocity{2.0f};
 
   float velocity_x{0.0f};
   float velocity_y{0.0f};
