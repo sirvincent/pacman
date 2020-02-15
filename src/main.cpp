@@ -1,7 +1,10 @@
-#include <iostream>
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+
+#include <cassert>
+#include <iostream>
+
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -10,6 +13,8 @@ int main() {
   constexpr std::size_t kScreenHeight{640};
   constexpr std::size_t kGridWidth{16};
   constexpr std::size_t kGridHeight{16};
+  assert(kScreenWidth % kGridWidth == 0);
+  assert(kScreenHeight % kGridHeight == 0);
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
