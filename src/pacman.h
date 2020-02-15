@@ -6,21 +6,11 @@
 
 class Pacman {
  public:
-  enum class Direction
-  {
-    up,
-    down,
-    left,
-    right,
-    none
-  };
 
   Pacman(std::size_t position_x, std::size_t position_y, std::size_t pacman_width, std::size_t pacman_height);
   void update();
   void move();
   bool alive();
-
-  Direction direction = Direction::none;
 
   // TODO: I do not like that almost everything is public! make privates and setters and getters
   float x;
