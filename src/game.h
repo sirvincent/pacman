@@ -18,6 +18,7 @@ public:
   int getSize() const;
 
 private:
+  bool checkRectangleCollision(SDL_Rect const &rectangle, std::vector<SDL_Rect> &other);
   bool checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other);
 
   std::size_t screen_width_;
