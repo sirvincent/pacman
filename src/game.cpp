@@ -8,24 +8,16 @@
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
+  level_(screen_width, screen_height, grid_width, grid_height),
   pacman_(screen_width / 2, screen_height / 2, grid_width, grid_height)
 {
-  // TODO: dots is placed on stack but do we want it on the heap?
-  unsigned int radius = grid_width / 4;
-  std::size_t ratio_width  = screen_width  / grid_width;
-  std::size_t ratio_height = screen_height / grid_height;
-  for (std::size_t w = 0; w < ratio_width; ++w)
-  {
-    for (std::size_t h = 0; h < ratio_height; ++ h)
-    {
-      Dot dot(w * grid_width + grid_width / 2 - radius / 2,
-              h * grid_height + grid_height / 2 - radius / 2,
-              radius);
-      dots_.push_back(std::move(dot));
-    }
-  }
-
-  assert(dots_.size() == ratio_width * ratio_height);
+  // TODO: No need for level_ to be part of the object, it can be destructed after loading in
+  level_.load();
+  // TODO: this smells
+  dots_  = std::move(level_.dots_);
+  walls_ = std::move(level_.walls_);
+  pacman_.x = level_.player_.x;
+  pacman_.y = level_.player_.y;
 }
 
 
@@ -35,6 +27,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+
   while (running) {
     uint32_t frame_start = SDL_GetTicks();
 
@@ -42,7 +35,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     update();
 
-    renderer.render(pacman_, dots_);
+    renderer.render(pacman_, dots_, walls_);
 
 
     // TODO: enforce frame duration, move into separate function

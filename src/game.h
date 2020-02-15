@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "dot.h"
 #include "pacman.h"
+#include "level.h"
 
 #include "SDL.h"
 
@@ -24,8 +25,10 @@ private:
   std::size_t grid_width_;
   std::size_t grid_height_;
 
+  Level level_;
   Pacman pacman_;
   std::vector<Dot> dots_;
+  std::vector<SDL_Rect> walls_;
 
 
 

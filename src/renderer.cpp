@@ -35,8 +35,8 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_) {
-
+void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<SDL_Rect> const &walls_)
+{
   SDL_SetRenderDrawColor(sdl_renderer_, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer_);
 
@@ -77,6 +77,13 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_) {
     //       2) draw multiple points to make a filled circle, using the midpoint circle algorithm
     SDL_RenderFillRect(sdl_renderer_, &rectangle);
   }
+
+  SDL_SetRenderDrawColor(sdl_renderer_, 0xA4, 0x54, 0x00, 0xFF);
+  for (SDL_Rect wall : walls_)
+  {
+    SDL_RenderFillRect(sdl_renderer_, &wall);
+  }
+
 
   SDL_RenderPresent(sdl_renderer_);
 }
