@@ -2,6 +2,7 @@
 
 #include "controller.h"
 #include "renderer.h"
+#include "dot.h"
 #include "pacman.h"
 
 #include "SDL.h"
@@ -16,8 +17,15 @@ public:
   int getSize() const;
 
 private:
+  bool checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other);
+
   Pacman pacman_;
-  SDL_Point dot_;
+  std::vector<Dot> dots_;
+
+  std::size_t screen_width_;
+  std::size_t screen_height_;
+  std::size_t grid_width_;
+  std::size_t grid_height_;
 
   int score_{0};
 

@@ -3,9 +3,8 @@
 #include <iostream>
 
 
-// TODO: should this be screen width/height?
-Pacman::Pacman(std::size_t screen_to_grid_width, std::size_t screen_to_grid_height) :
-  x(screen_to_grid_width / 2), y(screen_to_grid_height / 2) {}
+Pacman::Pacman(std::size_t position_x, std::size_t position_y, std::size_t pacman_width, std::size_t pacman_height) :
+  x(position_x), y(position_y), width(pacman_width), height(pacman_height) {}
 
 
 void Pacman::update()
@@ -27,7 +26,6 @@ void Pacman::update()
     case Direction::none:
       break;
   }
-  // TODO: check if new x,y in side screen
 }
 
 bool Pacman::alive()

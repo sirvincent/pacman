@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include "SDL.h"
+
+#include <vector>
 
 class Pacman {
  public:
@@ -14,7 +15,7 @@ class Pacman {
     none
   };
 
-  Pacman(std::size_t screen_to_grid_width, std::size_t screen_to_grid_height);
+  Pacman(std::size_t position_x, std::size_t position_y, std::size_t pacman_width, std::size_t pacman_height);
   void update();
   bool alive();
 
@@ -23,8 +24,11 @@ class Pacman {
   float x;
   float y;
 
- private:
+  std::size_t const width;
+  std::size_t const height;
 
-  float speed_{0.1f};
+ private:
+  float speed_{2.5f};
   bool alive_{true};
+
 };
