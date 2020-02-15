@@ -26,6 +26,5 @@ class Pacman {
  private:
 
   float speed_{0.1f};
-  int const size_{1}; // TODO: determined by size of map
   bool alive_{true};
 };
