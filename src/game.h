@@ -19,13 +19,15 @@ public:
 private:
   bool checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other);
 
-  Pacman pacman_;
-  std::vector<Dot> dots_;
-
   std::size_t screen_width_;
   std::size_t screen_height_;
   std::size_t grid_width_;
   std::size_t grid_height_;
+
+  Pacman pacman_;
+  std::vector<Dot> dots_;
+
+
 
   int score_{0};
 
