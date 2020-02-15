@@ -6,8 +6,8 @@
 #include <iostream>
 
 
-Game::Game(std::size_t grid_width, std::size_t grid_height) :
-  pacman_(grid_width, grid_height) {}
+Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
+  pacman_(screen_width / grid_width, screen_height / grid_height) {}
 
 
 void Game::run(Controller const &controller, Renderer &renderer,

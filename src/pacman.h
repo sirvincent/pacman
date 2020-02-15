@@ -14,7 +14,7 @@ class Pacman {
     none
   };
 
-  Pacman(std::size_t grid_width, std::size_t grid_height);
+  Pacman(std::size_t screen_to_grid_width, std::size_t screen_to_grid_height);
   void update();
   bool alive();
 

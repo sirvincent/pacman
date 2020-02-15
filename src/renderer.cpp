@@ -37,8 +37,8 @@ Renderer::~Renderer() {
 
 void Renderer::render(Pacman const &pacman, SDL_Point const &dot) {
   SDL_Rect block;
-  block.w = screen_width / grid_width;
-  block.h = screen_height / grid_height;
+  block.w = grid_width;
+  block.h = grid_height;
 
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
