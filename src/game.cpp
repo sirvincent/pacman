@@ -3,16 +3,28 @@
 #include "SDL.h"
 
 #include <iostream>
+#include <cassert>
 
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
   pacman_(screen_width / grid_width, screen_height / grid_height)
 {
-  // TODO: dots is placed on stock but do we want it on the heap?
-  unsigned int radius = grid_width / 2;
-  dots_.push_back(Dot(screen_width / 2  + grid_width  / 2 - radius / 2,
-                      screen_height / 2 + grid_height / 2 - radius / 2,
-                      radius));
+  // TODO: dots is placed on stack but do we want it on the heap?
+  unsigned int radius = grid_width / 4;
+  std::size_t ratio_width  = screen_width  / grid_width;
+  std::size_t ratio_height = screen_height / grid_height;
+  for (std::size_t w = 0; w < ratio_width; ++w)
+  {
+    for (std::size_t h = 0; h < ratio_height; ++ h)
+    {
+      Dot dot(w * grid_width + grid_width / 2 - radius / 2,
+              h * grid_height + grid_height / 2 - radius / 2,
+              radius);
+      dots_.push_back(std::move(dot));
+    }
+  }
+
+  assert(dots_.size() == ratio_width * ratio_height);
 }
 
 
