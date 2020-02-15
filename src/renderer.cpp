@@ -37,22 +37,38 @@ Renderer::~Renderer() {
 
 void Renderer::render(Pacman const &pacman, SDL_Point const &dot) {
   SDL_Rect block;
-  block.w = screen_width / grid_width;
-  block.h = screen_height / grid_height;
+  block.w = grid_width;
+  block.h = grid_height;
 
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
+  /* TODO: implement me:
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
   block.x = dot.x * block.w;
   block.y = dot.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
+  */
 
+  // draw pacman
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0x00, 0xFF);
   block.x = pacman.x * block.w;
   block.y = pacman.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
+
+  // draw grid
+  std::size_t ratio_width = screen_width / grid_width;
+  std::size_t ratio_height = screen_height / grid_height;
+  SDL_SetRenderDrawColor(sdl_renderer, 0x7D, 0x3C, 0x98, 0xFF);
+  for (std::size_t w = 0; w < ratio_width; ++w)
+  {
+    SDL_RenderDrawLine(sdl_renderer, w * grid_width, 0, w * grid_width, screen_height);
+  }
+  for (std::size_t h = 0; h < ratio_height; ++ h)
+  {
+    SDL_RenderDrawLine(sdl_renderer, 0, h * grid_height, screen_width, h * grid_height);
+  }
   SDL_RenderPresent(sdl_renderer);
 }
 

@@ -9,7 +9,7 @@
 
 class Game {
 public:
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height);
   void run(Controller const &controller, Renderer &renderer,
            uint32_t const target_frame_duration);
   int score() const;

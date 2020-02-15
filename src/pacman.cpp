@@ -4,8 +4,9 @@
 
 
 // TODO: should this be screen width/height?
-Pacman::Pacman(std::size_t grid_width, std::size_t grid_height) :
-  x(grid_width / 2), y(grid_height / 2) {}
+Pacman::Pacman(std::size_t screen_to_grid_width, std::size_t screen_to_grid_height) :
+  x(screen_to_grid_width / 2), y(screen_to_grid_height / 2) {}
+
 
 void Pacman::update()
 {
