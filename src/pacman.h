@@ -6,8 +6,7 @@
 
 class Pacman {
  public:
-
-  Pacman(std::size_t position_x, std::size_t position_y, std::size_t pacman_width, std::size_t pacman_height);
+  Pacman(std::size_t pacman_width, std::size_t pacman_height);
   void move_x();
   void move_y();
   bool alive();
