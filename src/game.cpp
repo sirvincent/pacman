@@ -7,7 +7,8 @@
 
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
-  pacman_(screen_width / grid_width, screen_height / grid_height)
+  screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
+  pacman_(screen_width / 2, screen_height / 2, grid_width, grid_height)
 {
   // TODO: dots is placed on stack but do we want it on the heap?
   unsigned int radius = grid_width / 4;

@@ -20,6 +20,11 @@ private:
   Pacman pacman_;
   std::vector<Dot> dots_;
 
+  std::size_t screen_width_;
+  std::size_t screen_height_;
+  std::size_t grid_width_;
+  std::size_t grid_height_;
+
   int score_{0};
 
   void update();
