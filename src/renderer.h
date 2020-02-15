@@ -8,19 +8,22 @@
 
 class Renderer {
  public:
-  Renderer(const std::size_t screen_width, const std::size_t screen_height,
-           const std::size_t grid_width, const std::size_t grid_height);
+  Renderer(const std::size_t screen_width_, const std::size_t screen_height_,
+           const std::size_t grid_width_, const std::size_t grid_height_);
   ~Renderer();
 
   void render(Pacman const &pacman, SDL_Point const &dot);
   void updateWindowTitle(int score, int fps);
 
  private:
-  SDL_Window *sdl_window;
-  SDL_Renderer *sdl_renderer;
 
-  const std::size_t screen_width;
-  const std::size_t screen_height;
-  const std::size_t grid_width;
-  const std::size_t grid_height;
+  SDL_Window *sdl_window_;
+  SDL_Renderer *sdl_renderer_;
+
+  const std::size_t screen_width_;
+  const std::size_t screen_height_;
+  const std::size_t grid_width_;
+  const std::size_t grid_height_;
+
+
 };
