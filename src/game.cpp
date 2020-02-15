@@ -72,6 +72,25 @@ void Game::update() {
 
   pacman_.update();
 
+
+  // TODO: is it Game task to manage if pacman moves out of screen? I think so since it knows about the screen
+  if (pacman_.x < 0)
+  {
+    pacman_.x = 0;
+  }
+  else if (pacman_.x > (screen_width_ - pacman_.width))
+  {
+    pacman_.x = screen_width_ - pacman_.width;
+  }
+
+  if (pacman_.y < 0)
+  {
+    pacman_.y = 0;
+  }
+  else if (pacman_.y > (screen_height_ - pacman_.height))
+  {
+    pacman_.y = screen_height_ - pacman_.height;
+  }
   // Handle interaction pacman with environment, dots, walls or ghost
 }
 
