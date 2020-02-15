@@ -15,40 +15,43 @@ void Controller::handleInput(bool &running, Pacman &pacman) const
     {
       running = false;
     }
-    else if (event.type == SDL_KEYDOWN)
+    else if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
     {
       switch (event.key.keysym.sym)
       {
         case SDLK_UP:
-          pacman.direction = Pacman::Direction::up;
+          pacman.velocity_y -= pacman.velocity;
           break;
 
         case SDLK_DOWN:
-          pacman.direction = Pacman::Direction::down;
+          pacman.velocity_y += pacman.velocity;
           break;
 
         case SDLK_LEFT:
-          pacman.direction = Pacman::Direction::left;
+          pacman.velocity_x -= pacman.velocity;
           break;
 
         case SDLK_RIGHT:
-          pacman.direction = Pacman::Direction::right;
+          pacman.velocity_x += pacman.velocity;
           break;
       }
     }
-    else if (event.type == SDL_KEYUP)
+    else if (event.type == SDL_KEYUP && event.key.repeat == 0)
     {
       // TODO: change to an if it will not be extended, I find that clearer
       switch (event.key.keysym.sym)
       {
         case SDLK_UP:
-          [[fallthrough]];
+          pacman.velocity_y += pacman.velocity;
+          break;
         case SDLK_DOWN:
-          [[fallthrough]];
+          pacman.velocity_y -= pacman.velocity;
+          break;
         case SDLK_LEFT:
-          [[fallthrough]];
+          pacman.velocity_x += pacman.velocity;
+          break;
         case SDLK_RIGHT:
-          pacman.direction = Pacman::Direction::none;
+          pacman.velocity_x -= pacman.velocity;
           break;
       }
     }
