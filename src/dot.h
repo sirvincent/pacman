@@ -10,8 +10,10 @@ public:
   inline unsigned int radius() const { return radius_; }
 
 private:
-  unsigned int const x_;
-  unsigned int const y_;
-  unsigned int const radius_;
+  // TODO: make const again, currently not due to vector<Dot>.erase()
+  //       maybe if we change logic to Exclusive ownership with own move assignment we can circumvent this?
+  unsigned int x_;
+  unsigned int y_;
+  unsigned int radius_;
 };
 

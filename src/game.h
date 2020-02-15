@@ -17,6 +17,8 @@ public:
   int getSize() const;
 
 private:
+  bool checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other);
+
   Pacman pacman_;
   std::vector<Dot> dots_;
 

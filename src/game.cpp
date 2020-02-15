@@ -64,6 +64,40 @@ void Game::run(Controller const &controller, Renderer &renderer,
   }
 }
 
+// TODO: come up with a better short name than other for other rectangle
+bool Game::checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other)
+{
+  int const left_rectangle   = rectangle.x;
+  int const right_rectangle  = rectangle.x + rectangle.w;
+  int const top_rectangle    = rectangle.y;
+  int const bottom_rectangle = rectangle.y + rectangle.h;
+
+  int const left_other   = other.x;
+  int const right_other  = other.x + other.w;
+  int const top_other    = other.y;
+  int const bottom_other = other.y + other.h;
+
+  // check collision based on separating axis
+  if (bottom_rectangle <= top_other)
+  {
+    return false;
+  }
+  if (top_rectangle >= bottom_other)
+  {
+    return false;
+  }
+  if (right_rectangle <= left_other)
+  {
+    return false;
+  }
+  if (left_rectangle  >= right_other)
+  {
+    return false;
+  }
+
+  return true;
+}
+
 void Game::update() {
   if (!pacman_.alive())
   {
@@ -91,6 +125,34 @@ void Game::update() {
   {
     pacman_.y = screen_height_ - pacman_.height;
   }
+
+  // it should only be possible that pacman collides with 1 dot! not multiple, in case pacman moves along
+  // the cells of the grid and not on the grid it will be fine else not.
+  // hence currently it can fail due to that pacman is not precisely on the grid!
+  for (auto it = dots_.begin(); it != dots_.end(); ++it)
+  {
+    // TODO: how to remove the boiler plate code from convert own objects to rectangle?
+    //       Inherent from SDL_Rect?
+    SDL_Rect pacman_rectangle;
+    pacman_rectangle.x = pacman_.x;
+    pacman_rectangle.y = pacman_.y;
+    pacman_rectangle.w = pacman_.width;
+    pacman_rectangle.h = pacman_.height;
+
+    SDL_Rect dot_rectangle;
+    dot_rectangle.x = it->x();
+    dot_rectangle.y = it->y();
+    dot_rectangle.w = it->radius();
+    dot_rectangle.h = it->radius();
+
+    if (checkRectangleCollision(pacman_rectangle, dot_rectangle))
+    {
+      dots_.erase(it);
+      break;
+    }
+
+  }
+
   // Handle interaction pacman with environment, dots, walls or ghost
 }
 
