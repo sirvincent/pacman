@@ -35,7 +35,6 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::render(Pacman const &pacman, SDL_Point const &dot) {
 void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_) {
   SDL_Rect block;
   block.w = grid_width_;
