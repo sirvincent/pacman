@@ -2,6 +2,7 @@
 
 #include "controller.h"
 #include "renderer.h"
+#include "dot.h"
 #include "pacman.h"
 
 #include "SDL.h"
@@ -17,7 +18,7 @@ public:
 
 private:
   Pacman pacman_;
-  SDL_Point dot_;
+  std::vector<Dot> dots_;
 
   int score_{0};
 

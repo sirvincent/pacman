@@ -36,6 +36,7 @@ Renderer::~Renderer() {
 }
 
 void Renderer::render(Pacman const &pacman, SDL_Point const &dot) {
+void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_) {
   SDL_Rect block;
   block.w = grid_width_;
   block.h = grid_height_;
@@ -69,8 +70,23 @@ void Renderer::render(Pacman const &pacman, SDL_Point const &dot) {
   {
     SDL_RenderDrawLine(sdl_renderer_, 0, h * grid_height_, screen_width_, h * grid_height_);
   }
-  SDL_RenderPresent(sdl_renderer_);
 
+
+  SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0x51, 0xFF, 0xFF);
+  for (Dot dot : dots_)
+  {
+    SDL_Rect rectangle;
+    rectangle.x = dot.x();
+    rectangle.y = dot.y();
+    rectangle.w = dot.radius();
+    rectangle.h = dot.radius();
+    // TODO: we start with rectangle dots, since there is no FillCircle. To make a circle we either:
+    //       1) use a circle sprite with a circular bounding box for collisions
+    //       2) draw multiple points to make a filled circle, using the midpoint circle algorithm
+    SDL_RenderFillRect(sdl_renderer_, &rectangle);
+  }
+
+  SDL_RenderPresent(sdl_renderer_);
 }
 
 void Renderer::updateWindowTitle(int score, int fps) {
