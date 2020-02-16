@@ -95,6 +95,19 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::
     SDL_RenderFillRect(sdl_renderer_, &wall);
   }
 
+  for (std::unique_ptr<Ghosts::Ghost> const &ghost : ghosts)
+  {
+    SDL_SetRenderDrawColor(sdl_renderer_, std::get<0>(ghost->rgba()), std::get<1>(ghost->rgba()),
+                           std::get<2>(ghost->rgba()), std::get<3>(ghost->rgba()));
+    std::cout << unsigned(std::get<0>(ghost->rgba())) << " , "
+              << unsigned(std::get<1>(ghost->rgba())) << " , "
+              << unsigned(std::get<2>(ghost->rgba())) << " , "
+              << unsigned(std::get<3>(ghost->rgba())) << " , "
+              << std::endl;
+    SDL_RenderFillRectF(sdl_renderer_, &(*ghost));
+  }
+
+
   SDL_RenderPresent(sdl_renderer_);
 }
 
