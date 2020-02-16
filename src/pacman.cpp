@@ -3,8 +3,14 @@
 #include <iostream>
 
 
-Pacman::Pacman(std::size_t pacman_width, std::size_t pacman_height) :
-  width(pacman_width), height(pacman_height) {}
+Pacman::Pacman(float width, float height)
+{
+  // x,y are initialized to 0.0f since I want to circumvent uninitialized members
+  x = 0.0f;
+  y = 0.0f;
+  w = width;
+  h = height;
+}
 
 void Pacman::move_x()
 {

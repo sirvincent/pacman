@@ -58,7 +58,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 }
 
 
-bool Game::checkRectangleCollision(SDL_Rect const &rectangle, std::vector<SDL_Rect> &other)
+bool Game::checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other)
 {
   for (auto it = other.begin(); it != other.end(); ++it)
   {
@@ -71,7 +71,7 @@ bool Game::checkRectangleCollision(SDL_Rect const &rectangle, std::vector<SDL_Re
 }
 
 // TODO: come up with a better short name than other for other rectangle
-bool Game::checkRectangleCollision(SDL_Rect const &rectangle, SDL_Rect const &other)
+bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other)
 {
   int const left_rectangle   = rectangle.x;
   int const right_rectangle  = rectangle.x + rectangle.w;
@@ -110,27 +110,16 @@ void Game::update() {
     return;
   }
 
-
   // Based on lazy foos tutorial logic is simpler if moving x and y separately not both
   pacman_.move_x();
-  // TODO: inherent from rectangle to circumvent this boiler plate code
-  SDL_Rect pacman_rectangle;
-  pacman_rectangle.x = pacman_.x;
-  pacman_rectangle.y = pacman_.y;
-  pacman_rectangle.w = pacman_.width;
-  pacman_rectangle.h = pacman_.height;
   // TODO: is it Game task to manage if pacman moves out of screen? I think so since it knows about the screen
-  if (pacman_.x < 0 || pacman_.x > (screen_width_ - pacman_.width) || checkRectangleCollision(pacman_rectangle, walls_))
+  if (pacman_.x < 0 || pacman_.x > (screen_width_ - pacman_.w) || checkRectangleCollision(pacman_, walls_))
   {
     pacman_.x -= pacman_.velocity_x;
   }
 
   pacman_.move_y();
-  pacman_rectangle.x = pacman_.x;
-  pacman_rectangle.y = pacman_.y;
-  pacman_rectangle.w = pacman_.width;
-  pacman_rectangle.h = pacman_.height;
-  if (pacman_.y < 0 || pacman_.y > (screen_height_ - pacman_.height) || checkRectangleCollision(pacman_rectangle, walls_))
+  if (pacman_.y < 0 || pacman_.y > (screen_height_ - pacman_.h) || checkRectangleCollision(pacman_, walls_))
   {
     pacman_.y -= pacman_.velocity_y;
   }
@@ -140,21 +129,14 @@ void Game::update() {
   // hence currently it can fail due to that pacman is not precisely on the grid!
   for (auto it = dots_.begin(); it != dots_.end(); ++it)
   {
-    // TODO: how to remove the boiler plate code from convert own objects to rectangle?
-    //       Inherent from SDL_Rect?
-    SDL_Rect pacman_rectangle;
-    pacman_rectangle.x = pacman_.x;
-    pacman_rectangle.y = pacman_.y;
-    pacman_rectangle.w = pacman_.width;
-    pacman_rectangle.h = pacman_.height;
-
+    // TODO: give Dot a member to rectanlge?
     SDL_Rect dot_rectangle;
     dot_rectangle.x = it->x();
     dot_rectangle.y = it->y();
     dot_rectangle.w = it->radius();
     dot_rectangle.h = it->radius();
 
-    if (checkRectangleCollision(pacman_rectangle, dot_rectangle))
+    if (checkRectangleCollision(pacman_, dot_rectangle))
     {
       dots_.erase(it);
       break;

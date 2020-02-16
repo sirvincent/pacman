@@ -42,12 +42,7 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::
 
   // draw pacman
   SDL_SetRenderDrawColor(sdl_renderer_, 0xFF, 0xFF, 0x00, 0xFF);
-  SDL_Rect block;
-  block.x = pacman.x;
-  block.y = pacman.y;
-  block.w = pacman.width;
-  block.h = pacman.height;
-  SDL_RenderFillRect(sdl_renderer_, &block);
+  SDL_RenderFillRectF(sdl_renderer_, &pacman);
 
 
   // draw grid
