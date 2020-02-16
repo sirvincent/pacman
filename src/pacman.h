@@ -4,10 +4,7 @@
 
 #include <vector>
 
-class Pacman : public SDL_FRect
-{
-public:
-  enum class Direction
+enum class Direction : uint8_t
   {
     up,
     down,
@@ -15,6 +12,9 @@ public:
     right
   };
 
+class Pacman : public SDL_FRect
+{
+public:
   Pacman(float width, float height);
   void update();
   bool alive();
