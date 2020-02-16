@@ -109,15 +109,14 @@ void Game::update() {
     return;
   }
 
-  // Based on lazy foos tutorial logic is simpler if moving x and y separately not both
-  pacman_.move_x();
+  pacman_.update();
+
   // TODO: is it Game task to manage if pacman moves out of screen? I think so since it knows about the screen
   if (pacman_.x < 0 || pacman_.x > (screen_width_ - pacman_.w) || checkRectangleCollision(pacman_, walls_))
   {
     pacman_.x -= pacman_.velocity_x;
   }
 
-  pacman_.move_y();
   if (pacman_.y < 0 || pacman_.y > (screen_height_ - pacman_.h) || checkRectangleCollision(pacman_, walls_))
   {
     pacman_.y -= pacman_.velocity_y;
