@@ -126,6 +126,40 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
   return false;
 }
 
+
+// require CHARACTER is a SDL_Rect or SDL_FRect object
+// require CHARACTER is a Movement object
+template <typename CHARACTER>
+void Game::moveCharacter(CHARACTER &character)
+{
+  character.adjust_x_y_velocity_on_direction(character.wanted_direction);
+  CHARACTER wanted_pacman = character;
+  wanted_pacman.x = character.x + character.velocity_x();
+  wanted_pacman.y = character.y + character.velocity_y();
+
+  bool valid_direction = checkMoveInBounds(wanted_pacman);
+
+  if (!valid_direction)
+  {
+    character.adjust_x_y_velocity_on_direction(character.direction);
+    CHARACTER wanted_pacman_old = character;
+    wanted_pacman_old.x = character.x + character.velocity_x();
+    wanted_pacman_old.y = character.y + character.velocity_y();
+
+    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old);
+    if (valid_old_direction)
+    {
+      character.move();
+    }
+  }
+  else
+  {
+    character.direction = character.wanted_direction;
+    character.move();
+  }
+}
+
+
 bool Game::checkMoveInBounds(SDL_FRect rectangle)
 {
   if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollision(rectangle, walls_))
@@ -147,32 +181,13 @@ void Game::update() {
   }
 
 
-  pacman_.adjust_x_y_velocity_on_direction(pacman_.wanted_direction);
-  Pacman wanted_pacman = pacman_;
-  wanted_pacman.x = pacman_.x + pacman_.velocity_x();
-  wanted_pacman.y = pacman_.y + pacman_.velocity_y();
+  moveCharacter<Pacman>(pacman_);
 
-  bool valid_direction = checkMoveInBounds(wanted_pacman);
-
-  if (!valid_direction)
+  for (auto &ghost : ghosts_)
   {
-    pacman_.adjust_x_y_velocity_on_direction(pacman_.direction);
-    Pacman wanted_pacman_old = pacman_;
-    wanted_pacman_old.x = pacman_.x + pacman_.velocity_x();
-    wanted_pacman_old.y = pacman_.y + pacman_.velocity_y();
-
-    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old);
-    if (valid_old_direction)
-    {
-      pacman_.move();
-    }
+    ghost->moveMethod();
+    moveCharacter<Ghosts::Ghost>(*ghost);
   }
-  else
-  {
-    pacman_.direction = pacman_.wanted_direction;
-    pacman_.move();
-  }
-
 
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))
@@ -180,10 +195,6 @@ void Game::update() {
     // TODO: ghosts get scared and edible
   }
 
-  for (auto &ghost : ghosts_)
-  {
-    ghost->move();
-  }
 }
 
 int Game::score() const
