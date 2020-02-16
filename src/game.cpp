@@ -16,6 +16,7 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   dots_     = std::move(level.dots_);
   pellets_  = std::move(level.pellets_);
   walls_    = std::move(level.walls_);
+  ghosts_   = std::move(level.ghosts_);
   pacman_.x = level.player_.x;
   pacman_.y = level.player_.y;
 }
@@ -35,7 +36,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     update();
 
-    renderer.render(pacman_, dots_, pellets_, walls_);
+    renderer.render(pacman_, dots_, pellets_, walls_, ghosts_);
 
 
     // TODO: enforce frame duration, move into separate function
@@ -149,6 +150,11 @@ void Game::update() {
   if (handlePacmanDotCollisions(pacman_, pellets_))
   {
     // TODO: ghosts get scared and edible
+  }
+
+  for (auto &ghost : ghosts_)
+  {
+    ghost->move();
   }
 }
 
