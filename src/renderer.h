@@ -16,8 +16,8 @@ class Renderer {
            const std::size_t grid_width_, const std::size_t grid_height_);
   ~Renderer();
 
-  void render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<Dot> const &pellets_,
-              std::vector<SDL_Rect> const &walls_, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts);
+  void render(Pacman const &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
+              std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts);
   void updateWindowTitle(int score, int fps);
 
  private:
