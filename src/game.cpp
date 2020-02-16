@@ -103,6 +103,28 @@ bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &o
   return true;
 }
 
+void Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
+{
+  for (auto it = dots.begin(); it != dots.end(); ++it)
+  {
+    // TODO: give Dot a member to rectanlge?
+    SDL_Rect dot_rectangle;
+    dot_rectangle.x = it->x();
+    dot_rectangle.y = it->y();
+    dot_rectangle.w = it->radius();
+    dot_rectangle.h = it->radius();
+
+    if (checkRectangleCollision(pacman, dot_rectangle))
+    {
+      score_ += it->score();
+      dots.erase(it);
+      break;
+    }
+  }
+
+
+}
+
 void Game::update() {
   if (!pacman_.alive())
   {
@@ -123,39 +145,8 @@ void Game::update() {
     pacman_.y -= pacman_.velocity_y;
   }
 
-  for (auto it = dots_.begin(); it != dots_.end(); ++it)
-  {
-    // TODO: give Dot a member to rectanlge?
-    SDL_Rect dot_rectangle;
-    dot_rectangle.x = it->x();
-    dot_rectangle.y = it->y();
-    dot_rectangle.w = it->radius();
-    dot_rectangle.h = it->radius();
-
-    if (checkRectangleCollision(pacman_, dot_rectangle))
-    {
-      score_ += it->score();
-      dots_.erase(it);
-      break;
-    }
-  }
-
-  for (auto it = pellets_.begin(); it != pellets_.end(); ++it)
-  {
-    // TODO: give Dot a member to rectanlge?
-    SDL_Rect dot_rectangle;
-    dot_rectangle.x = it->x();
-    dot_rectangle.y = it->y();
-    dot_rectangle.w = it->radius();
-    dot_rectangle.h = it->radius();
-
-    if (checkRectangleCollision(pacman_, dot_rectangle))
-    {
-      score_ += it->score();
-      pellets_.erase(it);
-      break;
-    }
-  }
+  handlePacmanDotCollisions(pacman_, dots_);
+  handlePacmanDotCollisions(pacman_, pellets_);
 }
 
 int Game::score() const

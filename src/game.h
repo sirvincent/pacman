@@ -21,6 +21,8 @@ private:
   bool checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
   bool checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other);
 
+  void handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
+
   std::size_t screen_width_;
   std::size_t screen_height_;
   std::size_t grid_width_;
