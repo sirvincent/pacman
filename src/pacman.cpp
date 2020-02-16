@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-Pacman::Pacman(float width, float height)
+Pacman::Pacman(float width, float height, float speed) :
+  Movement(speed, speed, speed, speed)
 {
   // x,y are initialized to 0.0f since I want to circumvent uninitialized members
   x = 0.0f;
@@ -16,31 +17,8 @@ void Pacman::move()
 {
   // TODO: currently movement is frame based, I prefer time based for understandable physics}
 
-  x += velocity_x;
-  y += velocity_y;
-}
-
-void Pacman::adjust_x_y_velocity_on_direction(Direction direction_to_go_to)
-{
-  switch (direction_to_go_to)
-  {
-    case Direction::up:
-      velocity_y = -velocity;
-      velocity_x = 0;
-      break;
-    case Direction::down:
-      velocity_y = velocity;
-      velocity_x = 0;
-      break;
-    case Direction::left:
-      velocity_y = 0;
-      velocity_x = -velocity;
-      break;
-    case Direction::right:
-      velocity_y = 0;
-      velocity_x = velocity;
-      break;
-  }
+  x += velocity_x_;
+  y += velocity_y_;
 }
 
 bool Pacman::alive()

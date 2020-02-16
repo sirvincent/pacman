@@ -1,35 +1,22 @@
 #pragma once
 
+#include "movement.h"
+
 #include "SDL.h"
 
 #include <vector>
 
-enum class Direction : uint8_t
-  {
-    up,
-    down,
-    left,
-    right
-  };
 
-class Pacman : public SDL_FRect
+class Pacman : public SDL_FRect, public Movement
 {
 public:
-  Pacman(float width, float height);
+  Pacman(float width, float height, float speed);
 
   void move();
-  void adjust_x_y_velocity_on_direction(Direction direction_to_go_to);
   bool alive();
 
-  // TODO: I do not like that almost everything is public! make privates and setters and getters
-
-  static float constexpr velocity{2.0f};
-
-  float velocity_x{velocity};
-  float velocity_y{velocity};
-
-  Direction direction = Direction::left;
-  Direction wanted_direction = direction;
+  Movement::Direction direction = Movement::Direction::left;
+  Movement::Direction wanted_direction = direction;
 
 private:
   bool alive_{true};

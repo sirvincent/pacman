@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "movement.h"
 
 #include "SDL.h"
 
@@ -20,19 +21,19 @@ void Controller::handleInput(bool &running, Pacman &pacman) const
       switch (event.key.keysym.sym)
       {
         case SDLK_UP:
-          pacman.wanted_direction = Direction::up;
+          pacman.wanted_direction = Movement::Direction::up;
           break;
 
         case SDLK_DOWN:
-          pacman.wanted_direction = Direction::down;
+          pacman.wanted_direction = Movement::Direction::down;
           break;
 
         case SDLK_LEFT:
-          pacman.wanted_direction = Direction::left;
+          pacman.wanted_direction = Movement::Direction::left;
           break;
 
         case SDLK_RIGHT:
-          pacman.wanted_direction = Direction::right;
+          pacman.wanted_direction = Movement::Direction::right;
           break;
       }
     }

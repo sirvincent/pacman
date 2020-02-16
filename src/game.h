@@ -43,6 +43,8 @@ private:
 
   int score_{0};
   static unsigned int constexpr time_between_title_update_{1000};
+  // TODO: feels as if this is not the correct place to store this variable, maybe in main?
+  static float constexpr pacman_speed = 2.0f;
 
   void update();
 };
