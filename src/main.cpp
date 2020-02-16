@@ -13,7 +13,7 @@ int main() {
   constexpr std::size_t kGridHeight{32};
   // The reason for - kGridWidth is since we want to have a middle in the level
   constexpr std::size_t kScreenWidth{640 - kGridWidth};
-  constexpr std::size_t kScreenHeight{640};
+  constexpr std::size_t kScreenHeight{640 + kGridHeight};
 
   assert(kScreenWidth % kGridWidth == 0);
   assert(kScreenHeight % kGridHeight == 0);
