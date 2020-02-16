@@ -137,6 +137,7 @@ void Game::update() {
 
     if (checkRectangleCollision(pacman_, dot_rectangle))
     {
+      score_ += it->score();
       dots_.erase(it);
       break;
     }
