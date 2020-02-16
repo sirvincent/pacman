@@ -9,6 +9,14 @@
 namespace Ghosts
 {
 
+enum class Direction : uint8_t
+{
+  up,
+  down,
+  left,
+  right
+};
+
 // TODO: I would like to make Ghost an abstract base class, however
 //       it seems incorrect to make it abstract while it inherets from SDL_FRect
 class Ghost : public SDL_FRect
@@ -23,12 +31,16 @@ public:
   inline int score() const { return score_; }
   inline std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba() const { return rgba_; }
 
-private:
+protected:
   // TODO: should be based on pacman.velocity, should be slightly bit faster
-  float velocity{2.1f};
+  float velocity_{2.1f};
+  float velocity_x_ = velocity_;
+  float velocity_y_ = velocity_;
 
   bool edible_{false};
   bool scared_{false};
+
+private:
   // TODO: should be const
   int score_{200};
 
