@@ -4,9 +4,12 @@
 #include "renderer.h"
 #include "dot.h"
 #include "pacman.h"
+#include "ghost.h"
 #include "level.h"
 
 #include "SDL.h"
+
+#include <memory>
 
 
 class Game {
@@ -21,6 +24,8 @@ private:
   bool checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
   bool checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other);
 
+  bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
+
   std::size_t screen_width_;
   std::size_t screen_height_;
   std::size_t grid_width_;
@@ -28,11 +33,14 @@ private:
 
   Pacman pacman_;
   std::vector<Dot> dots_;
+  std::vector<Dot> pellets_;
   std::vector<SDL_Rect> walls_;
+  std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
 
 
   int score_{0};
+  static unsigned int constexpr time_between_title_update_{1000};
 
   void update();
 };

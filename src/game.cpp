@@ -13,8 +13,10 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
   // TODO: this smells
-  dots_  = std::move(level.dots_);
-  walls_ = std::move(level.walls_);
+  dots_     = std::move(level.dots_);
+  pellets_  = std::move(level.pellets_);
+  walls_    = std::move(level.walls_);
+  ghosts_   = std::move(level.ghosts_);
   pacman_.x = level.player_.x;
   pacman_.y = level.player_.y;
 }
@@ -34,7 +36,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     update();
 
-    renderer.render(pacman_, dots_, walls_);
+    renderer.render(pacman_, dots_, pellets_, walls_, ghosts_);
 
 
     // TODO: enforce frame duration, move into separate function
@@ -43,8 +45,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
     frame_count++;
     uint32_t frame_duration = frame_end - frame_start;
 
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000) {
+    if (frame_end - title_timestamp >= time_between_title_update_) {
       renderer.updateWindowTitle(score_, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
@@ -103,6 +104,28 @@ bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &o
   return true;
 }
 
+bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
+{
+  for (auto it = dots.begin(); it != dots.end(); ++it)
+  {
+    // TODO: give Dot a member to rectanlge?
+    SDL_Rect dot_rectangle;
+    dot_rectangle.x = it->x();
+    dot_rectangle.y = it->y();
+    dot_rectangle.w = it->radius();
+    dot_rectangle.h = it->radius();
+
+    if (checkRectangleCollision(pacman, dot_rectangle))
+    {
+      score_ += it->score();
+      dots.erase(it);
+      return true;
+    }
+  }
+
+  return false;
+}
+
 void Game::update() {
   if (!pacman_.alive())
   {
@@ -122,26 +145,16 @@ void Game::update() {
     pacman_.y -= pacman_.velocity_y;
   }
 
-  // it should only be possible that pacman collides with 1 dot! not multiple, in case pacman moves along
-  // the cells of the grid and not on the grid it will be fine else not.
-  // hence currently it can fail due to that pacman is not precisely on the grid!
-  for (auto it = dots_.begin(); it != dots_.end(); ++it)
+  handlePacmanDotCollisions(pacman_, dots_);
+  if (handlePacmanDotCollisions(pacman_, pellets_))
   {
-    // TODO: give Dot a member to rectanlge?
-    SDL_Rect dot_rectangle;
-    dot_rectangle.x = it->x();
-    dot_rectangle.y = it->y();
-    dot_rectangle.w = it->radius();
-    dot_rectangle.h = it->radius();
-
-    if (checkRectangleCollision(pacman_, dot_rectangle))
-    {
-      dots_.erase(it);
-      break;
-    }
+    // TODO: ghosts get scared and edible
   }
 
-  // Handle interaction pacman with environment, dots, walls or ghost
+  for (auto &ghost : ghosts_)
+  {
+    ghost->move();
+  }
 }
 
 int Game::score() const

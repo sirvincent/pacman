@@ -1,4 +1,5 @@
 #include "renderer.h"
+
 #include <iostream>
 #include <string>
 
@@ -35,7 +36,8 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<SDL_Rect> const &walls_)
+void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
+                      std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts)
 {
   SDL_SetRenderDrawColor(sdl_renderer_, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer_);
@@ -60,7 +62,7 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::
 
 
   SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0x51, 0xFF, 0xFF);
-  for (Dot dot : dots_)
+  for (Dot dot : dots)
   {
     SDL_Rect rectangle;
     rectangle.x = dot.x();
@@ -73,10 +75,31 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::
     SDL_RenderFillRect(sdl_renderer_, &rectangle);
   }
 
+  SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0xAF, 0xFF, 0xFF);
+  for (Dot pellet : pellets)
+  {
+    SDL_Rect rectangle;
+    rectangle.x = pellet.x();
+    rectangle.y = pellet.y();
+    rectangle.w = pellet.radius();
+    rectangle.h = pellet.radius();
+    // TODO: we start with rectangle dots, since there is no FillCircle. To make a circle we either:
+    //       1) use a circle sprite with a circular bounding box for collisions
+    //       2) draw multiple points to make a filled circle, using the midpoint circle algorithm
+    SDL_RenderFillRect(sdl_renderer_, &rectangle);
+  }
+
   SDL_SetRenderDrawColor(sdl_renderer_, 0xA4, 0x54, 0x00, 0xFF);
-  for (SDL_Rect wall : walls_)
+  for (SDL_Rect wall : walls)
   {
     SDL_RenderFillRect(sdl_renderer_, &wall);
+  }
+
+  for (std::unique_ptr<Ghosts::Ghost> const &ghost : ghosts)
+  {
+    SDL_SetRenderDrawColor(sdl_renderer_, std::get<0>(ghost->rgba()), std::get<1>(ghost->rgba()),
+                           std::get<2>(ghost->rgba()), std::get<3>(ghost->rgba()));
+    SDL_RenderFillRectF(sdl_renderer_, &(*ghost));
   }
 
 
