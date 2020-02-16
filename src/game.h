@@ -33,6 +33,7 @@ private:
 
 
   int score_{0};
+  static unsigned int constexpr time_between_title_update_{1000};
 
   void update();
 };

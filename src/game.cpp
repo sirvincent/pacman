@@ -43,8 +43,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
     frame_count++;
     uint32_t frame_duration = frame_end - frame_start;
 
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000) {
+    if (frame_end - title_timestamp >= time_between_title_update_) {
       renderer.updateWindowTitle(score_, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
