@@ -126,24 +126,53 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
   return false;
 }
 
+bool Game::checkMoveInBounds(SDL_FRect rectangle)
+{
+  if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollision(rectangle, walls_))
+  {
+    return false;
+  }
+  if (rectangle.y < 0 || rectangle.y > (screen_height_ - rectangle.h) || checkRectangleCollision(rectangle, walls_))
+  {
+    return false;
+  }
+
+  return true;
+}
+
 void Game::update() {
   if (!pacman_.alive())
   {
     return;
   }
 
-  pacman_.update();
 
-  // TODO: is it Game task to manage if pacman moves out of screen? I think so since it knows about the screen
-  if (pacman_.x < 0 || pacman_.x > (screen_width_ - pacman_.w) || checkRectangleCollision(pacman_, walls_))
+  pacman_.adjust_x_y_velocity_on_direction(pacman_.wanted_direction);
+  Pacman wanted_pacman = pacman_;
+  wanted_pacman.x = pacman_.x + pacman_.velocity_x;
+  wanted_pacman.y = pacman_.y + pacman_.velocity_y;
+
+  bool valid_direction = checkMoveInBounds(wanted_pacman);
+
+  if (!valid_direction)
   {
-    pacman_.x -= pacman_.velocity_x;
+    pacman_.adjust_x_y_velocity_on_direction(pacman_.direction);
+    Pacman wanted_pacman_old = pacman_;
+    wanted_pacman_old.x = pacman_.x + pacman_.velocity_x;
+    wanted_pacman_old.y = pacman_.y + pacman_.velocity_y;
+
+    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old);
+    if (valid_old_direction)
+    {
+      pacman_.move();
+    }
+  }
+  else
+  {
+    pacman_.direction = pacman_.wanted_direction;
+    pacman_.move();
   }
 
-  if (pacman_.y < 0 || pacman_.y > (screen_height_ - pacman_.h) || checkRectangleCollision(pacman_, walls_))
-  {
-    pacman_.y -= pacman_.velocity_y;
-  }
 
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))

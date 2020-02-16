@@ -16,7 +16,9 @@ class Pacman : public SDL_FRect
 {
 public:
   Pacman(float width, float height);
-  void update();
+
+  void move();
+  void adjust_x_y_velocity_on_direction(Direction direction_to_go_to);
   bool alive();
 
   // TODO: I do not like that almost everything is public! make privates and setters and getters
@@ -27,6 +29,7 @@ public:
   float velocity_y{velocity};
 
   Direction direction = Direction::left;
+  Direction wanted_direction = direction;
 
 private:
   bool alive_{true};

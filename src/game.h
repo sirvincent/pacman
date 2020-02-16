@@ -26,6 +26,8 @@ private:
 
   bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
 
+  bool checkMoveInBounds(SDL_FRect rectangle);
+
   std::size_t screen_width_;
   std::size_t screen_height_;
   std::size_t grid_width_;

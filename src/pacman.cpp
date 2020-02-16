@@ -12,10 +12,17 @@ Pacman::Pacman(float width, float height)
   h = height;
 }
 
-void Pacman::update()
+void Pacman::move()
 {
-  // TODO: currently movement is frame based, I prefer time based for understandable physics
-  switch (direction)
+  // TODO: currently movement is frame based, I prefer time based for understandable physics}
+
+  x += velocity_x;
+  y += velocity_y;
+}
+
+void Pacman::adjust_x_y_velocity_on_direction(Direction direction_to_go_to)
+{
+  switch (direction_to_go_to)
   {
     case Direction::up:
       velocity_y = -velocity;
@@ -34,8 +41,6 @@ void Pacman::update()
       velocity_x = velocity;
       break;
   }
-  x += velocity_x;
-  y += velocity_y;
 }
 
 bool Pacman::alive()
