@@ -8,16 +8,15 @@
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  level_(screen_width, screen_height, grid_width, grid_height),
   pacman_(grid_width, grid_height)
 {
-  // TODO: No need for level_ to be part of the object, it can be destructed after loading in
-  level_.load();
+  Level level(screen_width, screen_height, grid_width, grid_height);
+  level.load();
   // TODO: this smells
-  dots_  = std::move(level_.dots_);
-  walls_ = std::move(level_.walls_);
-  pacman_.x = level_.player_.x;
-  pacman_.y = level_.player_.y;
+  dots_  = std::move(level.dots_);
+  walls_ = std::move(level.walls_);
+  pacman_.x = level.player_.x;
+  pacman_.y = level.player_.y;
 }
 
 
