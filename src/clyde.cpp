@@ -5,7 +5,7 @@
 
 namespace Ghosts {
 
-Clyde::Clyde(float width, float height) : Ghost(0xF3, 0x9C, 0x12, 0xFF)
+Clyde::Clyde(float width, float height, float speed) : Ghost(0xF3, 0x9C, 0x12, 0xFF, speed)
 {
   x = 0.0f;
   y = 0.0f;
@@ -16,7 +16,6 @@ Clyde::Clyde(float width, float height) : Ghost(0xF3, 0x9C, 0x12, 0xFF)
 void Clyde::move()
 {
   // TODO: clyde should be pokey
-  std::cout << "I am clyde" << std::endl;
 
 }
 
