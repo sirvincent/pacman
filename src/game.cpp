@@ -8,24 +8,16 @@
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  pacman_(screen_width / 2, screen_height / 2, grid_width, grid_height)
+  level_(screen_width, screen_height, grid_width, grid_height),
+  pacman_(grid_width, grid_height)
 {
-  // TODO: dots is placed on stack but do we want it on the heap?
-  unsigned int radius = grid_width / 4;
-  std::size_t ratio_width  = screen_width  / grid_width;
-  std::size_t ratio_height = screen_height / grid_height;
-  for (std::size_t w = 0; w < ratio_width; ++w)
-  {
-    for (std::size_t h = 0; h < ratio_height; ++ h)
-    {
-      Dot dot(w * grid_width + grid_width / 2 - radius / 2,
-              h * grid_height + grid_height / 2 - radius / 2,
-              radius);
-      dots_.push_back(std::move(dot));
-    }
-  }
-
-  assert(dots_.size() == ratio_width * ratio_height);
+  // TODO: No need for level_ to be part of the object, it can be destructed after loading in
+  level_.load();
+  // TODO: this smells
+  dots_  = std::move(level_.dots_);
+  walls_ = std::move(level_.walls_);
+  pacman_.x = level_.player_.x;
+  pacman_.y = level_.player_.y;
 }
 
 
@@ -35,6 +27,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+
   while (running) {
     uint32_t frame_start = SDL_GetTicks();
 
@@ -42,7 +35,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     update();
 
-    renderer.render(pacman_, dots_);
+    renderer.render(pacman_, dots_, walls_);
 
 
     // TODO: enforce frame duration, move into separate function
@@ -62,6 +55,19 @@ void Game::run(Controller const &controller, Renderer &renderer,
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
+}
+
+
+bool Game::checkRectangleCollision(SDL_Rect const &rectangle, std::vector<SDL_Rect> &other)
+{
+  for (auto it = other.begin(); it != other.end(); ++it)
+  {
+    if (checkRectangleCollision(rectangle, *it))
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 // TODO: come up with a better short name than other for other rectangle
@@ -104,26 +110,29 @@ void Game::update() {
     return;
   }
 
-  pacman_.update();
 
-
+  // Based on lazy foos tutorial logic is simpler if moving x and y separately not both
+  pacman_.move_x();
+  // TODO: inherent from rectangle to circumvent this boiler plate code
+  SDL_Rect pacman_rectangle;
+  pacman_rectangle.x = pacman_.x;
+  pacman_rectangle.y = pacman_.y;
+  pacman_rectangle.w = pacman_.width;
+  pacman_rectangle.h = pacman_.height;
   // TODO: is it Game task to manage if pacman moves out of screen? I think so since it knows about the screen
-  if (pacman_.x < 0)
+  if (pacman_.x < 0 || pacman_.x > (screen_width_ - pacman_.width) || checkRectangleCollision(pacman_rectangle, walls_))
   {
-    pacman_.x = 0;
-  }
-  else if (pacman_.x > (screen_width_ - pacman_.width))
-  {
-    pacman_.x = screen_width_ - pacman_.width;
+    pacman_.x -= pacman_.velocity_x;
   }
 
-  if (pacman_.y < 0)
+  pacman_.move_y();
+  pacman_rectangle.x = pacman_.x;
+  pacman_rectangle.y = pacman_.y;
+  pacman_rectangle.w = pacman_.width;
+  pacman_rectangle.h = pacman_.height;
+  if (pacman_.y < 0 || pacman_.y > (screen_height_ - pacman_.height) || checkRectangleCollision(pacman_rectangle, walls_))
   {
-    pacman_.y = 0;
-  }
-  else if (pacman_.y > (screen_height_ - pacman_.height))
-  {
-    pacman_.y = screen_height_ - pacman_.height;
+    pacman_.y -= pacman_.velocity_y;
   }
 
   // it should only be possible that pacman collides with 1 dot! not multiple, in case pacman moves along
@@ -150,7 +159,6 @@ void Game::update() {
       dots_.erase(it);
       break;
     }
-
   }
 
   // Handle interaction pacman with environment, dots, walls or ghost
