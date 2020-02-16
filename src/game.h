@@ -4,9 +4,12 @@
 #include "renderer.h"
 #include "dot.h"
 #include "pacman.h"
+#include "ghost.h"
 #include "level.h"
 
 #include "SDL.h"
+
+#include <memory>
 
 
 class Game {
@@ -32,6 +35,7 @@ private:
   std::vector<Dot> dots_;
   std::vector<Dot> pellets_;
   std::vector<SDL_Rect> walls_;
+  std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
 
 

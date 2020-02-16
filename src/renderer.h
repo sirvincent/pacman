@@ -2,11 +2,13 @@
 
 #include "pacman.h"
 #include "dot.h"
-
+#include "ghost.h"
 
 #include "SDL.h"
 
 #include <vector>
+#include <memory>
+
 
 class Renderer {
  public:
@@ -15,7 +17,7 @@ class Renderer {
   ~Renderer();
 
   void render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<Dot> const &pellets_,
-              std::vector<SDL_Rect> const &walls_);
+              std::vector<SDL_Rect> const &walls_, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts);
   void updateWindowTitle(int score, int fps);
 
  private:

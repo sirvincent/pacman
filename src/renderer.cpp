@@ -1,4 +1,5 @@
 #include "renderer.h"
+
 #include <iostream>
 #include <string>
 
@@ -35,7 +36,8 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<Dot> const &pellets_, std::vector<SDL_Rect> const &walls_)
+void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<Dot> const &pellets_,
+                      std::vector<SDL_Rect> const &walls_, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts)
 {
   SDL_SetRenderDrawColor(sdl_renderer_, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer_);
@@ -92,7 +94,6 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots_, std::
   {
     SDL_RenderFillRect(sdl_renderer_, &wall);
   }
-
 
   SDL_RenderPresent(sdl_renderer_);
 }

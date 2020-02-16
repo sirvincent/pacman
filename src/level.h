@@ -1,6 +1,11 @@
 #pragma once
 
 #include "dot.h"
+#include "blinky.h"
+#include "clyde.h"
+#include "pinky.h"
+#include "inky.h"
+#include "ghost.h"
 
 #include "SDL.h"
 
@@ -8,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
+#include <memory>
 
 
 class Level {
@@ -17,6 +23,7 @@ public:
   std::vector<Dot> dots_;
   std::vector<Dot> pellets_;
   std::vector<SDL_Rect> walls_;
+  std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
   SDL_Point player_ = {-1, -1};
 
   void convertCharacterToGameObject(char const character, unsigned int x, unsigned int y);

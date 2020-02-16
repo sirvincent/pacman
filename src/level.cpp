@@ -47,6 +47,22 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
       player_.y = y * grid_height_;
     }
   }
+  else if (character == 'b')
+  {
+    ghosts_.push_back(std::make_unique<Ghosts::Blinky>());
+  }
+  else if (character == 'c')
+  {
+    ghosts_.push_back(std::make_unique<Ghosts::Clyde>());
+  }
+  else if (character == 'i')
+  {
+    ghosts_.push_back(std::make_unique<Ghosts::Inky>());
+  }
+  else if (character == 'y')
+  {
+    ghosts_.push_back(std::make_unique<Ghosts::Pinky>());
+  }
 
 }
 
