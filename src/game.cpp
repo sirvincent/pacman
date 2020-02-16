@@ -103,7 +103,7 @@ bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &o
   return true;
 }
 
-void Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
+bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
 {
   for (auto it = dots.begin(); it != dots.end(); ++it)
   {
@@ -118,11 +118,11 @@ void Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
     {
       score_ += it->score();
       dots.erase(it);
-      break;
+      return true;
     }
   }
 
-
+  return false;
 }
 
 void Game::update() {
@@ -146,7 +146,10 @@ void Game::update() {
   }
 
   handlePacmanDotCollisions(pacman_, dots_);
-  handlePacmanDotCollisions(pacman_, pellets_);
+  if (handlePacmanDotCollisions(pacman_, pellets_))
+  {
+    // TODO: ghosts get scared and edible
+  }
 }
 
 int Game::score() const
