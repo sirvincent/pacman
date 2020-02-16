@@ -28,6 +28,7 @@ private:
 
   Pacman pacman_;
   std::vector<Dot> dots_;
+  std::vector<Dot> pellets_;
   std::vector<SDL_Rect> walls_;
 
 

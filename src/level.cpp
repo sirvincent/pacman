@@ -19,6 +19,15 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
             radius);
     dots_.push_back(std::move(dot));
   }
+  else if (character == 'p')
+  {
+    // TODO: should be twice as large as dot, so use dot radius
+    unsigned int radius = grid_width_ / 2;
+    Dot pellet(x * grid_width_  + grid_width_  / 2 - radius / 2,
+               y * grid_height_ + grid_height_ / 2 - radius / 2,
+               radius, pellet_score);
+    pellets_.push_back(std::move(pellet));
+  }
   else if (character == '=')
   {
     SDL_Rect wall;
@@ -28,7 +37,7 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
     wall.h = grid_height_;
     walls_.push_back((std::move(wall)));
   }
-  else if (character == 'p')
+  else if (character == 'P')
   {
     // TODO: circumvents that only a single p is in playing field, but it seems to me that this should
     //       be the job of the level loader to check if there is only ONE p

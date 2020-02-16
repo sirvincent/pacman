@@ -3,6 +3,7 @@
 #include "pacman.h"
 #include "dot.h"
 
+
 #include "SDL.h"
 
 #include <vector>
@@ -13,7 +14,8 @@ class Renderer {
            const std::size_t grid_width_, const std::size_t grid_height_);
   ~Renderer();
 
-  void render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<SDL_Rect> const &walls_);
+  void render(Pacman const &pacman, std::vector<Dot> const &dots_, std::vector<Dot> const &pellets_,
+              std::vector<SDL_Rect> const &walls_);
   void updateWindowTitle(int score, int fps);
 
  private:

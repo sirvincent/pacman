@@ -13,8 +13,9 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
   // TODO: this smells
-  dots_  = std::move(level.dots_);
-  walls_ = std::move(level.walls_);
+  dots_     = std::move(level.dots_);
+  pellets_  = std::move(level.pellets_);
+  walls_    = std::move(level.walls_);
   pacman_.x = level.player_.x;
   pacman_.y = level.player_.y;
 }
@@ -34,7 +35,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     update();
 
-    renderer.render(pacman_, dots_, walls_);
+    renderer.render(pacman_, dots_, pellets_, walls_);
 
 
     // TODO: enforce frame duration, move into separate function
@@ -122,9 +123,6 @@ void Game::update() {
     pacman_.y -= pacman_.velocity_y;
   }
 
-  // it should only be possible that pacman collides with 1 dot! not multiple, in case pacman moves along
-  // the cells of the grid and not on the grid it will be fine else not.
-  // hence currently it can fail due to that pacman is not precisely on the grid!
   for (auto it = dots_.begin(); it != dots_.end(); ++it)
   {
     // TODO: give Dot a member to rectanlge?
@@ -142,7 +140,22 @@ void Game::update() {
     }
   }
 
-  // Handle interaction pacman with environment, dots, walls or ghost
+  for (auto it = pellets_.begin(); it != pellets_.end(); ++it)
+  {
+    // TODO: give Dot a member to rectanlge?
+    SDL_Rect dot_rectangle;
+    dot_rectangle.x = it->x();
+    dot_rectangle.y = it->y();
+    dot_rectangle.w = it->radius();
+    dot_rectangle.h = it->radius();
+
+    if (checkRectangleCollision(pacman_, dot_rectangle))
+    {
+      score_ += it->score();
+      pellets_.erase(it);
+      break;
+    }
+  }
 }
 
 int Game::score() const
