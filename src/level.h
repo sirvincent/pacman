@@ -27,7 +27,7 @@ public:
   SDL_Point player_ = {-1, -1};
 
   void convertCharacterToGameObject(char const character, unsigned int x, unsigned int y);
-  void load(std::string directory = "levels", std::string filename = "default");
+  void load(std::string const &directory = "levels", std::string const &filename = "default");
 
 private:
   std::size_t const screen_width_;

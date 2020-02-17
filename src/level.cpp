@@ -79,7 +79,7 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
 }
 
 
-void Level::load(std::string directory, std::string filename)
+void Level::load(std::string const &directory, std::string const &filename)
 {
   std::filesystem::path path = std::filesystem::current_path();
   path = path.parent_path();
