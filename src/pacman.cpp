@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-Pacman::Pacman(float width, float height)
+Pacman::Pacman(float width, float height, float speed) :
+  Movement(speed, speed, speed, speed)
 {
   // x,y are initialized to 0.0f since I want to circumvent uninitialized members
   x = 0.0f;
@@ -12,18 +13,20 @@ Pacman::Pacman(float width, float height)
   h = height;
 }
 
-void Pacman::move_x()
+void Pacman::move()
 {
-  // TODO: currently movement is frame based, I prefer time based for understandable physics
-  x += velocity_x;
+  // TODO: currently movement is frame based, I prefer time based for understandable physics}
+
+  x += velocity_x_;
+  y += velocity_y_;
 }
 
-void Pacman::move_y()
+bool Pacman::alive() const
 {
-  y += velocity_y;
+  return alive_;
 }
 
-bool Pacman::alive()
+void Pacman::alive(bool alive)
 {
-  return true;
+  alive_ = alive;
 }

@@ -1,23 +1,25 @@
 #pragma once
 
+#include "movement.h"
+
 #include "SDL.h"
 
 #include <vector>
 
-class Pacman : public SDL_FRect
+
+class Pacman : public SDL_FRect, public Movement
 {
 public:
-  Pacman(float width, float height);
-  void move_x();
-  void move_y();
-  bool alive();
+  Pacman(float width, float height, float speed);
 
-  // TODO: I do not like that almost everything is public! make privates and setters and getters
+  void move();
 
-  static float constexpr velocity{2.0f};
+  bool alive() const;
+  void alive(bool alive);
 
-  float velocity_x{0.0f};
-  float velocity_y{0.0f};
+  // TODO: move into Movement?
+  Movement::Direction direction = Movement::Direction::left;
+  Movement::Direction wanted_direction = direction;
 
 private:
   bool alive_{true};

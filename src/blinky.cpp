@@ -5,7 +5,7 @@
 
 namespace Ghosts {
 
-Blinky::Blinky(float width, float height) : Ghost(0xCB, 0x43, 0x35, 0xFF)
+Blinky::Blinky(float width, float height, float speed) : Ghost(0xCB, 0x43, 0x35, 0xFF, speed)
 {
   x = 0.0f;
   y = 0.0f;
@@ -13,42 +13,25 @@ Blinky::Blinky(float width, float height) : Ghost(0xCB, 0x43, 0x35, 0xFF)
   h = height;
 }
 
+void Blinky::moveMethod()
+{
+  // TODO: is it not expensive to repeat the following lines for each move?
+  long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
+  if (time_passed_since_last_update > method_duration_)
+  {
+    std::random_device random;
+    std::mt19937 generator(random());
+    std::uniform_int_distribution<uint8_t> distribution(0, 3);
+
+    wanted_direction = static_cast<Movement::Direction>(distribution(generator));
+    last_update_ = std::chrono::system_clock::now();
+  }
+}
+
 void Blinky::move()
 {
-
-  // TODO: is it not expensive to repeat the following lines for each move?
-  std::random_device random;
-  std::mt19937 generator(random());
-  std::uniform_int_distribution<uint8_t> distribution(0, 3);
-
   // TODO: blinky should shadow the player
   //       use A* for this
-
-  // TODO: returns an uint8_t and the enum class Direction underlying type is also uint8_t how
-  //       to ensure?
-  Ghosts::Direction direction = static_cast<Ghosts::Direction>(distribution(generator));
-  std::cout << "I am blinky" << std::endl;
-  std::cout << "moving: " << unsigned(direction) << std::endl;
-
-  switch (direction)
-  {
-    case Ghosts::Direction::up:
-      velocity_y_ = -velocity_;
-      velocity_x_ = 0;
-      break;
-    case Ghosts::Direction::down:
-      velocity_y_ = velocity_;
-      velocity_x_ = 0;
-      break;
-    case Ghosts::Direction::left:
-      velocity_y_ = 0;
-      velocity_x_ = -velocity_;
-      break;
-    case Ghosts::Direction::right:
-      velocity_y_ = 0;
-      velocity_x_ = velocity_;
-      break;
-  }
 
   x += velocity_x_;
   y += velocity_y_;

@@ -21,10 +21,19 @@ public:
   int getSize() const;
 
 private:
-  bool checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
-  bool checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other);
+  bool checkRectangleCollisions(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
+  template<typename RECTANGLE, typename OTHER>
+  bool checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &other);
 
   bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
+  void handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> &ghosts);
+
+  template <typename CHARACTER>
+  void moveCharacter(CHARACTER &character);
+
+  bool checkMoveInBounds(SDL_FRect rectangle);
+
+  void update(bool &running);
 
   std::size_t screen_width_;
   std::size_t screen_height_;
@@ -37,10 +46,14 @@ private:
   std::vector<SDL_Rect> walls_;
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
-
+  bool scared_ghosts_{false};
+  std::chrono::time_point<std::chrono::system_clock> start_scared_ghosts_ = std::chrono::system_clock::now();
+  int const duration_scared_ghosts_{10000};
 
   int score_{0};
-  static unsigned int constexpr time_between_title_update_{1000};
 
-  void update();
+  static unsigned int constexpr time_between_title_update_{1000};
+  // TODO: feels as if this is not the correct place to store this variable, maybe in main?
+  static float constexpr pacman_speed = 2.0f;
+
 };
