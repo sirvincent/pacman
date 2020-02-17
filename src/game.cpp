@@ -205,6 +205,7 @@ bool Game::checkMoveInBounds(SDL_FRect rectangle)
 void Game::update(bool &running) {
   if (!pacman_.alive())
   {
+    // TODO: go to game over screen
     std::cout << "pacman is dead" << std::endl;
     running = false;
     return;
@@ -249,6 +250,14 @@ void Game::update(bool &running) {
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);
+
+  if (dots_.size() == 0 && pellets_.size() == 0)
+  {
+    // TODO: go to victory screen
+    std::cout << "you won! Congratulations" << std::endl;
+    running = false;
+    return;
+  }
 }
 
 int Game::score() const
