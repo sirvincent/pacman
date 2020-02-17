@@ -23,3 +23,8 @@ private:
   int score_{10};
 };
 
+
+namespace Dots
+{
+  static int constexpr pellet_score{50};
+}

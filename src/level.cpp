@@ -25,7 +25,7 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
     unsigned int radius = grid_width_ / 2;
     Dot pellet(x * grid_width_  + grid_width_  / 2 - radius / 2,
                y * grid_height_ + grid_height_ / 2 - radius / 2,
-               radius, pellet_score);
+               radius, Dots::pellet_score);
     pellets_.push_back(std::move(pellet));
   }
   else if (character == '=')

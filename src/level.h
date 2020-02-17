@@ -34,8 +34,6 @@ private:
   std::size_t const screen_height_;
   std::size_t const grid_width_;
   std::size_t const grid_height_;
-  // TODO: should this be part of Level or Game?
-  static int constexpr pellet_score{50};
 
 
 };
