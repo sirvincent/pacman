@@ -22,3 +22,8 @@ private:
 };
 
 }
+
+namespace Clyde
+{
+constexpr float speed{2.1f};
+}

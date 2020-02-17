@@ -26,7 +26,5 @@ private:
 
 namespace Blinky
 {
-
 constexpr float speed{2.1f};
-
 }

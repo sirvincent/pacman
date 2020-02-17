@@ -22,3 +22,8 @@ private:
 };
 
 }
+
+namespace Inky
+{
+constexpr float speed{2.1f};
+}

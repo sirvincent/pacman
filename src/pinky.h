@@ -23,3 +23,8 @@ private:
 };
 
 }
+
+namespace Pinky
+{
+constexpr float speed{2.4f};
+}

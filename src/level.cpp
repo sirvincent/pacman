@@ -56,22 +56,21 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
   }
   else if (character == 'c')
   {
-    // TODO: temporarily use blinky's speed, testing if I like the namespaced constexpr
-    auto clyde = std::make_unique<Ghosts::Clyde>(grid_width_, grid_height_, Blinky::speed);
+    auto clyde = std::make_unique<Ghosts::Clyde>(grid_width_, grid_height_, Clyde::speed);
     clyde->x = x * grid_width_;
     clyde->y = y * grid_height_;
     ghosts_.push_back(std::move(clyde));
   }
   else if (character == 'i')
   {
-    auto inky = std::make_unique<Ghosts::Inky>(grid_width_, grid_height_, Blinky::speed);
+    auto inky = std::make_unique<Ghosts::Inky>(grid_width_, grid_height_, Inky::speed);
     inky->x = x * grid_width_;
     inky->y = y * grid_height_;
     ghosts_.push_back(std::move(inky));
   }
   else if (character == 'y')
   {
-    auto pinky = std::make_unique<Ghosts::Pinky>(grid_width_, grid_height_, Blinky::speed);
+    auto pinky = std::make_unique<Ghosts::Pinky>(grid_width_, grid_height_, Pinky::speed);
     pinky->x = x * grid_width_;
     pinky->y = y * grid_height_;
     ghosts_.push_back(std::move(pinky));
