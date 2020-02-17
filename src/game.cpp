@@ -34,7 +34,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     controller.handleInput(running, pacman_);
 
-    running = update();
+    update(running);
 
     renderer.render(pacman_, dots_, pellets_, walls_, ghosts_);
 
@@ -177,11 +177,11 @@ bool Game::checkMoveInBounds(SDL_FRect rectangle)
   return true;
 }
 
-bool Game::update() {
+void Game::update(bool &running) {
   if (!pacman_.alive())
   {
     std::cout << "pacman is dead" << std::endl;
-    return false;
+    running = false;
   }
 
 
@@ -208,8 +208,6 @@ bool Game::update() {
       pacman_.alive(false);
     }
   }
-
-  return true;
 }
 
 int Game::score() const
