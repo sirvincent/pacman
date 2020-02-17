@@ -21,8 +21,9 @@ public:
   int getSize() const;
 
 private:
-  bool checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
-  bool checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other);
+  bool checkRectangleCollisions(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other);
+  template<typename RECTANGLE, typename OTHER>
+  bool checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &other);
 
   bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
 

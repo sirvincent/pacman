@@ -58,11 +58,11 @@ void Game::run(Controller const &controller, Renderer &renderer,
 }
 
 
-bool Game::checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other)
+bool Game::checkRectangleCollisions(SDL_FRect const &rectangle, std::vector<SDL_Rect> &other)
 {
   for (auto it = other.begin(); it != other.end(); ++it)
   {
-    if (checkRectangleCollision(rectangle, *it))
+    if (checkRectangleCollision<SDL_FRect, SDL_Rect>(rectangle, *it))
     {
       return true;
     }
@@ -71,19 +71,22 @@ bool Game::checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_R
 }
 
 // TODO: come up with a better short name than other for other rectangle
-bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other)
+template<typename RECTANGLE, typename OTHER>
+bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &other)
 {
+  // TODO: I picked the largest type of SDL_FRect and SDL_Rect but is there a way to deduce
+  //       this type from the object?
   float const left_rectangle   = rectangle.x;
   float const right_rectangle  = rectangle.x + rectangle.w;
   float const top_rectangle    = rectangle.y;
   float const bottom_rectangle = rectangle.y + rectangle.h;
 
-  int const left_other   = other.x;
-  int const right_other  = other.x + other.w;
-  int const top_other    = other.y;
-  int const bottom_other = other.y + other.h;
+  float const left_other   = other.x;
+  float const right_other  = other.x + other.w;
+  float const top_other    = other.y;
+  float const bottom_other = other.y + other.h;
 
-  // check collision based on separating axis
+  // check if not colliding based on separating axis
   if (bottom_rectangle <= top_other)
   {
     return false;
@@ -115,7 +118,7 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
     dot_rectangle.w = it->radius();
     dot_rectangle.h = it->radius();
 
-    if (checkRectangleCollision(pacman, dot_rectangle))
+    if (checkRectangleCollision<SDL_FRect, SDL_Rect>(pacman, dot_rectangle))
     {
       score_ += it->score();
       dots.erase(it);
@@ -162,11 +165,11 @@ void Game::moveCharacter(CHARACTER &character)
 
 bool Game::checkMoveInBounds(SDL_FRect rectangle)
 {
-  if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollision(rectangle, walls_))
+  if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
   }
-  if (rectangle.y < 0 || rectangle.y > (screen_height_ - rectangle.h) || checkRectangleCollision(rectangle, walls_))
+  if (rectangle.y < 0 || rectangle.y > (screen_height_ - rectangle.h) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
   }
