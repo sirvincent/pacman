@@ -46,7 +46,7 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::v
   SDL_SetRenderDrawColor(sdl_renderer_, 0xFF, 0xFF, 0x00, 0xFF);
   SDL_RenderFillRectF(sdl_renderer_, &pacman);
 
-  SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0x51, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer_, 0xF9, 0xE7, 0x9F, 0xFF);
   for (Dot dot : dots)
   {
     SDL_Rect rectangle;
@@ -60,7 +60,7 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::v
     SDL_RenderFillRect(sdl_renderer_, &rectangle);
   }
 
-  SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0xAF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer_, 0xF9, 0xE7, 0x9F, 0xFF);
   for (Dot pellet : pellets)
   {
     SDL_Rect rectangle;
@@ -74,7 +74,7 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::v
     SDL_RenderFillRect(sdl_renderer_, &rectangle);
   }
 
-  SDL_SetRenderDrawColor(sdl_renderer_, 0xA4, 0x54, 0x00, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer_, 0x0D, 0x44, 0xAF, 0xFF);
   for (SDL_Rect wall : walls)
   {
     SDL_RenderFillRect(sdl_renderer_, &wall);
