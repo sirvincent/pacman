@@ -42,8 +42,7 @@ protected:
   bool scared_{false};
 
 private:
-  // TODO: should be const
-  int score_{200};
+  int const score_{200};
 
   std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba_{0xFF, 0xFF, 0xFF, 0xFF};
 };
