@@ -21,7 +21,12 @@ void Pacman::move()
   y += velocity_y_;
 }
 
-bool Pacman::alive()
+bool Pacman::alive() const
 {
-  return true;
+  return alive_;
+}
+
+void Pacman::alive(bool alive)
+{
+  alive_ = alive;
 }

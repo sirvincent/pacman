@@ -13,7 +13,9 @@ public:
   Pacman(float width, float height, float speed);
 
   void move();
-  bool alive();
+
+  bool alive() const;
+  void alive(bool alive);
 
   // TODO: move into Movement?
   Movement::Direction direction = Movement::Direction::left;
