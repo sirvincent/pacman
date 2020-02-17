@@ -15,6 +15,8 @@ Blinky::Blinky(float width, float height, float speed) : Ghost(0xCB, 0x43, 0x35,
 
 void Blinky::moveMethod()
 {
+  // TODO: blinky should shadow the player
+  //       use A* for this
   // TODO: is it not expensive to repeat the following lines for each move?
   long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
   if (time_passed_since_last_update > method_duration_)
@@ -26,15 +28,6 @@ void Blinky::moveMethod()
     wanted_direction = static_cast<Movement::Direction>(distribution(generator));
     last_update_ = std::chrono::system_clock::now();
   }
-}
-
-void Blinky::move()
-{
-  // TODO: blinky should shadow the player
-  //       use A* for this
-
-  x += velocity_x_;
-  y += velocity_y_;
 }
 
 }

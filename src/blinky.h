@@ -14,7 +14,6 @@ class Blinky : public Ghost
 public:
   Blinky() = delete;
   Blinky(float width, float height, float speed);
-  void move() override;
   void moveMethod() override;
 
 private:

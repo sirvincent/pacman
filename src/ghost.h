@@ -19,7 +19,12 @@ public:
   Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
     rgba_({red, green, blue, alpha}), Movement(speed, speed, speed, speed) {}
 
-  virtual void move() { std::cout << "ghost" << std::endl; }
+  void move()
+  {
+    x += velocity_x_;
+    y += velocity_y_;
+  }
+
   virtual void moveMethod() { std::cout << "ghost move method" << std::endl; };
 
   inline bool edible() const { return edible_; }

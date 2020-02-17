@@ -13,7 +13,6 @@ class Inky : public Ghost
 public:
   Inky(float width, float height, float speed);
 
-  void move() override;
   void moveMethod() override;
 
 private:
