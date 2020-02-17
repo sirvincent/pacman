@@ -73,10 +73,10 @@ bool Game::checkRectangleCollision(SDL_FRect const &rectangle, std::vector<SDL_R
 // TODO: come up with a better short name than other for other rectangle
 bool Game::checkRectangleCollision(SDL_FRect const &rectangle, SDL_Rect const &other)
 {
-  int const left_rectangle   = rectangle.x;
-  int const right_rectangle  = rectangle.x + rectangle.w;
-  int const top_rectangle    = rectangle.y;
-  int const bottom_rectangle = rectangle.y + rectangle.h;
+  float const left_rectangle   = rectangle.x;
+  float const right_rectangle  = rectangle.x + rectangle.w;
+  float const top_rectangle    = rectangle.y;
+  float const bottom_rectangle = rectangle.y + rectangle.h;
 
   int const left_other   = other.x;
   int const right_other  = other.x + other.w;
