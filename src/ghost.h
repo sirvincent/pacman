@@ -21,9 +21,15 @@ public:
 
   virtual void move() { std::cout << "ghost" << std::endl; }
   virtual void moveMethod() { std::cout << "ghost move method" << std::endl; };
+
   inline bool edible() const { return edible_; }
+  inline void edible(bool const edible) { /* TODO: change sprite to scared */ edible_ = edible; }
+
   inline bool scared() const { return scared_; }
+  inline void scared(bool const scared) { /* TODO: change sprite to scared */ scared_ = scared; }
+
   inline int score() const { return score_; }
+
   inline std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba() const { return rgba_; }
 
 

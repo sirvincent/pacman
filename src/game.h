@@ -26,6 +26,7 @@ private:
   bool checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &other);
 
   bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
+  void handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> &ghosts);
 
   template <typename CHARACTER>
   void moveCharacter(CHARACTER &character);
@@ -44,6 +45,10 @@ private:
   std::vector<Dot> pellets_;
   std::vector<SDL_Rect> walls_;
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
+
+  bool scared_ghosts_{false};
+  std::chrono::time_point<std::chrono::system_clock> start_scared_ghosts_ = std::chrono::system_clock::now();
+  int const duration_scared_ghosts_{10000};
 
   int score_{0};
 

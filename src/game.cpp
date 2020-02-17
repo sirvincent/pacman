@@ -70,6 +70,7 @@ bool Game::checkRectangleCollisions(SDL_FRect const &rectangle, std::vector<SDL_
   return false;
 }
 
+
 // TODO: come up with a better short name than other for other rectangle
 template<typename RECTANGLE, typename OTHER>
 bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &other)
@@ -129,6 +130,30 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
   return false;
 }
 
+void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> &ghosts)
+{
+  for (auto it = ghosts.begin(); it != ghosts.end(); ++it)
+  {
+    // TODO: to be representative of pacman die once the ghost completely or almost completely overlaps pacman
+    //       not when they start to touch
+    if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
+    {
+      if ((*it)->edible())
+      {
+        score_ += (*it)->score();
+        // TODO: not representative of pacman, ghost should remain alive but go back to its cage in the center
+        ghosts.erase(it);
+        return;
+      }
+      else
+      {
+        pacman_.alive(false);
+      }
+    }
+  }
+
+}
+
 
 // require CHARACTER is a SDL_Rect or SDL_FRect object
 // require CHARACTER is a Movement object
@@ -182,11 +207,15 @@ void Game::update(bool &running) {
   {
     std::cout << "pacman is dead" << std::endl;
     running = false;
+    return;
   }
 
 
   moveCharacter<Pacman>(pacman_);
 
+  // TODO: We might parallize this once the move methods become complicated.
+  //       However the game loop should complete in 16.67 ms for 60 FPS so the cost of starting a thread
+  //       should be worth it, currently I do not think it is.
   for (auto &ghost : ghosts_)
   {
     ghost->moveMethod();
@@ -196,18 +225,30 @@ void Game::update(bool &running) {
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))
   {
-    // TODO: ghosts get scared and edible
+    if (!scared_ghosts_)
+    {
+      scared_ghosts_ = true;
+      start_scared_ghosts_ = std::chrono::system_clock::now();
+    }
+  }
+
+  if (scared_ghosts_)
+  {
+    long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_scared_ghosts_).count();
+    if (time_passed_since_last_update > duration_scared_ghosts_)
+    {
+      scared_ghosts_ = false;
+      start_scared_ghosts_ = std::chrono::system_clock::now();
+    }
   }
 
   for (auto &ghost : ghosts_)
   {
-    // TODO: to be representative of pacman die once the ghost completely or almost completely overlaps pacman
-    //       not when they start to touch
-    if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman_, *ghost))
-    {
-      pacman_.alive(false);
-    }
+    ghost->edible(scared_ghosts_);
+    ghost->scared(scared_ghosts_);
   }
+
+  handlePacmanGhostCollisions(pacman_, ghosts_);
 }
 
 int Game::score() const
