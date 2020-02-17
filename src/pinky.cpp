@@ -17,7 +17,6 @@ Pinky::Pinky(float width, float height, float speed) : Ghost(0xFD, 0x67, 0xFF, 0
 void Pinky::moveMethod()
 {
   // TODO: pinky should be speedy
-  // TODO: is it not expensive to repeat the following lines for each move?
   long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
   if (time_passed_since_last_update > method_duration_)
   {

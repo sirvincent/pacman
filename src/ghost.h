@@ -11,13 +11,13 @@
 namespace Ghosts
 {
 
-// TODO: I would like to make Ghost an abstract base class, however
-//       it seems incorrect to make it abstract while it inherets from SDL_FRect
+// Ghost was intended to be an abstract base class, but since we have a ghosts vector where we use
+// base ptr to derived objects this is not possible. I like the vector circumvents calling the 4 ghosts separately.
 class Ghost : public SDL_FRect, public Movement
 {
 public:
   Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
-    rgba_({red, green, blue, alpha}), Movement(speed, speed, speed, speed) {}
+    Movement(speed, speed, speed, speed), rgba_({red, green, blue, alpha}){}
 
   void move()
   {
@@ -25,7 +25,7 @@ public:
     y += velocity_y_;
   }
 
-  virtual void moveMethod() { std::cout << "ghost move method" << std::endl; };
+  virtual void moveMethod() { std::cout << "ghost move method" << std::endl; }
 
   inline bool edible() const { return edible_; }
   inline void edible(bool const edible) { /* TODO: change sprite to scared */ edible_ = edible; }

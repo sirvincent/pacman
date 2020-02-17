@@ -18,7 +18,6 @@ Inky::Inky(float width, float height, float speed) : Ghost(0x00, 0xF3, 0xFF, 0xF
 void Inky::moveMethod()
 {
   // TODO: inky should be bashfull
-  // TODO: is it not expensive to repeat the following lines for each move?
   long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
   if (time_passed_since_last_update > method_duration_)
   {

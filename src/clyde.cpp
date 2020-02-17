@@ -18,7 +18,6 @@ Clyde::Clyde(float width, float height, float speed) : Ghost(0xF3, 0x9C, 0x12, 0
 void Clyde::moveMethod()
 {
   // TODO: clyde should be pokey
-  // TODO: is it not expensive to repeat the following lines for each move?
   long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
   if (time_passed_since_last_update > method_duration_)
   {

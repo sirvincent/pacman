@@ -12,7 +12,7 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
 {
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
-  // TODO: this smells
+  // TODO: hmm is this a code smell?
   dots_     = std::move(level.dots_);
   pellets_  = std::move(level.pellets_);
   walls_    = std::move(level.walls_);
@@ -112,7 +112,7 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
 {
   for (auto it = dots.begin(); it != dots.end(); ++it)
   {
-    // TODO: give Dot a member to rectanlge?
+    // TODO: give Dot a member to rectanlge? Or simply do not have circular dots?
     SDL_Rect dot_rectangle;
     dot_rectangle.x = it->x();
     dot_rectangle.y = it->y();
@@ -134,8 +134,8 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
 {
   for (auto it = ghosts.begin(); it != ghosts.end(); ++it)
   {
-    // TODO: to be representative of pacman die once the ghost completely or almost completely overlaps pacman
-    //       not when they start to touch
+    // TODO: to be representative of pacman once the ghost completely or almost completely overlaps pacman
+    //       should pacman die not when they start to touch
     if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
     {
       if ((*it)->edible())
@@ -190,7 +190,7 @@ void Game::moveCharacter(CHARACTER &character)
 
 bool Game::checkMoveInBounds(SDL_FRect rectangle)
 {
-  // TODO: should allow the player to loop from left of screen to right if there is no wall at the edges!
+  // TODO: should allow the player to fold from left of screen to right if there is no wall at the edges!
   if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
@@ -217,7 +217,7 @@ void Game::update(bool &running) {
 
   // TODO: We might parallize this once the move methods become complicated.
   //       However the game loop should complete in 16.67 ms for 60 FPS so the cost of starting a thread
-  //       should be worth it, currently I do not think it is.
+  //       should be worth it, currently I do not think it is necessary to add this complexity
   for (auto &ghost : ghosts_)
   {
     ghost->moveMethod();

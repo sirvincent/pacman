@@ -9,7 +9,6 @@
 void Controller::handleInput(bool &running, Pacman &pacman) const
 {
   SDL_Event event;
-  // TODO: the movement stutters a bit!
   while (SDL_PollEvent(&event))
   {
     if (event.type == SDL_QUIT)

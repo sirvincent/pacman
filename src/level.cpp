@@ -11,8 +11,6 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
 {
   if (character == 'o')
   {
-    // TODO: Is it the job of level do the markup of Dot? or only to state hey look in this cell there is a dot!
-    //       Than the draw function uses the dot style when drawing?
     unsigned int radius = grid_width_ / 4;
     Dot dot(x * grid_width_  + grid_width_  / 2 - radius / 2,
             y * grid_height_ + grid_height_ / 2 - radius / 2,
