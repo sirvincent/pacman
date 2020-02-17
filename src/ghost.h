@@ -37,11 +37,6 @@ public:
 
   inline std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba() const { return rgba_; }
 
-
-  // TODO: move into Movement?
-  Movement::Direction direction = Movement::Direction::left;
-  Movement::Direction wanted_direction = direction;
-
 protected:
   bool edible_{false};
   bool scared_{false};

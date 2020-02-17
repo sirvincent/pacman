@@ -17,10 +17,8 @@ public:
   bool alive() const;
   void alive(bool alive);
 
-  // TODO: move into Movement?
-  Movement::Direction direction = Movement::Direction::left;
-  Movement::Direction wanted_direction = direction;
-
 private:
   bool alive_{true};
 };
+
+
