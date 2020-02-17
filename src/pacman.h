@@ -17,8 +17,11 @@ public:
   bool alive() const;
   void alive(bool alive);
 
+  static float constexpr pacman_speed = 2.0f;
+
 private:
   bool alive_{true};
+
 };
 
 

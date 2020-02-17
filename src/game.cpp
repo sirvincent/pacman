@@ -8,7 +8,7 @@
 
 Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  pacman_(grid_width, grid_height, pacman_speed)
+  pacman_(grid_width, grid_height, Pacman::pacman_speed)
 {
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
