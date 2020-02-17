@@ -15,6 +15,7 @@ public:
   void move();
   bool alive();
 
+  // TODO: move into Movement?
   Movement::Direction direction = Movement::Direction::left;
   Movement::Direction wanted_direction = direction;
 

@@ -30,8 +30,6 @@ void Blinky::moveMethod()
 
 void Blinky::move()
 {
-
-  std::cout << unsigned(wanted_direction) << std::endl;
   // TODO: blinky should shadow the player
   //       use A* for this
 

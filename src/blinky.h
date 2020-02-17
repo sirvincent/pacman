@@ -19,7 +19,7 @@ public:
 
 private:
   std::chrono::time_point<std::chrono::system_clock> last_update_ = std::chrono::system_clock::now();
-  double const method_duration_{500};
+  double const method_duration_{400};
 
 };
 
