@@ -32,6 +32,8 @@ private:
 
   bool checkMoveInBounds(SDL_FRect rectangle);
 
+  void update(bool &running);
+
   std::size_t screen_width_;
   std::size_t screen_height_;
   std::size_t grid_width_;
@@ -43,12 +45,10 @@ private:
   std::vector<SDL_Rect> walls_;
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
-
-
   int score_{0};
+
   static unsigned int constexpr time_between_title_update_{1000};
   // TODO: feels as if this is not the correct place to store this variable, maybe in main?
   static float constexpr pacman_speed = 2.0f;
 
-  void update(bool &running);
 };
