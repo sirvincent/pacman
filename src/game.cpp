@@ -190,6 +190,7 @@ void Game::moveCharacter(CHARACTER &character)
 
 bool Game::checkMoveInBounds(SDL_FRect rectangle)
 {
+  // TODO: should allow the player to loop from left of screen to right if there is no wall at the edges!
   if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
