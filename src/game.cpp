@@ -34,7 +34,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
 
     controller.handleInput(running, pacman_);
 
-    update();
+    running = update();
 
     renderer.render(pacman_, dots_, pellets_, walls_, ghosts_);
 
@@ -177,10 +177,11 @@ bool Game::checkMoveInBounds(SDL_FRect rectangle)
   return true;
 }
 
-void Game::update() {
+bool Game::update() {
   if (!pacman_.alive())
   {
-    return;
+    std::cout << "pacman is dead" << std::endl;
+    return false;
   }
 
 
@@ -198,6 +199,17 @@ void Game::update() {
     // TODO: ghosts get scared and edible
   }
 
+  for (auto &ghost : ghosts_)
+  {
+    // TODO: to be representative of pacman die once the ghost completely or almost completely overlaps pacman
+    //       not when they start to touch
+    if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman_, *ghost))
+    {
+      pacman_.alive(false);
+    }
+  }
+
+  return true;
 }
 
 int Game::score() const
