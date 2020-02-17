@@ -46,21 +46,6 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::v
   SDL_SetRenderDrawColor(sdl_renderer_, 0xFF, 0xFF, 0x00, 0xFF);
   SDL_RenderFillRectF(sdl_renderer_, &pacman);
 
-
-  // draw grid
-  std::size_t ratio_width = screen_width_ / grid_width_;
-  std::size_t ratio_height = screen_height_ / grid_height_;
-  SDL_SetRenderDrawColor(sdl_renderer_, 0x7D, 0x3C, 0x98, 0xFF);
-  for (std::size_t w = 0; w < ratio_width; ++w)
-  {
-    SDL_RenderDrawLine(sdl_renderer_, w * grid_width_, 0, w * grid_width_, screen_height_);
-  }
-  for (std::size_t h = 0; h < ratio_height; ++ h)
-  {
-    SDL_RenderDrawLine(sdl_renderer_, 0, h * grid_height_, screen_width_, h * grid_height_);
-  }
-
-
   SDL_SetRenderDrawColor(sdl_renderer_, 0x00, 0x51, 0xFF, 0xFF);
   for (Dot dot : dots)
   {
