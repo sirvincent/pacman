@@ -16,7 +16,7 @@ Once all the dots & pellets are collected the game closes and prints your score 
 If the pacman collides with a ghost it is game over and the window closes. Your score is printed to
 the console. Good luck with your new try!
 
-## Repoistory Structure
+## Repository Structure
 * All the source & header files can be found in src/
 * The levels can be found in levels/
 
@@ -50,55 +50,6 @@ the console. Good luck with your new try!
 * Renderer  uses SDL to draw with specified color in code the entities to the screen.
 * Controller currently only supports arrow keys on keyboard only. Controls the wanted direction of
   Pacman for moving. Also handles the case the user closes the window.
-
-## Udacity Rubric Points Specifications Met
-* The project demonstrates an understanding of C++ functions and control structures. \
-  Can be seen in all the sources.
-* The project reads data from a file and process the data, or the program writes data to a file.\
-  The program reads data from a file for setting the level entities: see Level::load in level.cpp
-* The project accepts user input and processes the input.\
-  Handled in Controller::handleInput in controller.cpp
-
-* The project uses Object Oriented Programming techniques.\
-  Can be seen in almost all the sources, e.g. pacman.cpp
-* Classes use appropriate access specifiers for class members.\
-  Can be seen in almost all the sources, e.g. pacman.cpp
-* Class constructors utilize member initialization lists.\
-  Can be seen in multiple places, e.g. pacman.cpp & Ghost.h
-* Classes abstract implementation details from their interfaces.\
-  Achieved by clear naming, see ghost.h members
-* Classes encapsulate behavior.\
-  For example see movement.h
-* Classes follow an appropriate inheritance hierarchy.\
-  For example see blinky.h, pacman.h, ghost.h
-* Derived class functions override virtual base class functions.\
-  See:
-  Blinky::moveMethod in blinky.h
-  Inky::moveMethod in inky.h
-  Pinky::moveMethod in pinky.h
-  Clyde::moveMethod in clyde.h
-* Templates generalize functions in the project.\
-  See Game::moveCharacter in game.cpp
-
-* The project makes use of references in function declarations.\
-  Can be seen in multiple places e.g. 
-  Game::moveCharacter in game.cpp
-  Game::update in game.cpp
-  Level::load in level.cpp
-* The project uses destructors appropriately.\
-  See Renderer::~Renderer in renderer.cpp 
-  However there are no other implemented destructors even though we have objects on the heap. 
-  unique_ptrs are used for these objects.
-* The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.\
-  See Level::convertCharacterToGameObjects line: 50, 57, 64, 71 i.e. when creating Ghosts in level.cpp
-  Scope is managed by the Level object first but are soon moved to Game where Game manages it
-* The project uses move semantics to move data, instead of copying it, where possible.\
-  See Game::Game line: 16-20 in game.cpp. Moving the Level ownership of entities to Game
-* The project uses smart pointers instead of raw pointers.\
-  See Level::convertCharacterToGameObjects line: 50, 57, 64, 71 i.e. when creating Ghosts in level.cpp
-  Which is put into a vector that will be moved to Game.
-  There is a raw ptr, see Game::handlePacmanGhostCollisions lineve 139 in game.cpp but it is
-  non-owning and hence follows core guidelines R.3.
 
 
 ## Notes
