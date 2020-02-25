@@ -3,31 +3,30 @@
 #include <iostream>
 
 
-// TODO: should this be screen width/height?
-Pacman::Pacman(std::size_t grid_width, std::size_t grid_height) :
-  x(grid_width / 2), y(grid_height / 2) {}
-
-void Pacman::update()
+Pacman::Pacman(float width, float height, float speed) :
+  Movement(speed, speed, speed, speed)
 {
-  switch (direction)
-  {
-    case Direction::kUp:
-      y -= speed_;
-      break;
-    case Direction::kDown:
-      y += speed_;
-      break;
-    case Direction::kLeft:
-      x -= speed_;
-      break;
-    case Direction::kRight:
-      x += speed_;
-      break;
-  }
-  // TODO: check if new x,y in side screen
+  // x,y are initialized to 0.0f since I want to circumvent uninitialized members
+  x = 0.0f;
+  y = 0.0f;
+  w = width;
+  h = height;
 }
 
-bool Pacman::alive()
+void Pacman::move()
 {
-  return true;
+  // TODO: currently movement is frame based, I prefer time based for understandable physics}
+
+  x += velocity_x_;
+  y += velocity_y_;
+}
+
+bool Pacman::alive() const
+{
+  return alive_;
+}
+
+void Pacman::alive(bool alive)
+{
+  alive_ = alive;
 }

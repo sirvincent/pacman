@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "movement.h"
 
 #include "SDL.h"
 
@@ -14,24 +15,24 @@ void Controller::handleInput(bool &running, Pacman &pacman) const
     {
       running = false;
     }
-    else if (event.type == SDL_KEYDOWN)
+    else if (event.type == SDL_KEYDOWN && event.key.repeat == 0)
     {
       switch (event.key.keysym.sym)
       {
         case SDLK_UP:
-          pacman.direction = Pacman::Direction::kUp;
+          pacman.wanted_direction = Movement::Direction::up;
           break;
 
         case SDLK_DOWN:
-          pacman.direction = Pacman::Direction::kDown;
+          pacman.wanted_direction = Movement::Direction::down;
           break;
 
         case SDLK_LEFT:
-          pacman.direction = Pacman::Direction::kLeft;
+          pacman.wanted_direction = Movement::Direction::left;
           break;
 
         case SDLK_RIGHT:
-          pacman.direction = Pacman::Direction::kRight;
+          pacman.wanted_direction = Movement::Direction::right;
           break;
       }
     }
