@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "image_loader.h"
 
 #include <cassert>
 #include <iostream>
@@ -37,6 +38,8 @@ int main(int argc, char **argv) {
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
   Game game(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  ImageLoader image_loader(executable_path);
+  image_loader.load_asset("pac-classic_c-toy");
   game.run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.score() << "\n";
