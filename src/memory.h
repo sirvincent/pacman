@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SDL2/SDL_surface.h>
 
 #include <memory>
