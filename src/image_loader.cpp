@@ -33,3 +33,4 @@ memory::unique_surface_ptr ImageLoader::load_asset(std::string const &relative_t
 
   return surface;
 }
+
