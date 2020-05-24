@@ -34,6 +34,9 @@ void Controller::handleInput(bool &running, Pacman &pacman) const
         case SDLK_RIGHT:
           pacman.wanted_direction = Movement::Direction::right;
           break;
+        case SDLK_ESCAPE:
+          running = false;
+          break;
       }
     }
   }
