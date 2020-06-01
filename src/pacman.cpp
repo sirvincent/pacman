@@ -26,10 +26,10 @@ void Pacman::initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::pa
 
   assert(sprite_sheet_ != nullptr);
 
-  construct_sprite_sheet_rectangles();
+  construct_movement_sprite_sheet_rectangles();
 }
 
-void Pacman::construct_sprite_sheet_rectangles()
+void Pacman::construct_movement_sprite_sheet_rectangles()
 {
   direction_rectangles_.insert({Movement::Direction::up,    SDL_Rect{556, 853, 138, 170}});
   direction_rectangles_.insert({Movement::Direction::down,  SDL_Rect{556, 5, 138, 170}});
