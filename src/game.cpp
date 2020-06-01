@@ -6,9 +6,9 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
+Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path executable_path) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  pacman_(grid_width, grid_height, Pacman::pacman_speed)
+  pacman_(grid_width, grid_height, Pacman::pacman_speed), executable_path_(executable_path)
 {
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
@@ -21,12 +21,15 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   pacman_.y = level.player_.y;
 }
 
-
 void Game::run(Controller const &controller, Renderer &renderer,
-               uint32_t const target_frame_duration) {
+               uint32_t const target_frame_duration)
+{
   uint32_t title_timestamp = SDL_GetTicks();
   int frame_count = 0;
   bool running = true;
+
+  // TODO: initialize here?
+  renderer.initialize(pacman_, executable_path_);
 
 
   while (running) {

@@ -10,11 +10,13 @@
 #include "SDL.h"
 
 #include <memory>
+#include <filesystem>
 
 
 class Game {
 public:
-  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height,
+       std::filesystem::path const executable_path);
   void run(Controller const &controller, Renderer &renderer,
            uint32_t const target_frame_duration);
   int score() const;
@@ -51,6 +53,8 @@ private:
   int const duration_scared_ghosts_{10000};
 
   int score_{0};
+  // TODO: do we want thi sto belong to the game or just make a global?
+  std::filesystem::path const executable_path_;
 
   unsigned int const time_between_title_update_{1000};
 };

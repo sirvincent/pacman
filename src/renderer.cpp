@@ -9,7 +9,8 @@ Renderer::Renderer(const std::size_t screen_width,
     : screen_width_(screen_width),
       screen_height_(screen_height),
       grid_width_(grid_width),
-      grid_height_(grid_height) {
+      grid_height_(grid_height)
+{
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
@@ -31,20 +32,27 @@ Renderer::Renderer(const std::size_t screen_width,
   }
 }
 
-Renderer::~Renderer() {
+Renderer::~Renderer()
+{
   SDL_DestroyWindow(sdl_window_);
   SDL_Quit();
 }
 
-void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
+void Renderer::initialize(Pacman &pacman, std::filesystem::path const &executable_path)
+{
+  pacman.initialize_texture(sdl_renderer_, executable_path);
+}
+
+void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
                       std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts)
 {
   SDL_SetRenderDrawColor(sdl_renderer_, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer_);
 
   // draw pacman
-  SDL_SetRenderDrawColor(sdl_renderer_, 0xFF, 0xFF, 0x00, 0xFF);
-  SDL_RenderFillRectF(sdl_renderer_, &pacman);
+  auto [pacman_texture, pacman_texture_rectangle] = pacman.active_sprite();
+  SDL_RenderCopyF(sdl_renderer_, pacman_texture, &pacman_texture_rectangle, &pacman);
+
 
   SDL_SetRenderDrawColor(sdl_renderer_, 0xF9, 0xE7, 0x9F, 0xFF);
   for (Dot dot : dots)
@@ -91,7 +99,8 @@ void Renderer::render(Pacman const &pacman, std::vector<Dot> const &dots, std::v
   SDL_RenderPresent(sdl_renderer_);
 }
 
-void Renderer::updateWindowTitle(int score, int fps) {
+void Renderer::updateWindowTitle(int score, int fps)
+{
   std::string title{"pacman Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window_, title.c_str());
 }

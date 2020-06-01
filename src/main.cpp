@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   ASSERT_MESSAGE(argc != 0, "argc == 0 hence extracting the path name of executable will not work");
   ASSERT_MESSAGE(std::strcmp(argv[0], ""), "argv is empty hence executable path can not be found");
 
-  std::filesystem::path executable_path = std::filesystem::path(argv[0]);
+  std::filesystem::path const executable_path = std::filesystem::path(argv[0]);
 
   assert(kScreenWidth % kGridWidth == 0);
   assert(kScreenHeight % kGridHeight == 0);
@@ -38,9 +38,7 @@ int main(int argc, char **argv) {
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
 
-  SpriteSheet spritesheet(executable_path, "pac-classic_c-toy");
-
-  Game game(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  Game game(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight, executable_path);
   game.run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.score() << "\n";
