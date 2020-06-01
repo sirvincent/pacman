@@ -1,7 +1,6 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
-#include "spritesheet.h"
 
 #include <cassert>
 #include <iostream>
