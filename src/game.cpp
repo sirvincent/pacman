@@ -155,26 +155,25 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
 }
 
 
-// require CHARACTER is a SDL_Rect or SDL_FRect object
-// require CHARACTER is a Movement object
+// require CHARACTER is pacman or Ghost
 template <typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
 {
   character.adjust_x_y_velocity_on_direction(character.wanted_direction);
-  CHARACTER wanted_pacman = character;
-  wanted_pacman.x = character.x + character.velocity_x();
-  wanted_pacman.y = character.y + character.velocity_y();
+  SDL_FRect wanted_pacman_location = character;
+  wanted_pacman_location.x = character.x + character.velocity_x();
+  wanted_pacman_location.y = character.y + character.velocity_y();
 
-  bool valid_direction = checkMoveInBounds(wanted_pacman);
+  bool valid_direction = checkMoveInBounds(wanted_pacman_location);
 
   if (!valid_direction)
   {
     character.adjust_x_y_velocity_on_direction(character.direction);
-    CHARACTER wanted_pacman_old = character;
-    wanted_pacman_old.x = character.x + character.velocity_x();
-    wanted_pacman_old.y = character.y + character.velocity_y();
+    SDL_FRect wanted_pacman_old_location = character;
+    wanted_pacman_old_location.x = character.x + character.velocity_x();
+    wanted_pacman_old_location.y = character.y + character.velocity_y();
 
-    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old);
+    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old_location);
     if (valid_old_direction)
     {
       character.move();
