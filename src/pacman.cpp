@@ -25,16 +25,6 @@ void Pacman::initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::pa
   sprite_sheet_ = SDL_CreateTextureFromSurface(sdl_renderer_, surface.get());
 
   assert(sprite_sheet_ != nullptr);
-
-  construct_movement_sprite_sheet_rectangles();
-}
-
-void Pacman::construct_movement_sprite_sheet_rectangles()
-{
-  direction_rectangles_.insert({Movement::Direction::up,    SDL_Rect{556, 853, 138, 170}});
-  direction_rectangles_.insert({Movement::Direction::down,  SDL_Rect{556, 5, 138, 170}});
-  direction_rectangles_.insert({Movement::Direction::left,  SDL_Rect{556, 342, 138, 170}});
-  direction_rectangles_.insert({Movement::Direction::right, SDL_Rect{556, 172, 138, 170}});
 }
 
 void Pacman::move()
@@ -59,16 +49,16 @@ std::pair<SDL_Texture *, SDL_Rect> Pacman::active_sprite()
   switch (direction)
   {
     case Movement::Direction::up:
-      return std::make_pair(sprite_sheet_, direction_rectangles_[Movement::Direction::up]);
+      return std::make_pair(sprite_sheet_, SDL_Rect{556, 853, 138, 170});
       break;
     case Movement::Direction::down:
-      return std::make_pair(sprite_sheet_, direction_rectangles_[Movement::Direction::down]);
+      return std::make_pair(sprite_sheet_, SDL_Rect{556, 5, 138, 170});
       break;
     case Movement::Direction::left:
-      return std::make_pair(sprite_sheet_, direction_rectangles_[Movement::Direction::left]);
+      return std::make_pair(sprite_sheet_, SDL_Rect{556, 342, 138, 170});
       break;
     case Movement::Direction::right:
-      return std::make_pair(sprite_sheet_, direction_rectangles_[Movement::Direction::right]);
+      return std::make_pair(sprite_sheet_, SDL_Rect{556, 172, 138, 170});
       break;
   }
 }

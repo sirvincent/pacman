@@ -27,12 +27,10 @@ public:
   static float constexpr pacman_speed = 2.0f;
 
 private:
-  void construct_sprite_sheet_rectangles();
+  void construct_movement_sprite_sheet_rectangles();
   // sprite_sheet is owned by renderer, not by pacman this is not insightfull but is required
   // since it is rendered in a hardware optimized way, so the hardware owns it (renderer)
   SDL_Texture *sprite_sheet_;
-  // TODO: is a map the correct container for our use case?
-  std::map<Movement::Direction, SDL_Rect const> direction_rectangles_;
   bool alive_{true};
 
 };
