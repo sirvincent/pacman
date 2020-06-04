@@ -1,6 +1,7 @@
 #pragma once
 
 #include "movement.h"
+#include "sprite_graphics.h"
 
 #include "SDL.h"
 
@@ -11,13 +12,14 @@
 namespace Ghosts
 {
 
-// Ghost was intended to be an abstract base class, but since we have a ghosts vector where we use
-// base ptr to derived objects this is not possible. I like the vector circumvents calling the 4 ghosts separately.
-class Ghost : public SDL_FRect, public Movement
+class Ghost : public SDL_FRect, public Movement, public virtual SpriteGraphics
 {
 public:
   Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
     Movement(speed, speed, speed, speed), rgba_({red, green, blue, alpha}){}
+
+  // TODO: Since objects of Ghost are created we should make the destructor virtual! Such that
+  //       a core base ptr destructs the derived object correctly!
 
   void move()
   {
@@ -25,7 +27,7 @@ public:
     y += velocity_y_;
   }
 
-  virtual void moveMethod() { std::cout << "ghost move method" << std::endl; }
+  virtual void moveMethod()  = 0;
 
   inline bool edible() const { return edible_; }
   inline void edible(bool const edible) { /* TODO: change sprite to scared */ edible_ = edible; }

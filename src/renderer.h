@@ -16,7 +16,7 @@ public:
            const std::size_t grid_width_, const std::size_t grid_height_);
   ~Renderer();
 
-  void initialize(Pacman &pacman, std::filesystem::path const &executable_path);
+  void initialize(Pacman &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts, std::filesystem::path const &executable_path);
   void render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
               std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts);
   void updateWindowTitle(int score, int fps);

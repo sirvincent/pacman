@@ -38,9 +38,13 @@ Renderer::~Renderer()
   SDL_Quit();
 }
 
-void Renderer::initialize(Pacman &pacman, std::filesystem::path const &executable_path)
+void Renderer::initialize(Pacman &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts, std::filesystem::path const &executable_path)
 {
   pacman.initialize_texture(sdl_renderer_, executable_path);
+  for (std::unique_ptr<Ghosts::Ghost> const &ghost : ghosts)
+  {
+    ghost->initialize_texture(sdl_renderer_, executable_path);
+  }
 }
 
 void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
@@ -90,9 +94,8 @@ void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<
 
   for (std::unique_ptr<Ghosts::Ghost> const &ghost : ghosts)
   {
-    SDL_SetRenderDrawColor(sdl_renderer_, std::get<0>(ghost->rgba()), std::get<1>(ghost->rgba()),
-                           std::get<2>(ghost->rgba()), std::get<3>(ghost->rgba()));
-    SDL_RenderFillRectF(sdl_renderer_, &(*ghost));
+    auto [ghost_texture, ghost_texture_rectangle] = ghost->active_sprite();
+    SDL_RenderCopyF(sdl_renderer_, ghost_texture, &ghost_texture_rectangle, ghost.get());
   }
 
 

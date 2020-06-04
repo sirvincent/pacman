@@ -5,7 +5,8 @@
 
 namespace Ghosts {
 
-Pinky::Pinky(float width, float height, float speed) : Ghost(0xFD, 0x67, 0xFF, 0xFF, speed)
+Pinky::Pinky(float width, float height, float speed) : Ghost(0xFD, 0x67, 0xFF, 0xFF, speed),
+  Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;
   y = 0.0f;
@@ -26,6 +27,25 @@ void Pinky::moveMethod()
 
     wanted_direction = static_cast<Movement::Direction>(distribution(generator));
     last_update_ = std::chrono::system_clock::now();
+  }
+}
+
+std::pair<SDL_Texture *, SDL_Rect> Pinky::active_sprite()
+{
+  switch (direction)
+  {
+    case Movement::Direction::up:
+      return std::make_pair(sprite_sheet_, SDL_Rect{130, 165, 115, 165});
+      break;
+    case Movement::Direction::down:
+      return std::make_pair(sprite_sheet_, SDL_Rect{0, 165, 115, 165});
+      break;
+    case Movement::Direction::left:
+      return std::make_pair(sprite_sheet_, SDL_Rect{275, 165, 115, 165});
+      break;
+    case Movement::Direction::right:
+      return std::make_pair(sprite_sheet_, SDL_Rect{410, 165, 115, 165});
+      break;
   }
 }
 

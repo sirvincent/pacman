@@ -29,7 +29,7 @@ void Game::run(Controller const &controller, Renderer &renderer,
   bool running = true;
 
   // TODO: initialize here?
-  renderer.initialize(pacman_, executable_path_);
+  renderer.initialize(pacman_, ghosts_, executable_path_);
 
 
   while (running) {

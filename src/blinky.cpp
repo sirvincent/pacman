@@ -5,7 +5,8 @@
 
 namespace Ghosts {
 
-Blinky::Blinky(float width, float height, float speed) : Ghost(0xCB, 0x43, 0x35, 0xFF, speed)
+Blinky::Blinky(float width, float height, float speed) : Ghost(0xCB, 0x43, 0x35, 0xFF, speed),
+  Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;
   y = 0.0f;
@@ -26,6 +27,25 @@ void Blinky::moveMethod()
 
     wanted_direction = static_cast<Movement::Direction>(distribution(generator));
     last_update_ = std::chrono::system_clock::now();
+  }
+}
+
+std::pair<SDL_Texture *, SDL_Rect> Blinky::active_sprite()
+{
+  switch (direction)
+  {
+    case Movement::Direction::up:
+      return std::make_pair(sprite_sheet_, SDL_Rect{130, 0, 115, 165});
+      break;
+    case Movement::Direction::down:
+      return std::make_pair(sprite_sheet_, SDL_Rect{0, 0, 115, 165});
+      break;
+    case Movement::Direction::left:
+      return std::make_pair(sprite_sheet_, SDL_Rect{275, 0, 115, 165});
+      break;
+    case Movement::Direction::right:
+      return std::make_pair(sprite_sheet_, SDL_Rect{410, 0, 115, 165});
+      break;
   }
 }
 

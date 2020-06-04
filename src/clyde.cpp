@@ -6,7 +6,8 @@
 
 namespace Ghosts {
 
-Clyde::Clyde(float width, float height, float speed) : Ghost(0xF3, 0x9C, 0x12, 0xFF, speed)
+Clyde::Clyde(float width, float height, float speed) : Ghost(0xF3, 0x9C, 0x12, 0xFF, speed),
+  Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;
   y = 0.0f;
@@ -27,6 +28,25 @@ void Clyde::moveMethod()
 
     wanted_direction = static_cast<Movement::Direction>(distribution(generator));
     last_update_ = std::chrono::system_clock::now();
+  }
+}
+
+std::pair<SDL_Texture *, SDL_Rect> Clyde::active_sprite()
+{
+  switch (direction)
+  {
+    case Movement::Direction::up:
+      return std::make_pair(sprite_sheet_, SDL_Rect{130, 500, 115, 165});
+      break;
+    case Movement::Direction::down:
+      return std::make_pair(sprite_sheet_, SDL_Rect{0, 500, 115, 165});
+      break;
+    case Movement::Direction::left:
+      return std::make_pair(sprite_sheet_, SDL_Rect{275, 500, 115, 165});
+      break;
+    case Movement::Direction::right:
+      return std::make_pair(sprite_sheet_, SDL_Rect{410, 500, 115, 165});
+      break;
   }
 }
 
