@@ -6,8 +6,8 @@ namespace Implementation
 {
 
 SpriteGraphics::SpriteGraphics(std::string const &relative_path_sprite_sheet_to_assets_directory) :
-  relative_path_sprite_sheet_to_assets_directory_(relative_path_sprite_sheet_to_assets_directory),
-  sprite_sheet_(nullptr) {}
+  sprite_sheet_(nullptr),
+  relative_path_sprite_sheet_to_assets_directory_(relative_path_sprite_sheet_to_assets_directory) { }
 
 
 void SpriteGraphics::initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::path const &executable_path)
