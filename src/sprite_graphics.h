@@ -11,6 +11,7 @@ class SpriteGraphics
 {
 public:
   virtual std::pair<SDL_Texture *, SDL_Rect> active_sprite() = 0;
+  virtual void initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::path const &executable_path) = 0;
 
 private:
 };
@@ -24,7 +25,7 @@ class SpriteGraphics : public virtual ::SpriteGraphics
 {
 public:
   explicit SpriteGraphics(std::string const &relative_path_sprite_sheet_to_assets_directory);
-  void initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::path const &executable_path);
+  void initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::path const &executable_path) override;
 
 
 protected:
