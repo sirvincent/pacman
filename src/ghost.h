@@ -17,6 +17,10 @@ class Ghost : public SDL_FRect, public Movement, public virtual SpriteGraphics
 public:
   Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
     Movement(speed, speed, speed, speed), rgba_({red, green, blue, alpha}){}
+  // from: https://en.cppreference.com/w/cpp/language/destructor
+  // "Deleting an object through pointer to base invokes undefined behavior unless the destructor in the base class is virtual"
+  // Destructor of derived Ghost e.g. Blinky is then not called
+  virtual ~Ghost() = default;
 
   // TODO: Since objects of Ghost are created we should make the destructor virtual! Such that
   //       a core base ptr destructs the derived object correctly!
