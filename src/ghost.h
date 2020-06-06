@@ -15,8 +15,7 @@ namespace Ghosts
 class Ghost : public SDL_FRect, public Movement, public virtual SpriteGraphics
 {
 public:
-  Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
-    Movement(speed, speed, speed, speed), rgba_({red, green, blue, alpha}){}
+  Ghost(float speed) : Movement(speed, speed, speed, speed) {}
   // from: https://en.cppreference.com/w/cpp/language/destructor
   // "Deleting an object through pointer to base invokes undefined behavior unless the destructor in the base class is virtual"
   // Destructor of derived Ghost e.g. Blinky is then not called
@@ -38,16 +37,12 @@ public:
 
   inline int score() const { return score_; }
 
-  inline std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba() const { return rgba_; }
-
 protected:
   bool edible_{false};
   bool scared_{false};
 
 private:
   int const score_{200};
-
-  std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba_{0xFF, 0xFF, 0xFF, 0xFF};
 };
 
 }

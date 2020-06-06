@@ -15,6 +15,7 @@ class Blinky : public Ghost, public Implementation::SpriteGraphics
 public:
   Blinky() = delete;
   Blinky(float width, float height, float speed);
+
   void moveMethod() override;
   std::pair<SDL_Texture *, SDL_Rect> active_sprite() override;
 

@@ -5,7 +5,7 @@
 
 namespace Ghosts {
 
-Blinky::Blinky(float width, float height, float speed) : Ghost(0xCB, 0x43, 0x35, 0xFF, speed),
+Blinky::Blinky(float width, float height, float speed) : Ghost(speed),
   Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;

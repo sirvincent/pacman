@@ -5,7 +5,7 @@
 
 namespace Ghosts {
 
-Pinky::Pinky(float width, float height, float speed) : Ghost(0xFD, 0x67, 0xFF, 0xFF, speed),
+Pinky::Pinky(float width, float height, float speed) : Ghost(speed),
   Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;

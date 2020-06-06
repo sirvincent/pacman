@@ -6,7 +6,7 @@
 
 namespace Ghosts {
 
-Clyde::Clyde(float width, float height, float speed) : Ghost(0xF3, 0x9C, 0x12, 0xFF, speed),
+Clyde::Clyde(float width, float height, float speed) : Ghost(speed),
   Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;
