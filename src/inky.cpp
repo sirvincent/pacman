@@ -31,23 +31,40 @@ void Inky::moveMethod()
   }
 }
 
+
 std::pair<SDL_Texture *, SDL_Rect> Inky::active_sprite()
 {
-  switch (direction)
+  SDL_Rect sprite_sheet_rectangle;
+  if (scared_)
   {
-    case Movement::Direction::up:
-      return std::make_pair(sprite_sheet_, SDL_Rect{130, 335, 115, 165});
-      break;
-    case Movement::Direction::down:
-      return std::make_pair(sprite_sheet_, SDL_Rect{0, 335, 115, 165});
-      break;
-    case Movement::Direction::left:
-      return std::make_pair(sprite_sheet_, SDL_Rect{275, 335, 115, 165});
-      break;
-    case Movement::Direction::right:
-      return std::make_pair(sprite_sheet_, SDL_Rect{410, 335, 115, 165});
-      break;
+    sprite_sheet_rectangle = handle_sprite_scared(direction);
   }
+  else
+  {
+    // TODO: repeating switch in derived Ghost, can we remove the repetition?
+    switch (direction)
+    {
+      // TODO: it feels as if these magic numbers belong into some sort of configuration file
+      //       which contains a connection to the specific sprite sheet in use
+      // TODO: can we make the SDL_Rect constexpr? They will not change after compile time
+      case Movement::Direction::up:
+        sprite_sheet_rectangle = {130, 335, 115, 165};
+        break;
+      case Movement::Direction::down:
+        sprite_sheet_rectangle = {0, 335, 115, 165};
+        break;
+      case Movement::Direction::left:
+        sprite_sheet_rectangle = {275, 335, 115, 165};
+        break;
+      case Movement::Direction::right:
+        sprite_sheet_rectangle = {410, 335, 115, 165};
+        break;
+      default:
+        std::cout << "An unhandled direction is found" << std::endl;
+        throw;
+    }
+  }
+  return std::make_pair(sprite_sheet_, sprite_sheet_rectangle);
 }
 
 }
