@@ -35,7 +35,7 @@ void Clyde::moveMethod()
 std::pair<SDL_Texture *, SDL_Rect> Clyde::active_sprite()
 {
   SDL_Rect sprite_sheet_rectangle;
-  if (scared_)
+  if (scared)
   {
     sprite_sheet_rectangle = handle_sprite_scared(direction);
   }

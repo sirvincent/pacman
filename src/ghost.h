@@ -55,19 +55,10 @@ public:
     }
   }
 
-
-  // TODO: C.131 avoid trivial getters and setters
-  inline bool edible() const { return edible_; }
-  inline void edible(bool const edible) { /* TODO: change sprite to scared */ edible_ = edible; }
-
-  inline bool scared() const { return scared_; }
-  inline void scared(bool const scared) { /* TODO: change sprite to scared */ scared_ = scared; }
+  bool edible{false};
+  bool scared{false};
 
   inline int score() const { return score_; }
-
-protected:
-  bool edible_{false};
-  bool scared_{false};
 
 private:
   int const score_{200};

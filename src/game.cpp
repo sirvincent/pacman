@@ -141,7 +141,7 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
     //       should pacman die not when they start to touch
     if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
     {
-      if ((*it)->edible())
+      if ((*it)->edible)
       {
         score_ += (*it)->score();
         // TODO: not representative of pacman, ghost should remain alive but go back to its cage in the center
@@ -248,8 +248,8 @@ void Game::update(bool &running) {
 
   for (auto &ghost : ghosts_)
   {
-    ghost->edible(scared_ghosts_);
-    ghost->scared(scared_ghosts_);
+    ghost->edible = scared_ghosts_;
+    ghost->scared = scared_ghosts_;
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);
