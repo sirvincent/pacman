@@ -22,9 +22,6 @@ public:
   // Destructor of derived Ghost e.g. Blinky is then not called
   virtual ~Ghost() = default;
 
-  // TODO: Since objects of Ghost are created we should make the destructor virtual! Such that
-  //       a core base ptr destructs the derived object correctly!
-
   void move()
   {
     x += velocity_x_;
