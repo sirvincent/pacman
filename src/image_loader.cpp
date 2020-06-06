@@ -9,7 +9,6 @@ ImageLoader::ImageLoader(std::filesystem::path const &executable_path)
 {
     std::filesystem::path absolute_path = std::filesystem::absolute(executable_path);
     assets_path_ = std::filesystem::canonical(absolute_path.parent_path() / ".." / "assets");
-    std::cout << assets_path_ << std::endl;
 
     assert(std::filesystem::exists(assets_path_));
 
