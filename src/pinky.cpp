@@ -18,25 +18,25 @@ Pinky::Pinky(float width, float height, float speed) : Ghost(speed),
 void Pinky::moveMethod()
 {
   // TODO: pinky should be speedy
-  long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last_update_).count();
-  if (time_passed_since_last_update > method_duration_)
+  long timePassedSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate_).count();
+  if (timePassedSinceLastUpdate > methodDuration_)
   {
     std::random_device random;
     std::knuth_b generator(random());
     std::uniform_int_distribution<uint8_t> distribution(0, 3);
 
-    wanted_direction = static_cast<Movement::Direction>(distribution(generator));
-    last_update_     = std::chrono::system_clock::now();
+    wantedDirection = static_cast<Movement::Direction>(distribution(generator));
+    lastUpdate_     = std::chrono::system_clock::now();
   }
 }
 
 
-std::pair<SDL_Texture *, SDL_Rect> Pinky::active_sprite()
+std::pair<SDL_Texture *, SDL_Rect> Pinky::activeSprite()
 {
-  SDL_Rect sprite_sheet_rectangle;
+  SDL_Rect spriteSheetRectangle;
   if (scared)
   {
-    sprite_sheet_rectangle = handle_sprite_scared(direction);
+    spriteSheetRectangle = handleSpriteScared(direction);
   }
   else
   {
@@ -47,23 +47,23 @@ std::pair<SDL_Texture *, SDL_Rect> Pinky::active_sprite()
       //       which contains a connection to the specific sprite sheet in use
       // TODO: can we make the SDL_Rect constexpr? They will not change after compile time
       case Movement::Direction::up:
-        sprite_sheet_rectangle = {130, 165, 115, 165};
+        spriteSheetRectangle = {130, 165, 115, 165};
         break;
       case Movement::Direction::down:
-        sprite_sheet_rectangle = {0, 165, 115, 165};
+        spriteSheetRectangle = {0, 165, 115, 165};
         break;
       case Movement::Direction::left:
-        sprite_sheet_rectangle = {275, 165, 115, 165};
+        spriteSheetRectangle = {275, 165, 115, 165};
         break;
       case Movement::Direction::right:
-        sprite_sheet_rectangle = {410, 165, 115, 165};
+        spriteSheetRectangle = {410, 165, 115, 165};
         break;
       default:
         std::cout << "An unhandled direction is found" << std::endl;
         throw;
     }
   }
-  return std::make_pair(sprite_sheet_, sprite_sheet_rectangle);
+  return std::make_pair(spriteSheet_, spriteSheetRectangle);
 }
 
 }  // namespace Ghosts

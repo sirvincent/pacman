@@ -17,11 +17,11 @@ public:
   Blinky(float width, float height, float speed);
 
   void moveMethod() override;
-  std::pair<SDL_Texture *, SDL_Rect> active_sprite() override;
+  std::pair<SDL_Texture *, SDL_Rect> activeSprite() override;
 
 private:
-  std::chrono::time_point<std::chrono::system_clock> last_update_ = std::chrono::system_clock::now();
-  double const method_duration_{400};
+  std::chrono::time_point<std::chrono::system_clock> lastUpdate_ = std::chrono::system_clock::now();
+  double const methodDuration_{400};
 };
 
 }  // namespace Ghosts

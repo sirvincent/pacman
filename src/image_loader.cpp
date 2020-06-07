@@ -5,12 +5,12 @@
 #include <SDL2/SDL_surface.h>
 
 
-ImageLoader::ImageLoader(std::filesystem::path const &executable_path)
+ImageLoader::ImageLoader(std::filesystem::path const &executablePath)
 {
-  std::filesystem::path absolute_path = std::filesystem::absolute(executable_path);
-  assets_path_                        = std::filesystem::canonical(absolute_path.parent_path() / ".." / "assets");
+  std::filesystem::path absolutePath = std::filesystem::absolute(executablePath);
+  assetsPath_                        = std::filesystem::canonical(absolutePath.parent_path() / ".." / "assets");
 
-  assert(std::filesystem::exists(assets_path_));
+  assert(std::filesystem::exists(assetsPath_));
 
   IMG_Init(IMG_INIT_PNG);
 }
@@ -23,12 +23,12 @@ ImageLoader::~ImageLoader()
 }
 
 
-memory::unique_surface_ptr ImageLoader::load_asset(std::string const &relative_to_assets_path_name)
+memory::unique_surface_ptr ImageLoader::loadAsset(std::string const &relativeToAssetsPathName)
 {
-  // TODO: handle if extension is given in relative_to_assets_path_name
-  std::filesystem::path asset_path = assets_path_ / relative_to_assets_path_name;
+  // TODO: handle if extension is given in relativeToAssetsPathName
+  std::filesystem::path assetPath = assetsPath_ / relativeToAssetsPathName;
 
-  memory::unique_surface_ptr surface(IMG_Load(asset_path.c_str()));
+  memory::unique_surface_ptr surface(IMG_Load(assetPath.c_str()));
 
   return surface;
 }

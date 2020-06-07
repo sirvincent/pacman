@@ -19,7 +19,7 @@
 class Level
 {
 public:
-  Level(std::size_t const screen_width, std::size_t const screen_height, std::size_t const grid_width, std::size_t const grid_height);
+  Level(std::size_t const screenWidth, std::size_t const screenHeight, std::size_t const gridWidth, std::size_t const gridHeight);
 
   std::vector<Dot> dots_;
   std::vector<Dot> pellets_;
@@ -31,8 +31,8 @@ public:
   void load(std::string const &directory = "levels", std::string const &filename = "default");
 
 private:
-  std::size_t const screen_width_;
-  std::size_t const screen_height_;
-  std::size_t const grid_width_;
-  std::size_t const grid_height_;
+  std::size_t const screenWidth_;
+  std::size_t const screenHeight_;
+  std::size_t const gridWidth_;
+  std::size_t const gridHeight_;
 };

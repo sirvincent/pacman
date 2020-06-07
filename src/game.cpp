@@ -6,10 +6,10 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path executable_path) : screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-                                                                                                                                                          pacman_(grid_width, grid_height, Pacman::pacman_speed), executable_path_(executable_path)
+Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight),
+                                                                                                                                                          pacman_(gridWidth, gridHeight, Pacman::pacman_speed), executablePath_(executablePath)
 {
-  Level level(screen_width, screen_height, grid_width, grid_height);
+  Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
   // TODO: hmm is this a code smell?
   dots_     = std::move(level.dots_);
@@ -20,19 +20,19 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   pacman_.y = level.player_.y;
 }
 
-void Game::run(Controller const &controller, Renderer &renderer, uint32_t const target_frame_duration)
+void Game::run(Controller const &controller, Renderer &renderer, uint32_t const targetFrameDuration)
 {
-  uint32_t title_timestamp = SDL_GetTicks();
-  int frame_count          = 0;
+  uint32_t titleTimestamp = SDL_GetTicks();
+  int frameCount          = 0;
   bool running             = true;
 
   // TODO: initialize here?
-  renderer.initialize(pacman_, ghosts_, executable_path_);
+  renderer.initialize(pacman_, ghosts_, executablePath_);
 
 
   while (running)
   {
-    uint32_t frame_start = SDL_GetTicks();
+    uint32_t frameStart = SDL_GetTicks();
 
     controller.handleInput(running, pacman_);
 
@@ -42,21 +42,21 @@ void Game::run(Controller const &controller, Renderer &renderer, uint32_t const 
 
 
     // TODO: enforce frame duration, move into separate function
-    uint32_t frame_end = SDL_GetTicks();
+    uint32_t frameEnd = SDL_GetTicks();
 
-    frame_count++;
-    uint32_t frame_duration = frame_end - frame_start;
+    frameCount++;
+    uint32_t frameDuration = frameEnd - frameStart;
 
-    if (frame_end - title_timestamp >= time_between_title_update_)
+    if (frameEnd - titleTimestamp >= timeBetweenTitleUpdate_)
     {
-      renderer.updateWindowTitle(score_, frame_count);
-      frame_count     = 0;
-      title_timestamp = frame_end;
+      renderer.updateWindowTitle(score_, frameCount);
+      frameCount     = 0;
+      titleTimestamp = frameEnd;
     }
 
-    if (frame_duration < target_frame_duration)
+    if (frameDuration < targetFrameDuration)
     {
-      SDL_Delay(target_frame_duration - frame_duration);
+      SDL_Delay(targetFrameDuration - frameDuration);
     }
   }
 }
@@ -81,30 +81,30 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
 {
   // TODO: I picked the largest type of SDL_FRect and SDL_Rect but is there a way to deduce
   //       this type from the object?
-  float const left_rectangle   = rectangle.x;
-  float const right_rectangle  = rectangle.x + rectangle.w;
-  float const top_rectangle    = rectangle.y;
-  float const bottom_rectangle = rectangle.y + rectangle.h;
+  float const leftRectangle   = rectangle.x;
+  float const rightRectangle  = rectangle.x + rectangle.w;
+  float const topRectangle    = rectangle.y;
+  float const bottomRectangle = rectangle.y + rectangle.h;
 
-  float const left_other   = other.x;
-  float const right_other  = other.x + other.w;
-  float const top_other    = other.y;
-  float const bottom_other = other.y + other.h;
+  float const leftOther   = other.x;
+  float const rightOther  = other.x + other.w;
+  float const topOther    = other.y;
+  float const bottomOther = other.y + other.h;
 
   // check if not colliding based on separating axis
-  if (bottom_rectangle <= top_other)
+  if (bottomRectangle <= topOther)
   {
     return false;
   }
-  if (top_rectangle >= bottom_other)
+  if (topRectangle >= bottomOther)
   {
     return false;
   }
-  if (right_rectangle <= left_other)
+  if (rightRectangle <= leftOther)
   {
     return false;
   }
-  if (left_rectangle >= right_other)
+  if (leftRectangle >= rightOther)
   {
     return false;
   }
@@ -117,13 +117,13 @@ bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dot
   for (auto it = dots.begin(); it != dots.end(); ++it)
   {
     // TODO: give Dot a member to rectanlge? Or simply do not have circular dots?
-    SDL_Rect dot_rectangle;
-    dot_rectangle.x = it->x();
-    dot_rectangle.y = it->y();
-    dot_rectangle.w = it->radius();
-    dot_rectangle.h = it->radius();
+    SDL_Rect dotRectangle;
+    dotRectangle.x = it->x();
+    dotRectangle.y = it->y();
+    dotRectangle.w = it->radius();
+    dotRectangle.h = it->radius();
 
-    if (checkRectangleCollision<SDL_FRect, SDL_Rect>(pacman, dot_rectangle))
+    if (checkRectangleCollision<SDL_FRect, SDL_Rect>(pacman, dotRectangle))
     {
       score_ += it->score();
       dots.erase(it);
@@ -162,29 +162,29 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
 template<typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
 {
-  character.adjust_x_y_velocity_on_direction(character.wanted_direction);
-  SDL_FRect wanted_pacman_location = character;
-  wanted_pacman_location.x         = character.x + character.velocity_x();
-  wanted_pacman_location.y         = character.y + character.velocity_y();
+  character.adjustXYVelocityOnDirection(character.wantedDirection);
+  SDL_FRect wantedPacmanLocation = character;
+  wantedPacmanLocation.x         = character.x + character.velocityX();
+  wantedPacmanLocation.y         = character.y + character.velocityY();
 
-  bool valid_direction = checkMoveInBounds(wanted_pacman_location);
+  bool validDirection = checkMoveInBounds(wantedPacmanLocation);
 
-  if (!valid_direction)
+  if (!validDirection)
   {
-    character.adjust_x_y_velocity_on_direction(character.direction);
-    SDL_FRect wanted_pacman_old_location = character;
-    wanted_pacman_old_location.x         = character.x + character.velocity_x();
-    wanted_pacman_old_location.y         = character.y + character.velocity_y();
+    character.adjustXYVelocityOnDirection(character.direction);
+    SDL_FRect wantedPacmanOldLocation = character;
+    wantedPacmanOldLocation.x         = character.x + character.velocityX();
+    wantedPacmanOldLocation.y         = character.y + character.velocityY();
 
-    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old_location);
-    if (valid_old_direction)
+    bool validOldDirection = checkMoveInBounds(wantedPacmanOldLocation);
+    if (validOldDirection)
     {
       character.move();
     }
   }
   else
   {
-    character.direction = character.wanted_direction;
+    character.direction = character.wantedDirection;
     character.move();
   }
 }
@@ -193,11 +193,11 @@ void Game::moveCharacter(CHARACTER &character)
 bool Game::checkMoveInBounds(SDL_FRect rectangle)
 {
   // TODO: should allow the player to fold from left of screen to right if there is no wall at the edges!
-  if (rectangle.x < 0 || rectangle.x > (screen_width_ - rectangle.w) || checkRectangleCollisions(rectangle, walls_))
+  if (rectangle.x < 0 || rectangle.x > (screenWidth_ - rectangle.w) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
   }
-  if (rectangle.y < 0 || rectangle.y > (screen_height_ - rectangle.h) || checkRectangleCollisions(rectangle, walls_))
+  if (rectangle.y < 0 || rectangle.y > (screenHeight_ - rectangle.h) || checkRectangleCollisions(rectangle, walls_))
   {
     return false;
   }
@@ -230,27 +230,27 @@ void Game::update(bool &running)
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))
   {
-    if (!scared_ghosts_)
+    if (!scaredGhosts_)
     {
-      scared_ghosts_       = true;
-      start_scared_ghosts_ = std::chrono::system_clock::now();
+      scaredGhosts_       = true;
+      startScaredGhosts = std::chrono::system_clock::now();
     }
   }
 
-  if (scared_ghosts_)
+  if (scaredGhosts_)
   {
-    long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_scared_ghosts_).count();
-    if (time_passed_since_last_update > duration_scared_ghosts_)
+    long timePassedSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startScaredGhosts).count();
+    if (timePassedSinceLastUpdate > durationScaredGhosts_)
     {
-      scared_ghosts_       = false;
-      start_scared_ghosts_ = std::chrono::system_clock::now();
+      scaredGhosts_       = false;
+      startScaredGhosts = std::chrono::system_clock::now();
     }
   }
 
   for (auto &ghost : ghosts_)
   {
-    ghost->edible = scared_ghosts_;
-    ghost->scared = scared_ghosts_;
+    ghost->edible = scaredGhosts_;
+    ghost->scared = scaredGhosts_;
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);

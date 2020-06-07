@@ -20,19 +20,19 @@ void Controller::handleInput(bool &running, Pacman &pacman) const
       switch (event.key.keysym.sym)
       {
         case SDLK_UP:
-          pacman.wanted_direction = Movement::Direction::up;
+          pacman.wantedDirection = Movement::Direction::up;
           break;
 
         case SDLK_DOWN:
-          pacman.wanted_direction = Movement::Direction::down;
+          pacman.wantedDirection = Movement::Direction::down;
           break;
 
         case SDLK_LEFT:
-          pacman.wanted_direction = Movement::Direction::left;
+          pacman.wantedDirection = Movement::Direction::left;
           break;
 
         case SDLK_RIGHT:
-          pacman.wanted_direction = Movement::Direction::right;
+          pacman.wantedDirection = Movement::Direction::right;
           break;
         case SDLK_ESCAPE:
           running = false;

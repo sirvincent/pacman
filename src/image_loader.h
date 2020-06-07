@@ -11,11 +11,11 @@
 class ImageLoader
 {
 public:
-  ImageLoader(std::filesystem::path const &executable_path);
+  ImageLoader(std::filesystem::path const &executablePath);
   ~ImageLoader();
 
-  memory::unique_surface_ptr load_asset(std::string const &relative_to_assets_path_name);
+  memory::unique_surface_ptr loadAsset(std::string const &relativeToAssetsPathName);
 
 private:
-  std::filesystem::path assets_path_;
+  std::filesystem::path assetsPath_;
 };

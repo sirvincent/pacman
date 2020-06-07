@@ -25,15 +25,15 @@ public:
 
   void move()
   {
-    x += velocity_x_;
-    y += velocity_y_;
+    x += velocityX_;
+    y += velocityY_;
   }
 
   virtual void moveMethod() = 0;
 
   // TODO: build in assumption is that every derived ghost scared sprite is at the same location
   //       on the sprite sheet!
-  SDL_Rect handle_sprite_scared(Movement::Direction const &direction)
+  SDL_Rect handleSpriteScared(Movement::Direction const &direction)
   {
     switch (direction)
     {

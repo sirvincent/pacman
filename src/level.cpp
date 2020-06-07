@@ -3,25 +3,25 @@
 #include <fstream>
 
 
-Level::Level(std::size_t const screen_width, std::size_t const screen_height, std::size_t const grid_width, std::size_t const grid_height) : screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height) {}
+Level::Level(std::size_t const screenWidth, std::size_t const screenHeight, std::size_t const gridWidth, std::size_t const gridHeight) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight) {}
 
 
 void Level::convertCharacterToGameObject(char const character, unsigned int x, unsigned int y)
 {
   if (character == 'o')
   {
-    unsigned int radius = grid_width_ / 4;
-    Dot dot(x * grid_width_ + grid_width_ / 2 - radius / 2,
-      y * grid_height_ + grid_height_ / 2 - radius / 2,
+    unsigned int radius = gridWidth_ / 4;
+    Dot dot(x * gridWidth_ + gridWidth_ / 2 - radius / 2,
+      y * gridHeight_ + gridHeight_ / 2 - radius / 2,
       radius);
     dots_.push_back(std::move(dot));
   }
   else if (character == 'p')
   {
     // TODO: should be twice as large as dot, so use dot radius
-    unsigned int radius = grid_width_ / 2;
-    Dot pellet(x * grid_width_ + grid_width_ / 2 - radius / 2,
-      y * grid_height_ + grid_height_ / 2 - radius / 2,
+    unsigned int radius = gridWidth_ / 2;
+    Dot pellet(x * gridWidth_ + gridWidth_ / 2 - radius / 2,
+      y * gridHeight_ + gridHeight_ / 2 - radius / 2,
       radius,
       Dots::pellet_score);
     pellets_.push_back(std::move(pellet));
@@ -29,10 +29,10 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
   else if (character == '=')
   {
     SDL_Rect wall;
-    wall.x = x * grid_width_;
-    wall.y = y * grid_height_;
-    wall.w = grid_width_;
-    wall.h = grid_height_;
+    wall.x = x * gridWidth_;
+    wall.y = y * gridHeight_;
+    wall.w = gridWidth_;
+    wall.h = gridHeight_;
     walls_.push_back((std::move(wall)));
   }
   else if (character == 'P')
@@ -41,36 +41,36 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
     //       be the job of the level loader to check if there is only ONE p
     if (player_.x == -1 && player_.y == -1)
     {
-      player_.x = x * grid_width_;
-      player_.y = y * grid_height_;
+      player_.x = x * gridWidth_;
+      player_.y = y * gridHeight_;
     }
   }
   else if (character == 'b')
   {
-    std::unique_ptr<Ghosts::Ghost> blinky = std::make_unique<Ghosts::Blinky>(grid_width_, grid_height_, Blinky::speed);
-    blinky->x                             = x * grid_width_;
-    blinky->y                             = y * grid_height_;
+    std::unique_ptr<Ghosts::Ghost> blinky = std::make_unique<Ghosts::Blinky>(gridWidth_, gridHeight_, Blinky::speed);
+    blinky->x                             = x * gridWidth_;
+    blinky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(blinky));
   }
   else if (character == 'c')
   {
-    std::unique_ptr<Ghosts::Ghost> clyde = std::make_unique<Ghosts::Clyde>(grid_width_, grid_height_, Clyde::speed);
-    clyde->x                             = x * grid_width_;
-    clyde->y                             = y * grid_height_;
+    std::unique_ptr<Ghosts::Ghost> clyde = std::make_unique<Ghosts::Clyde>(gridWidth_, gridHeight_, Clyde::speed);
+    clyde->x                             = x * gridWidth_;
+    clyde->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(clyde));
   }
   else if (character == 'i')
   {
-    std::unique_ptr<Ghosts::Ghost> inky = std::make_unique<Ghosts::Inky>(grid_width_, grid_height_, Inky::speed);
-    inky->x                             = x * grid_width_;
-    inky->y                             = y * grid_height_;
+    std::unique_ptr<Ghosts::Ghost> inky = std::make_unique<Ghosts::Inky>(gridWidth_, gridHeight_, Inky::speed);
+    inky->x                             = x * gridWidth_;
+    inky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(inky));
   }
   else if (character == 'y')
   {
-    std::unique_ptr<Ghosts::Ghost> pinky = std::make_unique<Ghosts::Pinky>(grid_width_, grid_height_, Pinky::speed);
-    pinky->x                             = x * grid_width_;
-    pinky->y                             = y * grid_height_;
+    std::unique_ptr<Ghosts::Ghost> pinky = std::make_unique<Ghosts::Pinky>(gridWidth_, gridHeight_, Pinky::speed);
+    pinky->x                             = x * gridWidth_;
+    pinky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(pinky));
   }
 }

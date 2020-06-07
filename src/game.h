@@ -16,8 +16,8 @@
 class Game
 {
 public:
-  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path const executable_path);
-  void run(Controller const &controller, Renderer &renderer, uint32_t const target_frame_duration);
+  Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path const executablePath);
+  void run(Controller const &controller, Renderer &renderer, uint32_t const targetFrameDuration);
   int score() const;
   int getSize() const;
 
@@ -36,10 +36,10 @@ private:
 
   void update(bool &running);
 
-  std::size_t screen_width_;
-  std::size_t screen_height_;
-  std::size_t grid_width_;
-  std::size_t grid_height_;
+  std::size_t screenWidth_;
+  std::size_t screenHeight_;
+  std::size_t gridWidth_;
+  std::size_t gridHeight_;
 
   Pacman pacman_;
   std::vector<Dot> dots_;
@@ -47,13 +47,13 @@ private:
   std::vector<SDL_Rect> walls_;
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
-  bool scared_ghosts_{false};
-  std::chrono::time_point<std::chrono::system_clock> start_scared_ghosts_ = std::chrono::system_clock::now();
-  int const duration_scared_ghosts_{10000};
+  bool scaredGhosts_{false};
+  std::chrono::time_point<std::chrono::system_clock> startScaredGhosts = std::chrono::system_clock::now();
+  int const durationScaredGhosts_{10000};
 
   int score_{0};
   // TODO: do we want thi sto belong to the game or just make a global?
-  std::filesystem::path const executable_path_;
+  std::filesystem::path const executablePath_;
 
-  unsigned int const time_between_title_update_{1000};
+  unsigned int const timeBetweenTitleUpdate_{1000};
 };

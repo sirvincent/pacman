@@ -24,7 +24,7 @@ public:
   bool alive() const;
   void alive(bool alive);
 
-  std::pair<SDL_Texture *, SDL_Rect> active_sprite() override;
+  std::pair<SDL_Texture *, SDL_Rect> activeSprite() override;
 
   static float constexpr pacman_speed = 2.0f;
 

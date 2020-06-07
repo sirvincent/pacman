@@ -19,8 +19,8 @@ Pacman::Pacman(float width, float height, float speed) : Movement(speed, speed, 
 void Pacman::move()
 {
   // TODO: currently movement is frame based, I prefer time based for understandable physics}
-  x += velocity_x_;
-  y += velocity_y_;
+  x += velocityX_;
+  y += velocityY_;
 }
 
 bool Pacman::alive() const
@@ -33,21 +33,21 @@ void Pacman::alive(bool alive)
   alive_ = alive;
 }
 
-std::pair<SDL_Texture *, SDL_Rect> Pacman::active_sprite()
+std::pair<SDL_Texture *, SDL_Rect> Pacman::activeSprite()
 {
   switch (direction)
   {
     case Movement::Direction::up:
-      return std::make_pair(sprite_sheet_, SDL_Rect{556, 853, 138, 170});
+      return std::make_pair(spriteSheet_, SDL_Rect{556, 853, 138, 170});
       break;
     case Movement::Direction::down:
-      return std::make_pair(sprite_sheet_, SDL_Rect{556, 5, 138, 170});
+      return std::make_pair(spriteSheet_, SDL_Rect{556, 5, 138, 170});
       break;
     case Movement::Direction::left:
-      return std::make_pair(sprite_sheet_, SDL_Rect{556, 342, 138, 170});
+      return std::make_pair(spriteSheet_, SDL_Rect{556, 342, 138, 170});
       break;
     case Movement::Direction::right:
-      return std::make_pair(sprite_sheet_, SDL_Rect{556, 172, 138, 170});
+      return std::make_pair(spriteSheet_, SDL_Rect{556, 172, 138, 170});
       break;
   }
 }
