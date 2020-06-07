@@ -7,7 +7,7 @@
 
 
 Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight),
-                                                                                                                                                          pacman_(gridWidth, gridHeight, Pacman::pacman_speed), executablePath_(executablePath)
+                                                                                                                                                     pacman_(gridWidth, gridHeight, Pacman::pacman_speed), executablePath_(executablePath)
 {
   Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
@@ -24,7 +24,7 @@ void Game::run(Controller const &controller, Renderer &renderer, uint32_t const 
 {
   uint32_t titleTimestamp = SDL_GetTicks();
   int frameCount          = 0;
-  bool running             = true;
+  bool running            = true;
 
   // TODO: initialize here?
   renderer.initialize(pacman_, ghosts_, executablePath_);
@@ -232,7 +232,7 @@ void Game::update(bool &running)
   {
     if (!scaredGhosts_)
     {
-      scaredGhosts_       = true;
+      scaredGhosts_     = true;
       startScaredGhosts = std::chrono::system_clock::now();
     }
   }
@@ -242,7 +242,7 @@ void Game::update(bool &running)
     long timePassedSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startScaredGhosts).count();
     if (timePassedSinceLastUpdate > durationScaredGhosts_)
     {
-      scaredGhosts_       = false;
+      scaredGhosts_     = false;
       startScaredGhosts = std::chrono::system_clock::now();
     }
   }
