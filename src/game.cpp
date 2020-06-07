@@ -6,9 +6,9 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height) :
+Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path executable_path) :
   screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  pacman_(grid_width, grid_height, Pacman::pacman_speed)
+  pacman_(grid_width, grid_height, Pacman::pacman_speed), executable_path_(executable_path)
 {
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
@@ -21,12 +21,15 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   pacman_.y = level.player_.y;
 }
 
-
 void Game::run(Controller const &controller, Renderer &renderer,
-               uint32_t const target_frame_duration) {
+               uint32_t const target_frame_duration)
+{
   uint32_t title_timestamp = SDL_GetTicks();
   int frame_count = 0;
   bool running = true;
+
+  // TODO: initialize here?
+  renderer.initialize(pacman_, ghosts_, executable_path_);
 
 
   while (running) {
@@ -138,7 +141,7 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
     //       should pacman die not when they start to touch
     if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
     {
-      if ((*it)->edible())
+      if ((*it)->edible)
       {
         score_ += (*it)->score();
         // TODO: not representative of pacman, ghost should remain alive but go back to its cage in the center
@@ -155,26 +158,25 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
 }
 
 
-// require CHARACTER is a SDL_Rect or SDL_FRect object
-// require CHARACTER is a Movement object
+// require CHARACTER is pacman or Ghost
 template <typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
 {
   character.adjust_x_y_velocity_on_direction(character.wanted_direction);
-  CHARACTER wanted_pacman = character;
-  wanted_pacman.x = character.x + character.velocity_x();
-  wanted_pacman.y = character.y + character.velocity_y();
+  SDL_FRect wanted_pacman_location = character;
+  wanted_pacman_location.x = character.x + character.velocity_x();
+  wanted_pacman_location.y = character.y + character.velocity_y();
 
-  bool valid_direction = checkMoveInBounds(wanted_pacman);
+  bool valid_direction = checkMoveInBounds(wanted_pacman_location);
 
   if (!valid_direction)
   {
     character.adjust_x_y_velocity_on_direction(character.direction);
-    CHARACTER wanted_pacman_old = character;
-    wanted_pacman_old.x = character.x + character.velocity_x();
-    wanted_pacman_old.y = character.y + character.velocity_y();
+    SDL_FRect wanted_pacman_old_location = character;
+    wanted_pacman_old_location.x = character.x + character.velocity_x();
+    wanted_pacman_old_location.y = character.y + character.velocity_y();
 
-    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old);
+    bool valid_old_direction = checkMoveInBounds(wanted_pacman_old_location);
     if (valid_old_direction)
     {
       character.move();
@@ -246,8 +248,8 @@ void Game::update(bool &running) {
 
   for (auto &ghost : ghosts_)
   {
-    ghost->edible(scared_ghosts_);
-    ghost->scared(scared_ghosts_);
+    ghost->edible = scared_ghosts_;
+    ghost->scared = scared_ghosts_;
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);

@@ -55,6 +55,10 @@ the console. Good luck with your new try!
 ## Notes
 * SDL is packaged with the repo so no system SDL should be necessary! (only tested on arch linux)
 
+## Thanks
+* Thanks for http://carlosalface.blogspot.pt/ Carlos Alface for the art
+
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -73,3 +77,4 @@ the console. Good luck with your new try!
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./PacmanGame`.
+

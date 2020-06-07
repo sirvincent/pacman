@@ -1,6 +1,7 @@
 #pragma once
 
 #include "movement.h"
+#include "sprite_graphics.h"
 
 #include "SDL.h"
 
@@ -11,13 +12,15 @@
 namespace Ghosts
 {
 
-// Ghost was intended to be an abstract base class, but since we have a ghosts vector where we use
-// base ptr to derived objects this is not possible. I like the vector circumvents calling the 4 ghosts separately.
-class Ghost : public SDL_FRect, public Movement
+// TODO: ghost is a mix of implementation and interface inheretance, refactor according to C.129
+class Ghost : public SDL_FRect, public Movement, public virtual SpriteGraphics
 {
 public:
-  Ghost(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, float speed) :
-    Movement(speed, speed, speed, speed), rgba_({red, green, blue, alpha}){}
+  Ghost(float speed) : Movement(speed, speed, speed, speed) {}
+  // from: https://en.cppreference.com/w/cpp/language/destructor
+  // "Deleting an object through pointer to base invokes undefined behavior unless the destructor in the base class is virtual"
+  // Destructor of derived Ghost e.g. Blinky is then not called
+  virtual ~Ghost() = default;
 
   void move()
   {
@@ -25,26 +28,40 @@ public:
     y += velocity_y_;
   }
 
-  virtual void moveMethod() { std::cout << "ghost move method" << std::endl; }
+  virtual void moveMethod()  = 0;
 
-  inline bool edible() const { return edible_; }
-  inline void edible(bool const edible) { /* TODO: change sprite to scared */ edible_ = edible; }
+  // TODO: build in assumption is that every derived ghost scared sprite is at the same location
+  //       on the sprite sheet!
+  SDL_Rect handle_sprite_scared(Movement::Direction const &direction)
+  {
+    switch (direction)
+    {
+      // TODO: adjusted values
+      case Movement::Direction::up:
+        return SDL_Rect{130, 850, 115, 165};
+        break;
+      case Movement::Direction::down:
+        return SDL_Rect{0, 850, 115, 165};
+        break;
+      case Movement::Direction::left:
+        return SDL_Rect{275, 850, 115, 165};
+        break;
+      case Movement::Direction::right:
+        return SDL_Rect{410, 850, 115, 165};
+        break;
+      default:
+        std::cout << "An unhandled direction is found" << std::endl;
+        throw;
+    }
+  }
 
-  inline bool scared() const { return scared_; }
-  inline void scared(bool const scared) { /* TODO: change sprite to scared */ scared_ = scared; }
+  bool edible{false};
+  bool scared{false};
 
   inline int score() const { return score_; }
 
-  inline std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba() const { return rgba_; }
-
-protected:
-  bool edible_{false};
-  bool scared_{false};
-
 private:
   int const score_{200};
-
-  std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> rgba_{0xFF, 0xFF, 0xFF, 0xFF};
 };
 
 }
