@@ -7,10 +7,10 @@
 #include <chrono>
 
 
-namespace Ghosts
-{
+namespace Ghosts {
 
-class Pinky : public Ghost, public Implementation::SpriteGraphics
+class Pinky : public Ghost
+  , public Implementation::SpriteGraphics
 {
 public:
   Pinky(float width, float height, float speed);
@@ -21,12 +21,10 @@ public:
 private:
   std::chrono::time_point<std::chrono::system_clock> last_update_ = std::chrono::system_clock::now();
   double const method_duration_{400};
-
 };
 
-}
+}  // namespace Ghosts
 
-namespace Pinky
-{
+namespace Pinky {
 constexpr float speed{2.4f};
 }

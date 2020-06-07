@@ -6,7 +6,7 @@
 namespace Ghosts {
 
 Pinky::Pinky(float width, float height, float speed) : Ghost(speed),
-  Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
+                                                       Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   x = 0.0f;
   y = 0.0f;
@@ -26,7 +26,7 @@ void Pinky::moveMethod()
     std::uniform_int_distribution<uint8_t> distribution(0, 3);
 
     wanted_direction = static_cast<Movement::Direction>(distribution(generator));
-    last_update_ = std::chrono::system_clock::now();
+    last_update_     = std::chrono::system_clock::now();
   }
 }
 
@@ -66,4 +66,4 @@ std::pair<SDL_Texture *, SDL_Rect> Pinky::active_sprite()
   return std::make_pair(sprite_sheet_, sprite_sheet_rectangle);
 }
 
-}
+}  // namespace Ghosts

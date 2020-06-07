@@ -7,7 +7,7 @@
 
 // TODO: a magic string, do we want to make this settable?
 Pacman::Pacman(float width, float height, float speed) : Movement(speed, speed, speed, speed),
-  Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
+                                                         Implementation::SpriteGraphics("pac-classic/pac-classic_c-toy.png")
 {
   // x,y are initialized to 0.0f to circumvent uninitialized members
   x = 0.0f;

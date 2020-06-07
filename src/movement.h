@@ -20,7 +20,7 @@ public:
   float velocity_y() const;
 
   // TODO: do we want getters/setters for these?
-  Movement::Direction direction = Movement::Direction::left;
+  Movement::Direction direction        = Movement::Direction::left;
   Movement::Direction wanted_direction = direction;
 
 protected:
@@ -31,5 +31,4 @@ protected:
   float const speed_y_;
 
 private:
-
 };

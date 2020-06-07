@@ -3,8 +3,7 @@
 #include <fstream>
 
 
-Level::Level(std::size_t const screen_width, std::size_t const screen_height, std::size_t const grid_width, std::size_t const grid_height) :
-  screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height) {}
+Level::Level(std::size_t const screen_width, std::size_t const screen_height, std::size_t const grid_width, std::size_t const grid_height) : screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height) {}
 
 
 void Level::convertCharacterToGameObject(char const character, unsigned int x, unsigned int y)
@@ -12,18 +11,19 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
   if (character == 'o')
   {
     unsigned int radius = grid_width_ / 4;
-    Dot dot(x * grid_width_  + grid_width_  / 2 - radius / 2,
-            y * grid_height_ + grid_height_ / 2 - radius / 2,
-            radius);
+    Dot dot(x * grid_width_ + grid_width_ / 2 - radius / 2,
+      y * grid_height_ + grid_height_ / 2 - radius / 2,
+      radius);
     dots_.push_back(std::move(dot));
   }
   else if (character == 'p')
   {
     // TODO: should be twice as large as dot, so use dot radius
     unsigned int radius = grid_width_ / 2;
-    Dot pellet(x * grid_width_  + grid_width_  / 2 - radius / 2,
-               y * grid_height_ + grid_height_ / 2 - radius / 2,
-               radius, Dots::pellet_score);
+    Dot pellet(x * grid_width_ + grid_width_ / 2 - radius / 2,
+      y * grid_height_ + grid_height_ / 2 - radius / 2,
+      radius,
+      Dots::pellet_score);
     pellets_.push_back(std::move(pellet));
   }
   else if (character == '=')
@@ -48,39 +48,38 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
   else if (character == 'b')
   {
     std::unique_ptr<Ghosts::Ghost> blinky = std::make_unique<Ghosts::Blinky>(grid_width_, grid_height_, Blinky::speed);
-    blinky->x = x * grid_width_;
-    blinky->y = y * grid_height_;
+    blinky->x                             = x * grid_width_;
+    blinky->y                             = y * grid_height_;
     ghosts_.push_back(std::move(blinky));
   }
   else if (character == 'c')
   {
     std::unique_ptr<Ghosts::Ghost> clyde = std::make_unique<Ghosts::Clyde>(grid_width_, grid_height_, Clyde::speed);
-    clyde->x = x * grid_width_;
-    clyde->y = y * grid_height_;
+    clyde->x                             = x * grid_width_;
+    clyde->y                             = y * grid_height_;
     ghosts_.push_back(std::move(clyde));
   }
   else if (character == 'i')
   {
     std::unique_ptr<Ghosts::Ghost> inky = std::make_unique<Ghosts::Inky>(grid_width_, grid_height_, Inky::speed);
-    inky->x = x * grid_width_;
-    inky->y = y * grid_height_;
+    inky->x                             = x * grid_width_;
+    inky->y                             = y * grid_height_;
     ghosts_.push_back(std::move(inky));
   }
   else if (character == 'y')
   {
     std::unique_ptr<Ghosts::Ghost> pinky = std::make_unique<Ghosts::Pinky>(grid_width_, grid_height_, Pinky::speed);
-    pinky->x = x * grid_width_;
-    pinky->y = y * grid_height_;
+    pinky->x                             = x * grid_width_;
+    pinky->y                             = y * grid_height_;
     ghosts_.push_back(std::move(pinky));
   }
-
 }
 
 
 void Level::load(std::string const &directory, std::string const &filename)
 {
   std::filesystem::path path = std::filesystem::current_path();
-  path = path.parent_path();
+  path                       = path.parent_path();
   path /= directory;
   path /= filename;
   path.replace_extension("txt");
@@ -107,6 +106,4 @@ void Level::load(std::string const &directory, std::string const &filename)
   {
     throw std::invalid_argument("user path could not be opened");
   }
-
-
 }

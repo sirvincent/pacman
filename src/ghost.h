@@ -9,11 +9,12 @@
 #include <tuple>
 
 
-namespace Ghosts
-{
+namespace Ghosts {
 
 // TODO: ghost is a mix of implementation and interface inheretance, refactor according to C.129
-class Ghost : public SDL_FRect, public Movement, public virtual SpriteGraphics
+class Ghost : public SDL_FRect
+  , public Movement
+  , public virtual SpriteGraphics
 {
 public:
   Ghost(float speed) : Movement(speed, speed, speed, speed) {}
@@ -28,7 +29,7 @@ public:
     y += velocity_y_;
   }
 
-  virtual void moveMethod()  = 0;
+  virtual void moveMethod() = 0;
 
   // TODO: build in assumption is that every derived ghost scared sprite is at the same location
   //       on the sprite sheet!
@@ -64,4 +65,4 @@ private:
   int const score_{200};
 };
 
-}
+}  // namespace Ghosts

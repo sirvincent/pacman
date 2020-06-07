@@ -10,7 +10,8 @@
 #define ASSERT_MESSAGE(exp, msg) assert(((void)msg, exp))
 
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kGridWidth{32};

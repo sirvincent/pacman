@@ -6,9 +6,8 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path executable_path) :
-  screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
-  pacman_(grid_width, grid_height, Pacman::pacman_speed), executable_path_(executable_path)
+Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path executable_path) : screen_width_(screen_width), screen_height_(screen_height), grid_width_(grid_width), grid_height_(grid_height),
+                                                                                                                                                          pacman_(grid_width, grid_height, Pacman::pacman_speed), executable_path_(executable_path)
 {
   Level level(screen_width, screen_height, grid_width, grid_height);
   level.load();
@@ -21,18 +20,18 @@ Game::Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid
   pacman_.y = level.player_.y;
 }
 
-void Game::run(Controller const &controller, Renderer &renderer,
-               uint32_t const target_frame_duration)
+void Game::run(Controller const &controller, Renderer &renderer, uint32_t const target_frame_duration)
 {
   uint32_t title_timestamp = SDL_GetTicks();
-  int frame_count = 0;
-  bool running = true;
+  int frame_count          = 0;
+  bool running             = true;
 
   // TODO: initialize here?
   renderer.initialize(pacman_, ghosts_, executable_path_);
 
 
-  while (running) {
+  while (running)
+  {
     uint32_t frame_start = SDL_GetTicks();
 
     controller.handleInput(running, pacman_);
@@ -48,13 +47,15 @@ void Game::run(Controller const &controller, Renderer &renderer,
     frame_count++;
     uint32_t frame_duration = frame_end - frame_start;
 
-    if (frame_end - title_timestamp >= time_between_title_update_) {
+    if (frame_end - title_timestamp >= time_between_title_update_)
+    {
       renderer.updateWindowTitle(score_, frame_count);
-      frame_count = 0;
+      frame_count     = 0;
       title_timestamp = frame_end;
     }
 
-    if (frame_duration < target_frame_duration) {
+    if (frame_duration < target_frame_duration)
+    {
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
@@ -103,7 +104,7 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
   {
     return false;
   }
-  if (left_rectangle  >= right_other)
+  if (left_rectangle >= right_other)
   {
     return false;
   }
@@ -154,18 +155,17 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
       }
     }
   }
-
 }
 
 
 // require CHARACTER is pacman or Ghost
-template <typename CHARACTER>
+template<typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
 {
   character.adjust_x_y_velocity_on_direction(character.wanted_direction);
   SDL_FRect wanted_pacman_location = character;
-  wanted_pacman_location.x = character.x + character.velocity_x();
-  wanted_pacman_location.y = character.y + character.velocity_y();
+  wanted_pacman_location.x         = character.x + character.velocity_x();
+  wanted_pacman_location.y         = character.y + character.velocity_y();
 
   bool valid_direction = checkMoveInBounds(wanted_pacman_location);
 
@@ -173,8 +173,8 @@ void Game::moveCharacter(CHARACTER &character)
   {
     character.adjust_x_y_velocity_on_direction(character.direction);
     SDL_FRect wanted_pacman_old_location = character;
-    wanted_pacman_old_location.x = character.x + character.velocity_x();
-    wanted_pacman_old_location.y = character.y + character.velocity_y();
+    wanted_pacman_old_location.x         = character.x + character.velocity_x();
+    wanted_pacman_old_location.y         = character.y + character.velocity_y();
 
     bool valid_old_direction = checkMoveInBounds(wanted_pacman_old_location);
     if (valid_old_direction)
@@ -205,7 +205,8 @@ bool Game::checkMoveInBounds(SDL_FRect rectangle)
   return true;
 }
 
-void Game::update(bool &running) {
+void Game::update(bool &running)
+{
   if (!pacman_.alive())
   {
     // TODO: go to game over screen
@@ -231,7 +232,7 @@ void Game::update(bool &running) {
   {
     if (!scared_ghosts_)
     {
-      scared_ghosts_ = true;
+      scared_ghosts_       = true;
       start_scared_ghosts_ = std::chrono::system_clock::now();
     }
   }
@@ -241,7 +242,7 @@ void Game::update(bool &running) {
     long time_passed_since_last_update = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_scared_ghosts_).count();
     if (time_passed_since_last_update > duration_scared_ghosts_)
     {
-      scared_ghosts_ = false;
+      scared_ghosts_       = false;
       start_scared_ghosts_ = std::chrono::system_clock::now();
     }
   }

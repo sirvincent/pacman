@@ -10,7 +10,7 @@
 class SpriteGraphics
 {
 public:
-  virtual std::pair<SDL_Texture *, SDL_Rect> active_sprite() = 0;
+  virtual std::pair<SDL_Texture *, SDL_Rect> active_sprite()                                                 = 0;
   virtual void initialize_texture(SDL_Renderer *sdl_renderer_, std::filesystem::path const &executable_path) = 0;
 
 private:
@@ -19,8 +19,7 @@ private:
 
 // dual hierarchy example of C.129, the corresponding implementation class
 // TODO: better to move to separate file?
-namespace Implementation
-{
+namespace Implementation {
 class SpriteGraphics : public virtual ::SpriteGraphics
 {
 public:
@@ -36,4 +35,4 @@ protected:
 private:
   std::string const relative_path_sprite_sheet_to_assets_directory_;
 };
-}
+}  // namespace Implementation

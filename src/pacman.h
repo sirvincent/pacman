@@ -12,7 +12,9 @@
 #include <utility>
 
 
-class Pacman : public SDL_FRect, public Movement, public Implementation::SpriteGraphics
+class Pacman : public SDL_FRect
+  , public Movement
+  , public Implementation::SpriteGraphics
 {
 public:
   Pacman(float width, float height, float speed);
@@ -27,8 +29,5 @@ public:
   static float constexpr pacman_speed = 2.0f;
 
 private:
-
   bool alive_{true};
 };
-
-

@@ -4,29 +4,31 @@
 #include <string>
 
 Renderer::Renderer(const std::size_t screen_width,
-                   const std::size_t screen_height,
-                   const std::size_t grid_width, const std::size_t grid_height)
-    : screen_width_(screen_width),
-      screen_height_(screen_height),
-      grid_width_(grid_width),
-      grid_height_(grid_height)
+  const std::size_t screen_height,
+  const std::size_t grid_width,
+  const std::size_t grid_height)
+  : screen_width_(screen_width),
+    screen_height_(screen_height),
+    grid_width_(grid_width),
+    grid_height_(grid_height)
 {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
     std::cerr << "SDL could not initialize.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  sdl_window_ = SDL_CreateWindow("pacman Game", SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED, screen_width,
-                                screen_height, SDL_WINDOW_SHOWN);
+  sdl_window_ = SDL_CreateWindow("pacman Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width, screen_height, SDL_WINDOW_SHOWN);
 
-  if (sdl_window_ == nullptr) {
+  if (sdl_window_ == nullptr)
+  {
     std::cerr << "Window could not be created.\n";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
   }
 
   sdl_renderer_ = SDL_CreateRenderer(sdl_window_, -1, SDL_RENDERER_ACCELERATED);
-  if (sdl_renderer_ == nullptr) {
+  if (sdl_renderer_ == nullptr)
+  {
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
@@ -47,8 +49,7 @@ void Renderer::initialize(Pacman &pacman, std::vector<std::unique_ptr<Ghosts::Gh
   }
 }
 
-void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets,
-                      std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts)
+void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<Dot> const &pellets, std::vector<SDL_Rect> const &walls, std::vector<std::unique_ptr<Ghosts::Ghost>> const &ghosts)
 {
   SDL_SetRenderDrawColor(sdl_renderer_, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer_);

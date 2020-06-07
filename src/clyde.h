@@ -6,10 +6,10 @@
 #include <chrono>
 
 
-namespace Ghosts
-{
+namespace Ghosts {
 
-class Clyde : public Ghost, public Implementation::SpriteGraphics
+class Clyde : public Ghost
+  , public Implementation::SpriteGraphics
 {
 public:
   Clyde(float width, float height, float speed);
@@ -20,12 +20,10 @@ public:
 private:
   std::chrono::time_point<std::chrono::system_clock> last_update_ = std::chrono::system_clock::now();
   double const method_duration_{400};
-
 };
 
-}
+}  // namespace Ghosts
 
-namespace Clyde
-{
+namespace Clyde {
 constexpr float speed{2.1f};
 }

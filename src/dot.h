@@ -1,11 +1,10 @@
 #pragma once
 
-class Dot {
+class Dot
+{
 public:
-  Dot(unsigned int x, unsigned int y, unsigned int radius) :
-    x_(x), y_(y), radius_(radius) {}
-  Dot(unsigned int x, unsigned int y, unsigned int radius, int score) :
-    x_(x), y_(y), radius_(radius), score_(score) {}
+  Dot(unsigned int x, unsigned int y, unsigned int radius) : x_(x), y_(y), radius_(radius) {}
+  Dot(unsigned int x, unsigned int y, unsigned int radius, int score) : x_(x), y_(y), radius_(radius), score_(score) {}
 
   inline unsigned int x() const { return x_; }
   inline unsigned int y() const { return y_; }
@@ -24,7 +23,6 @@ private:
 };
 
 
-namespace Dots
-{
-  static int constexpr pellet_score{50};
+namespace Dots {
+static int constexpr pellet_score{50};
 }

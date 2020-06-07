@@ -16,7 +16,8 @@
 #include <memory>
 
 
-class Level {
+class Level
+{
 public:
   Level(std::size_t const screen_width, std::size_t const screen_height, std::size_t const grid_width, std::size_t const grid_height);
 
@@ -34,6 +35,4 @@ private:
   std::size_t const screen_height_;
   std::size_t const grid_width_;
   std::size_t const grid_height_;
-
-
 };

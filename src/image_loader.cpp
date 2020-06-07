@@ -7,12 +7,12 @@
 
 ImageLoader::ImageLoader(std::filesystem::path const &executable_path)
 {
-    std::filesystem::path absolute_path = std::filesystem::absolute(executable_path);
-    assets_path_ = std::filesystem::canonical(absolute_path.parent_path() / ".." / "assets");
+  std::filesystem::path absolute_path = std::filesystem::absolute(executable_path);
+  assets_path_                        = std::filesystem::canonical(absolute_path.parent_path() / ".." / "assets");
 
-    assert(std::filesystem::exists(assets_path_));
+  assert(std::filesystem::exists(assets_path_));
 
-    IMG_Init(IMG_INIT_PNG);
+  IMG_Init(IMG_INIT_PNG);
 }
 
 
@@ -32,4 +32,3 @@ memory::unique_surface_ptr ImageLoader::load_asset(std::string const &relative_t
 
   return surface;
 }
-

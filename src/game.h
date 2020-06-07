@@ -13,12 +13,11 @@
 #include <filesystem>
 
 
-class Game {
+class Game
+{
 public:
-  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height,
-       std::filesystem::path const executable_path);
-  void run(Controller const &controller, Renderer &renderer,
-           uint32_t const target_frame_duration);
+  Game(std::size_t screen_width, std::size_t screen_height, std::size_t grid_width, std::size_t grid_height, std::filesystem::path const executable_path);
+  void run(Controller const &controller, Renderer &renderer, uint32_t const target_frame_duration);
   int score() const;
   int getSize() const;
 
@@ -30,7 +29,7 @@ private:
   bool handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots);
   void handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::unique_ptr<Ghosts::Ghost>> &ghosts);
 
-  template <typename CHARACTER>
+  template<typename CHARACTER>
   void moveCharacter(CHARACTER &character);
 
   bool checkMoveInBounds(SDL_FRect rectangle);

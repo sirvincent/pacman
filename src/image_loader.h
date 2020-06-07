@@ -18,5 +18,4 @@ public:
 
 private:
   std::filesystem::path assets_path_;
-
 };

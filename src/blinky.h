@@ -7,10 +7,10 @@
 #include <chrono>
 
 
-namespace Ghosts
-{
+namespace Ghosts {
 
-class Blinky : public Ghost, public Implementation::SpriteGraphics
+class Blinky : public Ghost
+  , public Implementation::SpriteGraphics
 {
 public:
   Blinky() = delete;
@@ -22,12 +22,10 @@ public:
 private:
   std::chrono::time_point<std::chrono::system_clock> last_update_ = std::chrono::system_clock::now();
   double const method_duration_{400};
-
 };
 
-}
+}  // namespace Ghosts
 
-namespace Blinky
-{
+namespace Blinky {
 constexpr float speed{2.1f};
 }
