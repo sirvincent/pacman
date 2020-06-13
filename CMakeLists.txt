@@ -1,40 +1,48 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.15)
 
-add_definitions(-std=c++17)
+# the cmake is inspired by: https://github.com/lefticus/cpp_starter_project/blob/master/CMakeLists.txt
 
-set(CXX_FLAGS "-Wall")
-set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
+project(pacman CXX)
+# include(cmake/StandardProjectSettings.cmake)
 
-project(SDL2Test)
+# Link this 'library' to set the c++ standard / compile-time options requested
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+add_library(project_warnings INTERFACE)
+
+# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
+
+# sanitizer options if supported by compiler
+# include(cmake/Sanitizers.cmake)
+# enable_sanitizers(project_options)
+
+# enable doxygen
+# include(cmake/Doxygen.cmake)
+# enable_doxygen()
+
+# allow for static analysis options
+# include(cmake/StaticAnalyzers.cmake)
+
+# option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+# option(ENABLE_TESTING "Enable Test Builds" OFF)
+
+# TODO: use PCH?
+
+include(cmake/Conan.cmake)
+run_conan()
+
+# if(ENABLE_TESTING)
+#   enable_testing()
+#   message(
+#     "Building Tests. Be sure to check out test/constexpr_tests for constexpr testing"
+#   )
+#   add_subdirectory(test)
+# endif()
+
 file(GLOB sources "src/*.cpp")
 add_executable(PacmanGame ${sources})
-
-# TODO: first uncompress if compressed, use the FindZIP.cmake, circumvents attaching all the files loosely into git etc
-add_subdirectory(thirdparty/SDL2-2.0.10)
-target_link_libraries(PacmanGame SDL2)
-
-# TODO: basicly I have no idea how to do this in cmake... the following works but it is not programmed deliberately...
-#       expectation is that the program will fail on any computer than my own
-# inspired by: https://stackoverflow.com/questions/5971921/building-a-library-using-autotools-from-cmake
-include(ExternalProject)
-ExternalProject_Add(libSDL2_image
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2_image-2.0.5
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL2_image-2.0.5/configure --prefix=${CMAKE_CURRENT_SOURCE_DIR}/build/thirdparty/SDL2_image-2.0.5
-  PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/build/thirdparty/SDL2_image-2.0.5
-  BUILD_COMMAND ${MAKE}
-  )
-# inspired by: https://www.reddit.com/r/cmake/comments/b6vywy/externalproject_and_static_libraries/
-add_library(SDL2_image STATIC IMPORTED)
-file (MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/thirdparty/SDL2_image-2.0.5/include/)
-set_target_properties (SDL2_image PROPERTIES
-  IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/build/thirdparty/SDL2_image-2.0.5/lib/libSDL2_image.a
-  INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/build/thirdparty/SDL2_image-2.0.5/include/
-)
-target_link_libraries(PacmanGame SDL2_image)
-
-
-
-
+target_link_libraries(PacmanGame PRIVATE project_options CONAN_PKG::sdl2 CONAN_PKG::sdl2_image)
 
