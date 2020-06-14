@@ -3,7 +3,7 @@
 #include "movement.h"
 #include "sprite_graphics.h"
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 #include <iostream>
 #include <tuple>
