@@ -4,7 +4,7 @@
 #include "dot.h"
 #include "ghost.h"
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 #include <vector>
 #include <memory>
