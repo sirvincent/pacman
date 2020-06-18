@@ -12,7 +12,7 @@ build:
 debug:
 	mkdir -p build
 	cd build && \
-	cmake -DCMAKE_BUILD_TYPE=debug .. && \
+  cmake -DENABLE_INCLUDE_WHAT_YOU_USE=True -DCMAKE_BUILD_TYPE=Debug .. && \
 	make -j4
 
 .PHONY: clean
