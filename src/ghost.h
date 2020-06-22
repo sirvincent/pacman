@@ -33,9 +33,9 @@ public:
 
   // TODO: build in assumption is that every derived ghost scared sprite is at the same location
   //       on the sprite sheet!
-  SDL_Rect handleSpriteScared(Movement::Direction const &direction)
+  SDL_Rect handleSpriteScared(Movement::Direction const &movement_direction)
   {
-    switch (direction)
+    switch (movement_direction)
     {
       // TODO: adjusted values
       case Movement::Direction::up:
