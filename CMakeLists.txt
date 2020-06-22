@@ -19,14 +19,15 @@ include(cmake/StaticAnalyzers.cmake)
 file(GLOB sources "src/*.cpp")
 add_executable(PacmanGame ${sources})
 
+# required by SDL2_image
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(SDL2 REQUIRED)
 if(!SDL2_FOUND)
   message(FATAL_ERROR "SDL was not found")
 else()
-  message("SDL2 was found ${SDL2_LIBRARY}")
+  message("SDL2 was found ${SDL2_LIBRARIES}")
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(SDL2_image REQUIRED)
 if(!SDL2_IMAGE_FOUND)
   message(FATAL_ERROR "SDL image was not found")
