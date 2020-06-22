@@ -19,7 +19,7 @@ public:
 
 private:
   std::chrono::time_point<std::chrono::system_clock> lastUpdate_ = std::chrono::system_clock::now();
-  double const methodDuration_{400};
+  long const methodDuration_{400};
 };
 
 }  // namespace Ghosts
