@@ -1,4 +1,5 @@
 #include "game.h"
+#include "animation.h"
 
 #include <SDL2/SDL.h>
 
@@ -7,7 +8,7 @@
 
 
 Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight),
-                                                                                                                                                     pacman_(gridWidth, gridHeight, Pacman::pacman_speed), executablePath_(executablePath)
+                                                                                                                                                     pacman_(gridWidth, gridHeight), executablePath_(executablePath)
 {
   Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
@@ -96,15 +97,15 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
   {
     return false;
   }
-  if (topRectangle >= bottomOther)
+  else if (topRectangle >= bottomOther)
   {
     return false;
   }
-  if (rightRectangle <= leftOther)
+  else if (rightRectangle <= leftOther)
   {
     return false;
   }
-  if (leftRectangle >= rightOther)
+  else if (leftRectangle >= rightOther)
   {
     return false;
   }
@@ -112,6 +113,8 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
   return true;
 }
 
+// TODO: a dumb check, better & faster option might be to check the nearest neighbor dots
+//       if collision the ones after that can not be touched in during this tick
 bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
 {
   for (auto it = dots.begin(); it != dots.end(); ++it)
@@ -214,7 +217,6 @@ void Game::update(bool &running)
     running = false;
     return;
   }
-
 
   moveCharacter<Pacman>(pacman_);
 

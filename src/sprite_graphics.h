@@ -12,7 +12,7 @@ class SpriteGraphics
 public:
   virtual ~SpriteGraphics() = default;
 
-  virtual std::pair<SDL_Texture *, SDL_Rect> activeSprite()                                               = 0;
+  virtual std::pair<SDL_Texture *, SDL_Rect> activeSprite(uint32_t timeSinceStartMilliseconds)                                               = 0;
   virtual void initializeTexture(SDL_Renderer *sdlRenderer_, std::filesystem::path const &executablePath) = 0;
 
 private:

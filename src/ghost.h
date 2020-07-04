@@ -1,7 +1,7 @@
 #pragma once
 
 #include "movement.h"
-#include "sprite_graphics.h"
+#include "animation.h"
 
 #include <SDL2/SDL.h>
 
@@ -14,10 +14,12 @@ namespace Ghosts {
 // TODO: ghost is a mix of implementation and interface inheretance, refactor according to C.129
 class Ghost : public SDL_FRect
   , public Movement
-  , public virtual SpriteGraphics
+  , public Implementation::Animation
 {
 public:
-  Ghost(float speed) : Movement(speed, speed, speed, speed) {}
+  Ghost(float speed, std::string relativePathSpriteSheetToAssetsDirectory, std::map<std::string, AnimationProperty> animations, std::string spriteStartName) :
+      Movement(speed, speed, speed, speed)
+    , Implementation::Animation(relativePathSpriteSheetToAssetsDirectory, SDL_GetTicks(), animations, spriteStartName) {}
   // from: https://en.cppreference.com/w/cpp/language/destructor
   // "Deleting an object through pointer to base invokes undefined behavior unless the destructor in the base class is virtual"
   // Destructor of derived Ghost e.g. Blinky is then not called
@@ -31,29 +33,37 @@ public:
 
   virtual void moveMethod() = 0;
 
-  // TODO: build in assumption is that every derived ghost scared sprite is at the same location
-  //       on the sprite sheet!
-  SDL_Rect handleSpriteScared(Movement::Direction const &movement_direction)
+  std::string onActiveSprite() override
   {
-    switch (movement_direction)
+    std::string activeSpriteName{""};
+      // TODO: repeating switch in derived Ghost, can we remove the repetition?
+    switch (direction)
     {
-      // TODO: adjusted values
+      // TODO: it feels as if these magic numbers belong into some sort of configuration file
+      //       which contains a connection to the specific sprite sheet in use
+      // TODO: can we make the SDL_Rect constexpr? They will not change after compile time
       case Movement::Direction::up:
-        return SDL_Rect{130, 850, 115, 165};
+        activeSpriteName = "up";
         break;
       case Movement::Direction::down:
-        return SDL_Rect{0, 850, 115, 165};
+        activeSpriteName = "down";
         break;
       case Movement::Direction::left:
-        return SDL_Rect{275, 850, 115, 165};
+        activeSpriteName = "left";
         break;
       case Movement::Direction::right:
-        return SDL_Rect{410, 850, 115, 165};
+        activeSpriteName = "right";
         break;
       default:
         std::cout << "An unhandled direction is found" << std::endl;
         throw;
     }
+    if (scared)
+    {
+      activeSpriteName += "_scared";
+    }
+
+    return activeSpriteName;
   }
 
   bool edible{false};

@@ -47,28 +47,28 @@ void Level::convertCharacterToGameObject(char const character, unsigned int x, u
   }
   else if (character == 'b')
   {
-    std::unique_ptr<Ghosts::Ghost> blinky = std::make_unique<Ghosts::Blinky>(gridWidth_, gridHeight_, Blinky::speed);
+    std::unique_ptr<Ghosts::Ghost> blinky = std::make_unique<Ghosts::Blinky>(gridWidth_, gridHeight_);
     blinky->x                             = x * gridWidth_;
     blinky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(blinky));
   }
   else if (character == 'c')
   {
-    std::unique_ptr<Ghosts::Ghost> clyde = std::make_unique<Ghosts::Clyde>(gridWidth_, gridHeight_, Clyde::speed);
+    std::unique_ptr<Ghosts::Ghost> clyde = std::make_unique<Ghosts::Clyde>(gridWidth_, gridHeight_);
     clyde->x                             = x * gridWidth_;
     clyde->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(clyde));
   }
   else if (character == 'i')
   {
-    std::unique_ptr<Ghosts::Ghost> inky = std::make_unique<Ghosts::Inky>(gridWidth_, gridHeight_, Inky::speed);
+    std::unique_ptr<Ghosts::Ghost> inky = std::make_unique<Ghosts::Inky>(gridWidth_, gridHeight_);
     inky->x                             = x * gridWidth_;
     inky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(inky));
   }
   else if (character == 'y')
   {
-    std::unique_ptr<Ghosts::Ghost> pinky = std::make_unique<Ghosts::Pinky>(gridWidth_, gridHeight_, Pinky::speed);
+    std::unique_ptr<Ghosts::Ghost> pinky = std::make_unique<Ghosts::Pinky>(gridWidth_, gridHeight_);
     pinky->x                             = x * gridWidth_;
     pinky->y                             = y * gridHeight_;
     ghosts_.push_back(std::move(pinky));

@@ -55,7 +55,7 @@ void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<
   SDL_RenderClear(sdlRenderer_);
 
   // draw pacman
-  auto [pacman_texture, pacman_texture_rectangle] = pacman.activeSprite();
+  auto [pacman_texture, pacman_texture_rectangle] = pacman.activeSprite(SDL_GetTicks());
   SDL_RenderCopyF(sdlRenderer_, pacman_texture, &pacman_texture_rectangle, &pacman);
 
 
@@ -95,7 +95,7 @@ void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<
 
   for (std::unique_ptr<Ghosts::Ghost> const &ghost : ghosts)
   {
-    auto [ghost_texture, ghost_texture_rectangle] = ghost->activeSprite();
+    auto [ghost_texture, ghost_texture_rectangle] = ghost->activeSprite(SDL_GetTicks());
     SDL_RenderCopyF(sdlRenderer_, ghost_texture, &ghost_texture_rectangle, ghost.get());
   }
 
