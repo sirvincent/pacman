@@ -6,8 +6,8 @@
 
 namespace Ghosts {
 
-Clyde::Clyde(float width, float height) :
-    Ghost(Data::Clyde::speed, "pac-classic/pac-classic_c-toy.png", Data::Clyde::animations, "left")
+Clyde::Clyde(float width, float height)
+  : Ghost(Data::Clyde::speed, "pac-classic/pac-classic_c-toy.png", Data::Clyde::animations, "left")
 {
   x = 0.0f;
   y = 0.0f;

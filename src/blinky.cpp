@@ -5,8 +5,8 @@
 
 namespace Ghosts {
 
-Blinky::Blinky(float width, float height) :
-    Ghost(Data::Blinky::speed, "pac-classic/pac-classic_c-toy.png", Data::Blinky::animations, "left")
+Blinky::Blinky(float width, float height)
+  : Ghost(Data::Blinky::speed, "pac-classic/pac-classic_c-toy.png", Data::Blinky::animations, "left")
 {
   x = 0.0f;
   y = 0.0f;

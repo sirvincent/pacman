@@ -1,7 +1,12 @@
 #include "movement.h"
 
 
-Movement::Movement(float velocityX, float velocityY, float speed_x, float speed_y) : velocityX_(velocityX), velocityY_(velocityY), speed_x_(speed_x), speed_y_(speed_y) {}
+Movement::Movement(float velocityX, float velocityY, float speed_x, float speed_y)
+  : velocityX_(velocityX)
+  , velocityY_(velocityY)
+  , speed_x_(speed_x)
+  , speed_y_(speed_y)
+{}
 
 
 float Movement::velocityX() const

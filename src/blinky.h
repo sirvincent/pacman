@@ -29,15 +29,14 @@ namespace Data {
 namespace Blinky {
   // TODO: will be nice if this is constexpr
   static std::map<std::string, AnimationProperty> const animations = {
-    {"up",           AnimationProperty({SDL_Rect{130, 0, 115, 165}}, 100)},
-    {"down",         AnimationProperty({SDL_Rect{0, 0, 115, 165}}, 100)},
-    {"left",         AnimationProperty({SDL_Rect{275, 0, 115, 165}}, 100)},
-    {"right",        AnimationProperty({SDL_Rect{410, 0, 115, 165}}, 100)},
-    {"up_scared",    AnimationProperty({SDL_Rect{130, 850, 115, 165}}, 100)},
-    {"down_scared",  AnimationProperty({SDL_Rect{0, 850, 115, 165}}, 100)},
-    {"left_scared",  AnimationProperty({SDL_Rect{275, 850, 115, 165}}, 100)},
-    {"right_scared", AnimationProperty({SDL_Rect{410, 850, 115, 165}}, 100)}
-  };
+    {"up", AnimationProperty({SDL_Rect{130, 0, 115, 165}}, 100)},
+    {"down", AnimationProperty({SDL_Rect{0, 0, 115, 165}}, 100)},
+    {"left", AnimationProperty({SDL_Rect{275, 0, 115, 165}}, 100)},
+    {"right", AnimationProperty({SDL_Rect{410, 0, 115, 165}}, 100)},
+    {"up_scared", AnimationProperty({SDL_Rect{130, 850, 115, 165}}, 100)},
+    {"down_scared", AnimationProperty({SDL_Rect{0, 850, 115, 165}}, 100)},
+    {"left_scared", AnimationProperty({SDL_Rect{275, 850, 115, 165}}, 100)},
+    {"right_scared", AnimationProperty({SDL_Rect{410, 850, 115, 165}}, 100)}};
 
   constexpr float speed{2.1f};
 }  // namespace Blinky

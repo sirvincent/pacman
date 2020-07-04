@@ -3,7 +3,12 @@
 #include <fstream>
 
 
-Level::Level(std::size_t const screenWidth, std::size_t const screenHeight, std::size_t const gridWidth, std::size_t const gridHeight) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight) {}
+Level::Level(std::size_t const screenWidth, std::size_t const screenHeight, std::size_t const gridWidth, std::size_t const gridHeight)
+  : screenWidth_(screenWidth)
+  , screenHeight_(screenHeight)
+  , gridWidth_(gridWidth)
+  , gridHeight_(gridHeight)
+{}
 
 
 void Level::convertCharacterToGameObject(char const character, unsigned int x, unsigned int y)

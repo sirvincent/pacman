@@ -5,8 +5,8 @@
 
 namespace Ghosts {
 
-Pinky::Pinky(float width, float height) :
-    Ghost(Data::Pinky::speed, "pac-classic/pac-classic_c-toy.png", Data::Pinky::animations, "left")
+Pinky::Pinky(float width, float height)
+  : Ghost(Data::Pinky::speed, "pac-classic/pac-classic_c-toy.png", Data::Pinky::animations, "left")
 {
   x = 0.0f;
   y = 0.0f;

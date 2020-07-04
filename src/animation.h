@@ -28,7 +28,10 @@ constexpr AnimationProperty<2> property2({SDL_Rect{2, 4, 5, 6}, SDL_Rect{7, 8, 9
 */
 struct AnimationProperty
 {
-  AnimationProperty(std::vector<SDL_Rect> const &r, float const period) : rectangles(r), periodMilliseconds(period) {}
+  AnimationProperty(std::vector<SDL_Rect> const &r, float const period)
+    : rectangles(r)
+    , periodMilliseconds(period)
+  {}
   std::vector<SDL_Rect> rectangles;
   float const periodMilliseconds;
 };
@@ -39,7 +42,7 @@ class Animation : public virtual SpriteGraphics
 public:
   virtual ~Animation() = default;
 
-  virtual std::string onActiveSprite() = 0;
+  virtual std::string onActiveSprite()                                       = 0;
   virtual void update(std::string name, uint32_t timeSinceStartMilliseconds) = 0;
   // TODO: in place of using SDL_GetTicks should we use Chrono?
   virtual void determineAnimateIndex(uint32_t timeSinceStartMilliseconds) = 0;
@@ -51,14 +54,14 @@ private:
 
 namespace Implementation {
 
-class Animation :
-    public virtual ::Animation
+class Animation : public virtual ::Animation
   , public Implementation::SpriteGraphics
 {
 public:
   Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-            uint32_t currentMsSinceStart, std::map<std::string, AnimationProperty> const &animations,
-            std::string nameActiveSprite);
+    uint32_t currentMsSinceStart,
+    std::map<std::string, AnimationProperty> const &animations,
+    std::string nameActiveSprite);
 
   std::pair<SDL_Texture *, SDL_Rect> activeSprite(uint32_t timeSinceStartMilliseconds) override;
   void determineAnimateIndex(uint32_t timeSinceStartMilliseconds) override;

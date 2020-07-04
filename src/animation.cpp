@@ -3,11 +3,13 @@
 namespace Implementation {
 
 Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-                     uint32_t currentMsSinceStart,
-                     std::map<std::string, AnimationProperty> const &animations,
-                     std::string nameActiveSprite) :
-  Implementation::SpriteGraphics(relativePathSpriteSheetToAssetsDirectory),
-  currentMsSinceStart_(currentMsSinceStart), animations_(animations), index_(0)
+  uint32_t currentMsSinceStart,
+  std::map<std::string, AnimationProperty> const &animations,
+  std::string nameActiveSprite)
+  : Implementation::SpriteGraphics(relativePathSpriteSheetToAssetsDirectory)
+  , currentMsSinceStart_(currentMsSinceStart)
+  , animations_(animations)
+  , index_(0)
 {
   currentAnimation_ = &animations_.at(nameActiveSprite);
 }

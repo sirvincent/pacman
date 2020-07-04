@@ -17,9 +17,10 @@ class Ghost : public SDL_FRect
   , public Implementation::Animation
 {
 public:
-  Ghost(float speed, std::string relativePathSpriteSheetToAssetsDirectory, std::map<std::string, AnimationProperty> animations, std::string spriteStartName) :
-      Movement(speed, speed, speed, speed)
-    , Implementation::Animation(relativePathSpriteSheetToAssetsDirectory, SDL_GetTicks(), animations, spriteStartName) {}
+  Ghost(float speed, std::string relativePathSpriteSheetToAssetsDirectory, std::map<std::string, AnimationProperty> animations, std::string spriteStartName)
+    : Movement(speed, speed, speed, speed)
+    , Implementation::Animation(relativePathSpriteSheetToAssetsDirectory, SDL_GetTicks(), animations, spriteStartName)
+  {}
   // from: https://en.cppreference.com/w/cpp/language/destructor
   // "Deleting an object through pointer to base invokes undefined behavior unless the destructor in the base class is virtual"
   // Destructor of derived Ghost e.g. Blinky is then not called
@@ -36,7 +37,7 @@ public:
   std::string onActiveSprite() override
   {
     std::string activeSpriteName{""};
-      // TODO: repeating switch in derived Ghost, can we remove the repetition?
+    // TODO: repeating switch in derived Ghost, can we remove the repetition?
     switch (direction)
     {
       // TODO: it feels as if these magic numbers belong into some sort of configuration file

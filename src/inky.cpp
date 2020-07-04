@@ -6,8 +6,8 @@
 
 namespace Ghosts {
 
-Inky::Inky(float width, float height) :
-    Ghost(Data::Inky::speed, "pac-classic/pac-classic_c-toy.png", Data::Inky::animations, "left")
+Inky::Inky(float width, float height)
+  : Ghost(Data::Inky::speed, "pac-classic/pac-classic_c-toy.png", Data::Inky::animations, "left")
 {
   x = 0.0f;
   y = 0.0f;

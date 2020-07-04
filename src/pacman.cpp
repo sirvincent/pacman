@@ -7,9 +7,9 @@
 
 // TODO: a magic string, do we want to make this settable?
 //       set in Data::Pacman
-Pacman::Pacman(float width, float height) :
-  Movement(Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed),
-  Implementation::Animation("pac-classic/pac-classic_c-toy.png", SDL_GetTicks(), Data::Pacman::animations, "left")
+Pacman::Pacman(float width, float height)
+  : Movement(Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed)
+  , Implementation::Animation("pac-classic/pac-classic_c-toy.png", SDL_GetTicks(), Data::Pacman::animations, "left")
 {
   // x,y are initialized to 0.0f to circumvent uninitialized members
   x = 0.0f;

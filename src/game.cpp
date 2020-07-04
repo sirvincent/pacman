@@ -7,8 +7,13 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight),
-                                                                                                                                                     pacman_(gridWidth, gridHeight), executablePath_(executablePath)
+Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath)
+  : screenWidth_(screenWidth)
+  , screenHeight_(screenHeight)
+  , gridWidth_(gridWidth)
+  , gridHeight_(gridHeight)
+  , pacman_(gridWidth, gridHeight)
+  , executablePath_(executablePath)
 {
   Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
