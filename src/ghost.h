@@ -34,38 +34,7 @@ public:
 
   virtual void moveMethod() = 0;
 
-  std::string onActiveSprite() override
-  {
-    std::string activeSpriteName{""};
-    // TODO: repeating switch in derived Ghost, can we remove the repetition?
-    switch (direction)
-    {
-      // TODO: it feels as if these magic numbers belong into some sort of configuration file
-      //       which contains a connection to the specific sprite sheet in use
-      // TODO: can we make the SDL_Rect constexpr? They will not change after compile time
-      case Movement::Direction::up:
-        activeSpriteName = "up";
-        break;
-      case Movement::Direction::down:
-        activeSpriteName = "down";
-        break;
-      case Movement::Direction::left:
-        activeSpriteName = "left";
-        break;
-      case Movement::Direction::right:
-        activeSpriteName = "right";
-        break;
-      default:
-        std::cout << "An unhandled direction is found" << std::endl;
-        throw;
-    }
-    if (scared)
-    {
-      activeSpriteName += "_scared";
-    }
-
-    return activeSpriteName;
-  }
+  std::string onActiveSprite() override;
 
   bool edible{false};
   bool scared{false};
@@ -73,6 +42,9 @@ public:
   inline int score() const { return score_; }
 
 private:
+  // TODO: what is better milliseconds in name or as comment behind declaration?
+  unsigned int const scaredDuration_{10000}; // milliseconds
+  unsigned int const scaredBlinking_{2000}; // milliseconds
   int const score_{200};
 };
 
