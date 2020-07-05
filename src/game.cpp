@@ -150,7 +150,7 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
     //       should pacman die not when they start to touch
     if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
     {
-      if ((*it)->edible)
+      if ((*it)->edible())
       {
         score_ += (*it)->score();
         // TODO: not representative of pacman, ghost should remain alive but go back to its cage in the center
@@ -165,7 +165,6 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
   }
 }
 
-
 // require CHARACTER is pacman or Ghost
 template<typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
@@ -174,6 +173,7 @@ void Game::moveCharacter(CHARACTER &character)
   SDL_FRect wantedPacmanLocation = character;
   wantedPacmanLocation.x         = character.x + character.velocityX();
   wantedPacmanLocation.y         = character.y + character.velocityY();
+
 
   bool validDirection = checkMoveInBounds(wantedPacmanLocation);
 
@@ -237,27 +237,15 @@ void Game::update(bool &running)
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))
   {
-    if (!scaredGhosts_)
+    for (auto &ghost : ghosts_)
     {
-      scaredGhosts_     = true;
-      startScaredGhosts = std::chrono::system_clock::now();
-    }
-  }
-
-  if (scaredGhosts_)
-  {
-    long timePassedSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startScaredGhosts).count();
-    if (timePassedSinceLastUpdate > durationScaredGhosts_)
-    {
-      scaredGhosts_     = false;
-      startScaredGhosts = std::chrono::system_clock::now();
+      ghost->setScaredAndEdible();
     }
   }
 
   for (auto &ghost : ghosts_)
   {
-    ghost->edible = scaredGhosts_;
-    ghost->scared = scaredGhosts_;
+    ghost->handleScaredAndEdible();
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);

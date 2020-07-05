@@ -26,11 +26,36 @@ namespace Ghosts
         std::cout << "An unhandled direction is found" << std::endl;
         throw;
     }
-    if (scared)
+    if (scared_)
     {
       activeSpriteName += "_scared";
     }
 
     return activeSpriteName;
   }
+
+  void Ghost::setScaredAndEdible()
+  {
+    if (!scared_)
+    {
+      scared_ = true;
+      edible_ = true;
+      startScaredTime_ = std::chrono::system_clock::now();
+    }
+  }
+
+  void Ghost::handleScaredAndEdible()
+  {
+    if (scared_)
+    {
+      long timePassed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startScaredTime_).count();
+      if (timePassed > scaredDuration_)
+      {
+        scared_ = false;
+        edible_ = false;
+      }
+    }
+  }
+
+
 }
