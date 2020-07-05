@@ -47,9 +47,10 @@ public:
 private:
   bool edible_{false};
   bool scared_{false};
+  bool blink_{false};
   // TODO: what is better milliseconds in name or as comment behind declaration?
-  unsigned int const scaredDuration_{10000}; // milliseconds
-  unsigned int const scaredBlinking_{2000}; // milliseconds
+  unsigned int const scaredDuration_{8000}; // milliseconds
+  unsigned int const scaredDurationBlinking_{2000}; // milliseconds
   std::chrono::time_point<std::chrono::system_clock> startScaredTime_ = std::chrono::system_clock::now();
 
   int const score_{200};

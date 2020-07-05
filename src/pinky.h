@@ -34,7 +34,12 @@ namespace Pinky {
     {"up_scared", AnimationProperty({SDL_Rect{130, 850, 115, 165}}, 100)},
     {"down_scared", AnimationProperty({SDL_Rect{0, 850, 115, 165}}, 100)},
     {"left_scared", AnimationProperty({SDL_Rect{275, 850, 115, 165}}, 100)},
-    {"right_scared", AnimationProperty({SDL_Rect{410, 850, 115, 165}}, 100)}};
+    {"right_scared", AnimationProperty({SDL_Rect{410, 850, 115, 165}}, 100)},
+    {"up_scared_blinking", AnimationProperty({SDL_Rect{130, 850, 115, 165}, SDL_Rect{130, 675, 115, 165}}, 100)},
+    {"down_scared_blinking", AnimationProperty({SDL_Rect{0, 850, 115, 165}, SDL_Rect{130, 675, 115, 165}}, 100)},
+    {"left_scared_blinking", AnimationProperty({SDL_Rect{275, 850, 115, 165}, SDL_Rect{130, 675, 115, 165}}, 100)},
+    {"right_scared_blinking", AnimationProperty({SDL_Rect{410, 850, 115, 165}, SDL_Rect{130, 675, 115, 165}}, 100)}
+  };
 
   constexpr float speed{2.4f};
 }  // namespace Pinky
