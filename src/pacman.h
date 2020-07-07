@@ -28,9 +28,6 @@ public:
 
 private:
   bool alive_{true};
-
-  uint32_t current_ms_since_start_;
-  uint32_t const duration_between_animation_ms_{200};
 };
 
 

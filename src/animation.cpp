@@ -3,11 +3,11 @@
 namespace Implementation {
 
 Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-  uint32_t currentMsSinceStart,
+  std::chrono::time_point<std::chrono::system_clock> lastUpdate,
   std::map<std::string, AnimationProperty> const &animations,
   std::string nameActiveSprite)
   : Implementation::SpriteGraphics(relativePathSpriteSheetToAssetsDirectory)
-  , currentMsSinceStart_(currentMsSinceStart)
+  , lastUpdate_(lastUpdate)
   , animations_(animations)
   , index_(0)
 {
@@ -15,7 +15,7 @@ Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory
 }
 
 
-void Animation::update(std::string name, uint32_t timeSinceStart)
+void Animation::update(std::string name)
 {
   auto current = &animations_.at(name);
   // TODO: handle std::out_of_range exception
@@ -25,21 +25,22 @@ void Animation::update(std::string name, uint32_t timeSinceStart)
     index_            = 0;
   }
 
-  determineAnimateIndex(timeSinceStart);
+  determineAnimateIndex();
 }
 
 
-std::pair<SDL_Texture *, SDL_Rect> Animation::activeSprite(uint32_t timeSinceStartMilliseconds)
+std::pair<SDL_Texture *, SDL_Rect> Animation::activeSprite()
 {
   std::string name = onActiveSprite();
-  update(name, timeSinceStartMilliseconds);
+  update(name);
 
   return std::make_pair(spriteSheet_, currentAnimation_->rectangles.at(index_));
 }
 
-void Animation::determineAnimateIndex(uint32_t timeSinceStart)
+void Animation::determineAnimateIndex()
 {
-  if ((timeSinceStart - currentMsSinceStart_) > currentAnimation_->periodMilliseconds)
+  std::chrono::time_point<std::chrono::system_clock> currentTime = std::chrono::system_clock::now();
+  if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdate_).count() > currentAnimation_->periodMilliseconds)
   {
     index_++;
     if (index_ >= currentAnimation_->rectangles.size())
@@ -47,7 +48,7 @@ void Animation::determineAnimateIndex(uint32_t timeSinceStart)
       index_ = 0;
     }
 
-    currentMsSinceStart_ = timeSinceStart;
+    lastUpdate_ = currentTime;
   }
 }
 

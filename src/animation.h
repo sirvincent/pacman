@@ -8,6 +8,7 @@
 #include <vector>
 #include <array>
 #include <map>
+#include <chrono>
 
 
 // TODO: animation properties
@@ -33,7 +34,7 @@ struct AnimationProperty
     , periodMilliseconds(period)
   {}
   std::vector<SDL_Rect> rectangles;
-  float const periodMilliseconds;
+  long const periodMilliseconds;
 };
 
 
@@ -42,10 +43,9 @@ class Animation : public virtual SpriteGraphics
 public:
   virtual ~Animation() = default;
 
-  virtual std::string onActiveSprite()                                       = 0;
-  virtual void update(std::string name, uint32_t timeSinceStartMilliseconds) = 0;
-  // TODO: in place of using SDL_GetTicks should we use Chrono?
-  virtual void determineAnimateIndex(uint32_t timeSinceStartMilliseconds) = 0;
+  virtual std::string onActiveSprite()  = 0;
+  virtual void update(std::string name) = 0;
+  virtual void determineAnimateIndex()  = 0;
 
 
 private:
@@ -59,18 +59,18 @@ class Animation : public virtual ::Animation
 {
 public:
   Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-    uint32_t currentMsSinceStart,
+    std::chrono::time_point<std::chrono::system_clock> lastUpdate,
     std::map<std::string, AnimationProperty> const &animations,
     std::string nameActiveSprite);
 
-  std::pair<SDL_Texture *, SDL_Rect> activeSprite(uint32_t timeSinceStartMilliseconds) override;
-  void determineAnimateIndex(uint32_t timeSinceStartMilliseconds) override;
+  std::pair<SDL_Texture *, SDL_Rect> activeSprite() override;
+  void determineAnimateIndex() override;
 
 protected:
-  void update(std::string name, uint32_t timeSinceStart) override;
+  void update(std::string name) override;
 
 private:
-  uint32_t currentMsSinceStart_;
+  std::chrono::time_point<std::chrono::system_clock> lastUpdate_ = std::chrono::system_clock::now();
 
   std::map<std::string, AnimationProperty> const animations_;
   AnimationProperty const *currentAnimation_;

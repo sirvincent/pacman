@@ -9,15 +9,13 @@
 //       set in Data::Pacman
 Pacman::Pacman(float width, float height)
   : Movement(Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed, Data::Pacman::speed)
-  , Implementation::Animation("pac-classic/pac-classic_c-toy.png", SDL_GetTicks(), Data::Pacman::animations, "left")
+  , Implementation::Animation("pac-classic/pac-classic_c-toy.png", std::chrono::system_clock::now(), Data::Pacman::animations, "left")
 {
   // x,y are initialized to 0.0f to circumvent uninitialized members
   x = 0.0f;
   y = 0.0f;
   w = width;
   h = height;
-
-  current_ms_since_start_ = SDL_GetTicks();
 }
 
 void Pacman::move()

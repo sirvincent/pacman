@@ -20,7 +20,7 @@ class Ghost : public SDL_FRect
 public:
   Ghost(float speed, std::string relativePathSpriteSheetToAssetsDirectory, std::map<std::string, AnimationProperty> animations, std::string spriteStartName)
     : Movement(speed, speed, speed, speed)
-    , Implementation::Animation(relativePathSpriteSheetToAssetsDirectory, SDL_GetTicks(), animations, spriteStartName)
+    , Implementation::Animation(relativePathSpriteSheetToAssetsDirectory, std::chrono::system_clock::now(), animations, spriteStartName)
     , startScaredTime_(std::chrono::system_clock::now())
   {}
   // from: https://en.cppreference.com/w/cpp/language/destructor
@@ -49,8 +49,8 @@ private:
   bool scared_{false};
   bool blink_{false};
   // TODO: what is better milliseconds in name or as comment behind declaration?
-  unsigned int const scaredDuration_{8000}; // milliseconds
-  unsigned int const scaredDurationBlinking_{2000}; // milliseconds
+  unsigned int const scaredDuration_{8000};          // milliseconds
+  unsigned int const scaredDurationBlinking_{2000};  // milliseconds
   std::chrono::time_point<std::chrono::system_clock> startScaredTime_ = std::chrono::system_clock::now();
 
   int const score_{200};
