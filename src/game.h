@@ -47,10 +47,6 @@ private:
   std::vector<SDL_Rect> walls_;
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
-  bool scaredGhosts_{false};
-  std::chrono::time_point<std::chrono::system_clock> startScaredGhosts = std::chrono::system_clock::now();
-  int const durationScaredGhosts_{10000};
-
   int score_{0};
   // TODO: do we want thi sto belong to the game or just make a global?
   std::filesystem::path const executablePath_;

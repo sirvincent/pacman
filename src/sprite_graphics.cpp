@@ -4,8 +4,10 @@
 
 namespace Implementation {
 
-SpriteGraphics::SpriteGraphics(std::string const &relative_path_sprite_sheet_to_assets_directory) : spriteSheet_(nullptr),
-                                                                                                    relativePathSpriteSheetToAssetsDirectory_(relative_path_sprite_sheet_to_assets_directory) {}
+SpriteGraphics::SpriteGraphics(std::string const &relative_path_sprite_sheet_to_assets_directory)
+  : spriteSheet_(nullptr)
+  , relativePathSpriteSheetToAssetsDirectory_(relative_path_sprite_sheet_to_assets_directory)
+{}
 
 
 void SpriteGraphics::initializeTexture(SDL_Renderer *sdlRenderer_, std::filesystem::path const &executablePath)

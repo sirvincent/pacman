@@ -7,10 +7,10 @@ Renderer::Renderer(const std::size_t screenWidth,
   const std::size_t screenHeight,
   const std::size_t gridWidth,
   const std::size_t gridHeight)
-  : screenWidth_(screenWidth),
-    screenHeight_(screenHeight),
-    gridWidth_(gridWidth),
-    gridHeight_(gridHeight)
+  : screenWidth_(screenWidth)
+  , screenHeight_(screenHeight)
+  , gridWidth_(gridWidth)
+  , gridHeight_(gridHeight)
 {
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {

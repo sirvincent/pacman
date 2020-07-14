@@ -1,7 +1,7 @@
 #pragma once
 
 #include "movement.h"
-#include "sprite_graphics.h"
+#include "animation.h"
 
 #include <SDL2/SDL.h>
 
@@ -14,20 +14,32 @@
 
 class Pacman : public SDL_FRect
   , public Movement
-  , public Implementation::SpriteGraphics
+  , public Implementation::Animation
 {
 public:
-  Pacman(float width, float height, float speed);
+  Pacman(float width, float height);
 
   void move();
 
   bool alive() const;
   void alive(bool alive);
 
-  std::pair<SDL_Texture *, SDL_Rect> activeSprite() override;
-
-  static float constexpr pacman_speed = 2.0f;
+  std::string onActiveSprite() override;
 
 private:
   bool alive_{true};
 };
+
+
+namespace Data {
+namespace Pacman {
+  // TODO: will be nice if this is constexpr
+  static std::map<std::string, AnimationProperty> const animations = {
+    {"up", AnimationProperty({SDL_Rect{556, 853, 138, 170}}, 100)},
+    {"down", AnimationProperty({SDL_Rect{556, 5, 138, 170}}, 100)},
+    {"left", AnimationProperty({SDL_Rect{556, 342, 138, 170}, SDL_Rect{556, 508, 138, 170}}, 100)},
+    {"right", AnimationProperty({SDL_Rect{556, 172, 138, 170}, SDL_Rect{556, 674, 138, 170}}, 100)}};
+
+  float constexpr speed = 2.0f;
+}  // namespace Pacman
+}  // namespace Data

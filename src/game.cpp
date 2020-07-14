@@ -1,4 +1,5 @@
 #include "game.h"
+#include "animation.h"
 
 #include <SDL2/SDL.h>
 
@@ -6,8 +7,13 @@
 #include <cassert>
 
 
-Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath) : screenWidth_(screenWidth), screenHeight_(screenHeight), gridWidth_(gridWidth), gridHeight_(gridHeight),
-                                                                                                                                                     pacman_(gridWidth, gridHeight, Pacman::pacman_speed), executablePath_(executablePath)
+Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWidth, std::size_t gridHeight, std::filesystem::path executablePath)
+  : screenWidth_(screenWidth)
+  , screenHeight_(screenHeight)
+  , gridWidth_(gridWidth)
+  , gridHeight_(gridHeight)
+  , pacman_(gridWidth, gridHeight)
+  , executablePath_(executablePath)
 {
   Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
@@ -96,15 +102,15 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
   {
     return false;
   }
-  if (topRectangle >= bottomOther)
+  else if (topRectangle >= bottomOther)
   {
     return false;
   }
-  if (rightRectangle <= leftOther)
+  else if (rightRectangle <= leftOther)
   {
     return false;
   }
-  if (leftRectangle >= rightOther)
+  else if (leftRectangle >= rightOther)
   {
     return false;
   }
@@ -112,6 +118,8 @@ bool Game::checkRectangleCollision(RECTANGLE const &rectangle, OTHER const &othe
   return true;
 }
 
+// TODO: a dumb check, better & faster option might be to check the nearest neighbor dots
+//       if collision the ones after that can not be touched in during this tick
 bool Game::handlePacmanDotCollisions(Pacman const &pacman, std::vector<Dot> &dots)
 {
   for (auto it = dots.begin(); it != dots.end(); ++it)
@@ -142,7 +150,7 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
     //       should pacman die not when they start to touch
     if (checkRectangleCollision<SDL_FRect, SDL_FRect>(pacman, *(*it)))
     {
-      if ((*it)->edible)
+      if ((*it)->edible())
       {
         score_ += (*it)->score();
         // TODO: not representative of pacman, ghost should remain alive but go back to its cage in the center
@@ -157,7 +165,6 @@ void Game::handlePacmanGhostCollisions(Pacman const &pacman, std::vector<std::un
   }
 }
 
-
 // require CHARACTER is pacman or Ghost
 template<typename CHARACTER>
 void Game::moveCharacter(CHARACTER &character)
@@ -166,6 +173,7 @@ void Game::moveCharacter(CHARACTER &character)
   SDL_FRect wantedPacmanLocation = character;
   wantedPacmanLocation.x         = character.x + character.velocityX();
   wantedPacmanLocation.y         = character.y + character.velocityY();
+
 
   bool validDirection = checkMoveInBounds(wantedPacmanLocation);
 
@@ -215,7 +223,6 @@ void Game::update(bool &running)
     return;
   }
 
-
   moveCharacter<Pacman>(pacman_);
 
   // TODO: We might parallize this once the move methods become complicated.
@@ -230,27 +237,15 @@ void Game::update(bool &running)
   handlePacmanDotCollisions(pacman_, dots_);
   if (handlePacmanDotCollisions(pacman_, pellets_))
   {
-    if (!scaredGhosts_)
+    for (auto &ghost : ghosts_)
     {
-      scaredGhosts_     = true;
-      startScaredGhosts = std::chrono::system_clock::now();
-    }
-  }
-
-  if (scaredGhosts_)
-  {
-    long timePassedSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - startScaredGhosts).count();
-    if (timePassedSinceLastUpdate > durationScaredGhosts_)
-    {
-      scaredGhosts_     = false;
-      startScaredGhosts = std::chrono::system_clock::now();
+      ghost->setScaredAndEdible();
     }
   }
 
   for (auto &ghost : ghosts_)
   {
-    ghost->edible = scaredGhosts_;
-    ghost->scared = scaredGhosts_;
+    ghost->handleScaredAndEdible();
   }
 
   handlePacmanGhostCollisions(pacman_, ghosts_);
