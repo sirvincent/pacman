@@ -16,7 +16,6 @@ int main(int argc, char **argv)
   constexpr std::size_t msPerFrame{1000 / framesPerSecond};
   constexpr std::size_t gridWidth{32};
   constexpr std::size_t gridHeight{32};
-  // The reason for - gridWidth is since we want to have a middle in the level
   constexpr std::size_t screenWidth{640 - gridWidth};
   constexpr std::size_t screenHeight{640 + gridHeight};
 

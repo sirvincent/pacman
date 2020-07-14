@@ -17,7 +17,7 @@ Game::Game(std::size_t screenWidth, std::size_t screenHeight, std::size_t gridWi
 {
   Level level(screenWidth, screenHeight, gridWidth, gridHeight);
   level.load();
-  // TODO: hmm is this a code smell?
+  // TODO: hmm is this a code smell? should we just compose of Level?
   dots_     = std::move(level.dots_);
   pellets_  = std::move(level.pellets_);
   walls_    = std::move(level.walls_);

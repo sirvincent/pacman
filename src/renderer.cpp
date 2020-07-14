@@ -82,7 +82,7 @@ void Renderer::render(Pacman &pacman, std::vector<Dot> const &dots, std::vector<
     rectangle.y = pellet.y();
     rectangle.w = pellet.radius();
     rectangle.h = pellet.radius();
-    // TODO: we start with rectangle dots, since there is no FillCircle. To make a circle we either:
+    // TODO: we start with rectangle pellets, since there is no FillCircle. To make a circle we either:
     //       1) use a circle sprite with a circular bounding box for collisions
     //       2) draw multiple points to make a filled circle, using the midpoint circle algorithm
     SDL_RenderFillRect(sdlRenderer_, &rectangle);

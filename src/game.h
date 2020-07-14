@@ -48,7 +48,7 @@ private:
   std::vector<std::unique_ptr<Ghosts::Ghost>> ghosts_;
 
   int score_{0};
-  // TODO: do we want thi sto belong to the game or just make a global?
+  // TODO: do we want this to belong to the game or just make a global?
   std::filesystem::path const executablePath_;
 
   unsigned int const timeBetweenTitleUpdate_{1000};
