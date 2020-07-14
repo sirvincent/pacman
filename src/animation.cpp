@@ -15,10 +15,17 @@ Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory
 }
 
 
-void Animation::update(std::string name)
 {
-  auto current = &animations_.at(name);
-  // TODO: handle std::out_of_range exception
+  // TODO: use C++20 .contains()
+  auto search  = animations_.find(name);
+  if (search == animations_.end())
+  {
+    std::cerr << name << " is not in animations_ keys" << std::endl;
+    assert(false);
+  }
+
+  auto current = &search->second;
+
   if (currentAnimation_ != current)
   {
     currentAnimation_ = current;
