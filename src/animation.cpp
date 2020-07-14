@@ -3,9 +3,9 @@
 namespace Implementation {
 
 Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-  std::chrono::time_point<std::chrono::system_clock> lastUpdate,
+  std::chrono::time_point<std::chrono::system_clock> const lastUpdate,
   std::map<std::string, AnimationProperty> const &animations,
-  std::string nameActiveSprite)
+  std::string const &nameActiveSprite)
   : Implementation::SpriteGraphics(relativePathSpriteSheetToAssetsDirectory)
   , lastUpdate_(lastUpdate)
   , animations_(animations)
@@ -15,6 +15,7 @@ Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory
 }
 
 
+void Animation::update(std::string const &name)
 {
   // TODO: use C++20 .contains()
   auto search  = animations_.find(name);
@@ -38,7 +39,7 @@ Animation::Animation(std::string const &relativePathSpriteSheetToAssetsDirectory
 
 std::pair<SDL_Texture *, SDL_Rect> Animation::activeSprite()
 {
-  std::string name = onActiveSprite();
+  std::string const &name = onActiveSprite();
   update(name);
 
   return std::make_pair(spriteSheet_, currentAnimation_->rectangles.at(index_));

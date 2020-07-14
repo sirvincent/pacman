@@ -46,7 +46,7 @@ public:
   virtual ~Animation() = default;
 
   virtual std::string onActiveSprite()  = 0;
-  virtual void update(std::string name) = 0;
+  virtual void update(std::string const &name) = 0;
   virtual void determineAnimateIndex()  = 0;
 
 
@@ -61,15 +61,15 @@ class Animation : public virtual ::Animation
 {
 public:
   Animation(std::string const &relativePathSpriteSheetToAssetsDirectory,
-    std::chrono::time_point<std::chrono::system_clock> lastUpdate,
+    std::chrono::time_point<std::chrono::system_clock> const lastUpdate,
     std::map<std::string, AnimationProperty> const &animations,
-    std::string nameActiveSprite);
+    std::string const &nameActiveSprite);
 
   std::pair<SDL_Texture *, SDL_Rect> activeSprite() override;
   void determineAnimateIndex() override;
 
 protected:
-  void update(std::string name) override;
+  void update(std::string const &name) override;
 
 private:
   std::chrono::time_point<std::chrono::system_clock> lastUpdate_ = std::chrono::system_clock::now();
