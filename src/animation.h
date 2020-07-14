@@ -9,6 +9,8 @@
 #include <array>
 #include <map>
 #include <chrono>
+#include <iostream>
+#include <cassert>
 
 
 // TODO: animation properties
