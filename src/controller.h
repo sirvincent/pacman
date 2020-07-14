@@ -2,10 +2,7 @@
 
 #include "pacman.h"
 
-class Controller
+struct Controller
 {
-public:
   void handleInput(bool &running, Pacman &pacman) const;
-
-private:
 };
